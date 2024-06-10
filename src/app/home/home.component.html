@@ -1,0 +1,9 @@
+<div class="home-container pt-3">
+  <h1>Seleziona una Categoria</h1>
+  <select (change)="onCategoryChange($event)">
+    <option value="" disabled selected>Scegli...</option>
+    <option *ngFor="let category of categories" [value]="category.id">
+      {{ category.name }}
+    </option>
+  </select>
+</div>

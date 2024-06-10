@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #e9ecef;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+  }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  nav {
+    background-color: #007bff;
+    padding: 10px;
+    color: white;
+  }
+  
+  nav a {
+    color: white;
+    margin-right: 20px;
+  }
+  
+  nav a:hover {
+    text-decoration: underline;
+  }
+  
+  .logo {
+    height: 40px;
+    margin-right: 20px;
+  }
+  
