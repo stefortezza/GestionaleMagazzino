@@ -9,9 +9,10 @@ import { AddProductComponent } from './add-product/add-product.component';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'notes', component: NotesComponent },
-  { path: 'category/:id', component: CategoryComponent },
+  { path: 'category', component: CategoryComponent },
   { path: 'add-category', component: AddCategoryComponent },
   { path: 'add-product', component: AddProductComponent },
+  { path: '**', redirectTo: '' },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

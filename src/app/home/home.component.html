@@ -1,9 +1,9 @@
 <div class="home-container pt-3">
-  <h1>Seleziona una Categoria</h1>
-  <select (change)="onCategoryChange($event)">
+  <h1>Seleziona un Macchinario</h1>
+  <select (change)="onMacchinarioChange($event)">
     <option value="" disabled selected>Scegli...</option>
-    <option *ngFor="let category of categories" [value]="category.id">
-      {{ category.name }}
+    <option *ngFor="let macchinario of macchinari" [value]="macchinario.name">
+      {{ macchinario.name }}
     </option>
   </select>
 </div>

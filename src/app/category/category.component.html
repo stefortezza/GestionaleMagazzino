@@ -1,19 +1,29 @@
-<div *ngIf="category" class="category-details">
-    <h1>{{ category.name }}</h1>
+<div class="category-details text-center">
+  <h1>Scegli una categoria per il macchinario {{ selectedMacchinario }}:</h1>
+  <select (change)="onSelectCategoria($event)">
+    <option value="">Seleziona una categoria</option>
+    <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+  </select>
+
+  <div *ngIf="selectedCategoria">
+    <h3>Prodotti nella categoria {{ selectedCategoria.name }}:</h3>
     <table>
-      <tr class="">
-        <th >Nome Prodotto</th>
-        <th>Quantità</th>
-        <th>Azioni</th>
+      <tr>
+        <th style="text-align: left;">Nome Prodotto</th>
+        <th style="text-align: left;">Quantità</th>
+        <th style="text-align: left;">Posizione</th>
+        <th style="text-align: left;">Azioni</th> 
       </tr>
-      <tr *ngFor="let product of category.products">
+      <tr *ngFor="let product of selectedCategoria.products">
         <td>{{ product.name }}</td>
         <td>{{ product.quantity }}</td>
-        <td>
-          <button (click)="updateQuantity(product, 1)">+</button>
-          <button (click)="updateQuantity(product, -1)">-</button>
+        <td>{{ product.location }}</td>
+        <td> 
+          <button (click)="updateQuantity(product.idProducts, 1)">+</button>
+          <button (click)="updateQuantity(product.idProducts, -1)">-</button>
         </td>
       </tr>
     </table>
+    
   </div>
-  
+</div>

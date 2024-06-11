@@ -1,94 +1,84 @@
 {
-  "categories": [
-    {
-      "id": "1",
-      "name": "Elettronica",
-      "products": [
+  "macchinari": {
+    "Macchinario A": {
+      "categories": [
         {
-          "name": "Laptop",
-          "quantity": 15
+          "id": "1",
+          "name": "Elettronica",
+          "products": [
+            {
+              "idProducts": "1",
+              "name": "Laptop",
+              "location": "Armadio 3 - Ripiano 1",
+              "quantity": 15
+            },
+            {
+              "idProducts": "2",
+              "location": "Armadio 3 - Ripiano 1",
+              "name": "Smartphone",
+              "quantity": 15
+            }
+          ]
         },
         {
-          "name": "Smartphone",
-          "quantity": 15
-        },
-        {
-          "name": "Tablet",
-          "quantity": 8
-        },
-        {
-          "name": "Cuffie",
-          "quantity": 20
-        },
-        {
-          "name": "Monitor",
-          "quantity": 5
-        },
-        {
-          "name": "prova elettronica",
-          "quantity": 100
-        },
-        {
-          "name": "prova1",
-          "quantity": 10
-        },
-        {
-          "name": "11",
-          "quantity": 11
+          "id": "2",
+          "name": "Abbigliamento",
+          "products": [
+            {
+              "idProducts": "3",
+              "name": "Maglietta",
+              "location": "Armadio 3 - Ripiano 1",
+              "quantity": 50
+            },
+            {
+              "idProducts": "4",
+              "name": "Camicia",
+              "location": "Armadio 3 - Ripiano 1",
+              "quantity": 20
+            }
+          ]
         }
       ]
     },
-    {
-      "id": "2",
-      "name": "Abbigliamento",
-      "products": [
+    "Macchinario B": {
+      "categories": [
         {
-          "name": "Maglietta",
-          "quantity": 50
+          "id": "3",
+          "name": "ProvaB",
+          "products": [
+            {
+              "idProducts": "5",
+              "name": "Prova1",
+              "location": "Scaffale 1 - Ripiano 2",
+              "quantity": 15
+            },
+            {
+              "idProducts": "6",
+              "name": "Prova2",
+              "location": "Scaffale 1 - Ripiano 2",
+              "quantity": 35
+            }
+          ]
         },
         {
-          "name": "Jeans",
-          "quantity": 30
-        },
-        {
-          "name": "Giacca",
-          "quantity": 20
-        },
-        {
-          "name": "Scarpe",
-          "quantity": 25
-        },
-        {
-          "name": "Cappello",
-          "quantity": 15
-        }
-      ]
-    },
-    {
-      "id": "3",
-      "name": "Alimentari",
-      "products": [
-        {
-          "name": "Mela",
-          "quantity": 100
-        },
-        {
-          "name": "Pane",
-          "quantity": 40
-        },
-        {
-          "name": "Latte",
-          "quantity": 30
-        },
-        {
-          "name": "Formaggio",
-          "quantity": 20
-        },
-        {
-          "name": "Carne",
-          "quantity": 10
+          "id": "4",
+          "name": "ProvaC",
+          "products": [
+            {
+              "idProducts": "7",
+              "name": "Prova3",
+              "location": "Armadio 3, Ripiano 1",
+              "quantity": 20
+            },
+            {
+              "idProducts": "8",
+              "name": "Prova4",
+              "location": "Armadio 3, Ripiano 1",
+              "quantity": 20
+            }
+          ]
         }
       ]
     }
-  ]
+  }
 }
