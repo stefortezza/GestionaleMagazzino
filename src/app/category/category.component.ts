@@ -3,10 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 interface Product {
+  id: string;
   idProducts: string;
   name: string;
   quantity: number;
   location: string;
+  inputQuantity: number; 
 }
 
 interface Category {
@@ -15,27 +17,16 @@ interface Category {
   location: string;
   products: Product[];
 }
+
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit {
-  increaseQuantity(_t13: any) {
-    throw new Error('Method not implemented.');
-  }
-  decreaseQuantity(_t13: any) {
-    throw new Error('Method not implemented.');
-  }
-  removeItem(_t13: any) {
-    throw new Error('Method not implemented.');
-  }
   selectedMacchinario: string = '';
   categories: Category[] = [];
   selectedCategoria: Category | null = null;
-  categoryName: any;
-  category: any;
-  deliveryCharge: any;
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
@@ -43,53 +34,26 @@ export class CategoryComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.selectedMacchinario = params['macchinario'] || '';
       if (this.selectedMacchinario) {
-        this.http.get<any>('http://localhost:3000/macchinari').subscribe(
-          (data) => {
-            if (
-              data &&
-              typeof data === 'object' &&
-              data.hasOwnProperty(this.selectedMacchinario)
-            ) {
-              const macchinarioData = data[this.selectedMacchinario];
-              this.categories = macchinarioData.categories;
-              
-              // Otteniamo la posizione del prodotto
-              for (const category of this.categories) {
-                for (const product of category.products) {
-                  const productData = category.products.find((p: { idProducts: string; }) => p.idProducts === product.idProducts);
-                  if (productData) {
-                    product.location = productData.location;
-                  }
-                }
-              }
-            } else {
-              console.error(
-                'Errore nel caricamento delle categorie: dati non validi.'
-              );
-            }
-          },
-          (error) => {
-            console.error('Errore nel caricamento delle categorie:', error);
-          }
-        );
+        this.loadCategoriesFromServer();
       }
     });
+
     this.loadCategoriesFromLocalStorage();
-    this.loadCategoriesFromServer();
   }
+
   loadCategoriesFromLocalStorage() {
-    // Carica le categorie dal Local Storage
     const storedCategories = localStorage.getItem('categories');
     if (storedCategories) {
       this.categories = JSON.parse(storedCategories);
+      console.log('Categorie caricate dal local storage:', this.categories);
+    } else {
+      console.log('Nessuna categoria trovata nel local storage.');
     }
   }
 
   loadCategoriesFromServer() {
-    // Carica le categorie dal server e aggiorna il Local Storage
     this.http.get<any>('http://localhost:3000/macchinari').subscribe(
       (data) => {
-        // Aggiorna le categorie solo se il server restituisce dati validi
         if (
           data &&
           typeof data === 'object' &&
@@ -98,6 +62,9 @@ export class CategoryComponent implements OnInit {
           const macchinarioData = data[this.selectedMacchinario];
           this.categories = macchinarioData.categories;
           localStorage.setItem('categories', JSON.stringify(this.categories));
+          console.log(
+            'Categorie aggiornate dal server e salvate nel local storage.'
+          );
         } else {
           console.error(
             'Errore nel caricamento delle categorie: dati non validi.'
@@ -127,47 +94,84 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  updateQuantity(productId: string, change: number): void {
-    // Trova il prodotto e aggiorna la quantità nel Local Storage
-    const category = this.categories.find((cat) =>
-      cat.products.some((prod) => prod.idProducts === productId)
-    );
-
-    if (category) {
-      const product = category.products.find(
-        (prod) => prod.idProducts === productId
-      );
-
-      if (product) {
-        product.quantity += change;
-        localStorage.setItem('categories', JSON.stringify(this.categories));
-
-        // Aggiorna il database JSON
-        this.http
-          .put(
-            `http://localhost:3000/macchinari/${this.selectedMacchinario}/${category.id}/${productId}`,
-            product
-          )
-          .subscribe(
-            (response) => {
-              console.log('Quantità aggiornata con successo:', response);
-            },
-            (error) => {
-              console.error(
-                "Errore durante l'aggiornamento della quantità:",
-                error
-              );
-            }
-          );
-      } else {
-        console.error('Prodotto non trovato con idProducts:', productId);
-      }
-    } else {
-      console.error(
-        'Categoria non trovata per il prodotto con idProducts:',
-        productId
-      );
+  updateQuantity(idProducts: string, quantity: number) {
+    // Verifica se la categoria è stata selezionata
+    if (!this.selectedCategoria) {
+      console.error('Categoria non selezionata.');
+      return;
     }
+  
+    // Trova il prodotto all'interno della categoria utilizzando il suo ID
+    const productIndex = this.selectedCategoria.products.findIndex(
+      (product) => product.idProducts === idProducts
+    );
+  
+    // Se il prodotto non è stato trovato, mostra un errore
+    if (productIndex === -1) {
+      console.error('Prodotto non trovato.');
+      return;
+    }
+  
+    // Assicurati che la quantità inserita sia valida
+    const inputQuantity = this.selectedCategoria.products[productIndex].inputQuantity || 0;
+    if (isNaN(inputQuantity) || inputQuantity === 0) {
+      console.error('Quantità non valida.');
+      return;
+    }
+  
+    // Modifica la quantità del prodotto in base all'azione richiesta
+    this.selectedCategoria.products[productIndex].quantity += quantity;
+  
+    // Reset the input quantity
+    this.selectedCategoria.products[productIndex].inputQuantity = 0;
+  
+    // Aggiorna la categoria nel database locale con il prodotto modificato
+    const updatedCategories = this.categories.map((category) => {
+      if (category.id === this.selectedCategoria!.id) {
+        return this.selectedCategoria!;
+      }
+      return category;
+    });
+  
+    // Salva il database locale aggiornato nel local storage
+    localStorage.setItem('categories', JSON.stringify(updatedCategories));
+  
+    // Aggiorna la categoria selezionata nel componente
+    this.selectedCategoria = {
+      ...this.selectedCategoria,
+      products: [...this.selectedCategoria.products],
+    };
+  
+    // Aggiorna il database remoto
+    this.http.get<any>('http://localhost:3000/macchinari').subscribe(
+      (data) => {
+        if (
+          data &&
+          typeof data === 'object' &&
+          data.hasOwnProperty(this.selectedMacchinario)
+        ) {
+          const allData = { ...data };
+          allData[this.selectedMacchinario] = { categories: updatedCategories };
+  
+          this.http
+            .put<any>('http://localhost:3000/macchinari', allData)
+            .subscribe(
+              (response) => {
+                console.log('Database remoto aggiornato:', response);
+              },
+              (error) => {
+                console.error("Errore nell'aggiornamento del database remoto:", error);
+              }
+            );
+        } else {
+          console.error('Errore nel caricamento dei dati dal server per aggiornamento.');
+        }
+      },
+      (error) => {
+        console.error('Errore nel caricamento dei dati dal server:', error);
+      }
+    );
   }
-
+  
+  
 }

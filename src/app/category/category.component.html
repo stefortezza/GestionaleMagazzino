@@ -19,11 +19,11 @@
         <td>{{ product.quantity }}</td>
         <td>{{ product.location }}</td>
         <td> 
-          <button (click)="updateQuantity(product.idProducts, 1)">+</button>
-          <button (click)="updateQuantity(product.idProducts, -1)">-</button>
+          <input type="number" [(ngModel)]="product.inputQuantity" placeholder="Quantità" style="width: 60px; margin-right: 5px;" />
+          <button (click)="updateQuantity(product.idProducts, product.inputQuantity)">+</button>
+          <button (click)="updateQuantity(product.idProducts, -product.inputQuantity)">-</button>
         </td>
-      </tr>
+      </tr>      
     </table>
-    
   </div>
 </div>

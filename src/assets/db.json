@@ -1,6 +1,7 @@
 {
   "macchinari": {
-    "Macchinario A": {
+    "MacchinarioA": {
+      "name": "Macchinario A",
       "categories": [
         {
           "id": "1",
@@ -10,13 +11,15 @@
               "idProducts": "1",
               "name": "Laptop",
               "location": "Armadio 3 - Ripiano 1",
-              "quantity": 15
+              "quantity": 20,
+              "inputQuantity": 0
             },
             {
               "idProducts": "2",
-              "location": "Armadio 3 - Ripiano 1",
               "name": "Smartphone",
-              "quantity": 15
+              "location": "Armadio 3 - Ripiano 1",
+              "quantity": 20,
+              "inputQuantity": 0
             }
           ]
         },
@@ -28,53 +31,60 @@
               "idProducts": "3",
               "name": "Maglietta",
               "location": "Armadio 3 - Ripiano 1",
-              "quantity": 50
+              "quantity": 20,
+              "inputQuantity": 0
             },
             {
               "idProducts": "4",
               "name": "Camicia",
               "location": "Armadio 3 - Ripiano 1",
-              "quantity": 20
+              "quantity": 20,
+              "inputQuantity": 0
             }
           ]
         }
       ]
     },
-    "Macchinario B": {
+    "MacchinarioB": {
+      "name": "Macchinario B",
       "categories": [
         {
-          "id": "3",
-          "name": "ProvaB",
+          "id": "1",
+          "name": "Prova",
           "products": [
             {
-              "idProducts": "5",
-              "name": "Prova1",
-              "location": "Scaffale 1 - Ripiano 2",
-              "quantity": 15
+              "idProducts": "1",
+              "name": "Product1",
+              "location": "Armadio 3 - Ripiano 1",
+              "quantity": 16.5,
+              "inputQuantity": 0
             },
             {
-              "idProducts": "6",
-              "name": "Prova2",
-              "location": "Scaffale 1 - Ripiano 2",
-              "quantity": 35
+              "idProducts": "2",
+              "name": "Product2",
+              "location": "Armadio 3 - Ripiano 1",
+              "quantity": 15,
+              "inputQuantity": 0
             }
           ]
         },
         {
-          "id": "4",
-          "name": "ProvaC",
+          "id": "2",
+          "name": "Prova2",
           "products": [
             {
-              "idProducts": "7",
-              "name": "Prova3",
-              "location": "Armadio 3, Ripiano 1",
-              "quantity": 20
+              "idProducts": "3",
+              "name": "Product3",
+              "location": "Armadio 3 - Ripiano 1",
+              "quantity": 40,
+              "inputQuantity": 0
             },
             {
-              "idProducts": "8",
-              "name": "Prova4",
-              "location": "Armadio 3, Ripiano 1",
-              "quantity": 20
+              "idProducts": "4",
+              "name": "Product4",
+              "location": "Armadio 3 - Ripiano 1",
+              "quantity": 20,
+              "inputQuantity": 0
             }
           ]
         }
