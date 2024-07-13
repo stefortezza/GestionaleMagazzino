@@ -1,0 +1,8 @@
+<form [formGroup]="macchinarioForm" (ngSubmit)="onSubmit()" class="mt-5">
+    <div>
+      <label for="name">Nome Macchinario</label>
+      <input id="name" formControlName="name">
+    </div>
+    <button type="submit" [disabled]="macchinarioForm.invalid" class="mt-5">Aggiungi Macchinario</button>
+  </form>
+  

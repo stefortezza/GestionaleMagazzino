@@ -1,13 +1,13 @@
-<div>
-  <label for="macchinario">Seleziona Macchinario:</label>
-  <select id="macchinario" [(ngModel)]="selectedMacchinario">
-    <option *ngFor="let macchinario of macchinari" [value]="macchinario.id">{{ macchinario.name }}</option>
-  </select>
-</div>
-
-<div>
-  <label for="categoryName">Nome Categoria:</label>
-  <input type="text" id="categoryName" [(ngModel)]="categoryName" />
-</div>
-
-<button (click)="onSubmit(selectedMacchinario, macchinari, categoryName)">Aggiungi Categoria</button>
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="mt-5">
+  <div>
+    <label for="name">Nome Categoria</label>
+    <input id="name" formControlName="name">
+  </div>
+  <div>
+    <label for="macchinario">Macchinario</label>
+    <select id="macchinario" formControlName="macchinarioId">
+      <option *ngFor="let macchinario of macchinari" [value]="macchinario.id">{{ macchinario.name }}</option>
+    </select>
+  </div>
+  <button type="submit" [disabled]="categoryForm.invalid" class="mt-5">Aggiungi Categoria</button>
+</form>

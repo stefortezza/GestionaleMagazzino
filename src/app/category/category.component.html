@@ -1,5 +1,5 @@
 <div class="category-details text-center">
-  <h1>Scegli una categoria per il macchinario {{ selectedMacchinario }}:</h1>
+  <h1>Scegli una categoria per il macchinario {{ selectedMacchinarioId }}:</h1>
   <select (change)="onSelectCategoria($event)">
     <option value="">Seleziona una categoria</option>
     <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
@@ -8,22 +8,26 @@
   <div *ngIf="selectedCategoria">
     <h3>Prodotti nella categoria {{ selectedCategoria.name }}:</h3>
     <table>
-      <tr>
-        <th style="text-align: left;">Nome Prodotto</th>
-        <th style="text-align: left;">Quantità</th>
-        <th style="text-align: left;">Posizione</th>
-        <th style="text-align: left;">Azioni</th> 
-      </tr>
-      <tr *ngFor="let product of selectedCategoria.products">
-        <td>{{ product.name }}</td>
-        <td>{{ product.quantity }}</td>
-        <td>{{ product.location }}</td>
-        <td> 
-          <input type="number" [(ngModel)]="product.inputQuantity" placeholder="Quantità" style="width: 60px; margin-right: 5px;" />
-          <button (click)="updateQuantity(product.idProducts, product.inputQuantity)">+</button>
-          <button (click)="updateQuantity(product.idProducts, -product.inputQuantity)">-</button>
-        </td>
-      </tr>      
+      <thead>
+        <tr>
+          <th style="text-align: left;">Nome Prodotto</th>
+          <th style="text-align: left;">Quantità</th>
+          <th style="text-align: left;">Posizione</th>
+          <th style="text-align: left;">Azioni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.name }}</td>
+          <td>{{ product.quantity }}</td>
+          <td>{{ product.location }}</td>
+          <td>
+            <input type="number" [(ngModel)]="product.inputQuantity" placeholder="Quantità" style="width: 60px; margin-right: 5px;" />
+            <button (click)="updateQuantity('' + product.id, selectedCategoria.id, product.inputQuantity)">+</button>
+            <button (click)="updateQuantity('' + product.id, selectedCategoria.id, -product.inputQuantity)">-</button>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </div>

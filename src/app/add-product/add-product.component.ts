@@ -1,48 +1,73 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RichiesteService } from '../service/richieste.service';
+import { MacchinarioDTO } from 'src/interfaces/macchinario-dto';
 
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
-  styleUrls: ['./add-product.component.scss'],
+  styleUrls: ['./add-product.component.scss']
 })
 export class AddProductComponent implements OnInit {
+  productForm: FormGroup;
+  macchinari: MacchinarioDTO[] = [];
   categories: any[] = [];
-  selectedCategoryId: string = '';
-  productName: string = '';
-  productQuantity: number = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(private fb: FormBuilder, private richiesteService: RichiesteService) {
+    this.productForm = this.fb.group({
+      name: ['', Validators.required],
+      location: ['', Validators.required],
+      quantity: [0, Validators.required],
+      inputQuantity: [0, Validators.required],
+      macchinarioId: ['', Validators.required],
+      categoryId: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
-    this.http
-      .get<any[]>('http://localhost:3000/categories')
-      .subscribe((data) => {
-        this.categories = data;
-      });
+    this.loadMacchinari();
+  }
+
+  loadMacchinari(): void {
+    this.richiesteService.getAllMachines().subscribe(
+      (macchinari: MacchinarioDTO[]) => {
+        this.macchinari = macchinari;
+      },
+      error => {
+        console.error('Errore nel caricamento dei macchinari', error);
+      }
+    );
+  }
+
+  onMacchinarioChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const macchinarioId = Number(target.value);
+    this.richiesteService.getCategories(macchinarioId).subscribe(
+      (categories: any[]) => {
+        this.categories = categories;
+      },
+      error => {
+        console.error('Errore nel caricamento delle categorie', error);
+      }
+    );
   }
 
   onSubmit(): void {
-    const selectedCategory = this.categories.find(
-      (category) => category.id === this.selectedCategoryId
-    );
-    if (selectedCategory) {
-      const newProduct = {
-        name: this.productName,
-        quantity: this.productQuantity,
-      };
-      selectedCategory.products.push(newProduct);
-      this.http
-        .put(
-          `http://localhost:3000/categories/${this.selectedCategoryId}`,
-          selectedCategory
-        )
-        .subscribe(() => {
-          // Reimposta i campi del form dopo l'invio
-          this.productName = '';
-          this.productQuantity = 0;
-        });
+    if (this.productForm.valid) {
+      this.richiesteService.addProduct(this.productForm.value).subscribe(
+        response => {
+          console.log('Prodotto aggiunto con successo', response);
+          // Resetta il form dopo l'aggiunta del prodotto
+          this.productForm.reset({
+            quantity: 0,
+            inputQuantity: 0
+          });
+          this.categories = []; // Svuota le categorie selezionate
+        },
+        error => {
+          console.error('Errore nell\'aggiunta del prodotto', error);
+        }
+      );
     }
   }
 }

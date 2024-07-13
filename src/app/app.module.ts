@@ -8,8 +8,13 @@ import { NotesComponent } from './notes/notes.component';
 import { CategoryComponent } from './category/category.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
 import { AddProductComponent } from './add-product/add-product.component';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TokenInterceptor } from './auth/token.interceptor';
+import { RegisterComponent } from './auth/register/register.component';
+import { LoginComponent } from './auth/login/login.component';
+import { AddMacchinarioComponent } from './add-macchinario/add-macchinario.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -19,15 +24,26 @@ import { FormsModule } from '@angular/forms';
     NotesComponent,
     CategoryComponent,
     AddCategoryComponent,
-    AddProductComponent
+    AddProductComponent,
+    RegisterComponent,
+    LoginComponent,
+    AddMacchinarioComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    CommonModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor, // l'interceptor esiste ed è esposto a livello i app module e qualunque chiamata http passerà da lui
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

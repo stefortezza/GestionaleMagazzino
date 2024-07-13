@@ -1,14 +1,31 @@
-<div class="add-product-container">
-  <h1>Aggiungi Prodotto</h1>
-  <form (ngSubmit)="onSubmit()">
-    <label for="category">Categoria:</label>
-    <select id="category" [(ngModel)]="selectedCategoryId" name="category" required>
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="mt-5">
+  <div>
+    <label for="name">Nome Prodotto</label>
+    <input id="name" formControlName="name">
+  </div>
+  <div>
+    <label for="location">Locazione</label>
+    <input id="location" formControlName="location">
+  </div>
+  <div>
+    <label for="quantity">Quantità</label>
+    <input id="quantity" formControlName="quantity" type="number">
+  </div>
+  <div>
+    <label for="inputQuantity">Quantità in ingresso</label>
+    <input id="inputQuantity" formControlName="inputQuantity" type="number">
+  </div>
+  <div>
+    <label for="macchinarioId">Macchinario</label>
+    <select id="macchinarioId" formControlName="macchinarioId" (change)="onMacchinarioChange($event)">
+      <option *ngFor="let macchinario of macchinari" [value]="macchinario.id">{{ macchinario.name }}</option>
+    </select>
+  </div>
+  <div>
+    <label for="categoryId">Categoria</label>
+    <select id="categoryId" formControlName="categoryId">
       <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
     </select>
-    <label for="name">Nome Prodotto:</label>
-    <input type="text" id="name" [(ngModel)]="productName" name="name" required>
-    <label for="quantity">Quantità:</label>
-    <input type="number" id="quantity" [(ngModel)]="productQuantity" name="quantity" required>
-    <button type="submit">Aggiungi</button>
-  </form>
-</div>
+  </div>
+  <button type="submit" [disabled]="productForm.invalid" class="mt-5">Aggiungi Prodotto</button>
+</form>

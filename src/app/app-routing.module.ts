@@ -5,15 +5,21 @@ import { NotesComponent } from './notes/notes.component';
 import { CategoryComponent } from './category/category.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
 import { AddProductComponent } from './add-product/add-product.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { AddMacchinarioComponent } from './add-macchinario/add-macchinario.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' }, 
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'notes', component: NotesComponent },
-  { path: 'category', component: CategoryComponent },
+  { path: 'category/:id', component: CategoryComponent },
+  { path: 'inserisci-macchinario', component: AddMacchinarioComponent },
   { path: 'add-category', component: AddCategoryComponent },
   { path: 'add-product', component: AddProductComponent },
-  { path: '**', redirectTo: '/home' } 
+  { path: 'accedi', component: LoginComponent },
+  { path: 'registrati', component: RegisterComponent },
+  { path: '**', redirectTo: '/home' }
 ];
 
 @NgModule({

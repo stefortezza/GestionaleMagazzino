@@ -1,18 +1,51 @@
 nav {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-  }
-  
-  .logo {
-    width: 50px;
-    height: auto;
-    margin-right: 20px;
-  }
-  
-  a {
-    margin-right: 20px;
-    text-decoration: none;
-    color: #000;
-  }
-  
+  background-color: #007bff;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-content a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.navbar-content .auth-links {
+  display: flex;
+  align-items: center;
+}
+
+.auth-links .login-register {
+  margin-left: auto;
+}
+
+.auth-links .login-register a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.auth-links .login-register .btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #007bff;
+  background-color: #fff;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.auth-links .login-register .btn:hover {
+  background-color: #007bff;
+  color: #fff;
+}
