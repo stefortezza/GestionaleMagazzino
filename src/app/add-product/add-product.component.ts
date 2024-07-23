@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RichiesteService } from '../service/richieste.service';
-import { MacchinarioDTO } from 'src/interfaces/macchinario-dto';
+import { Category } from 'src/interfaces/category';
+import { Product } from 'src/interfaces/product';
 
 @Component({
   selector: 'app-add-product',
@@ -10,8 +11,7 @@ import { MacchinarioDTO } from 'src/interfaces/macchinario-dto';
 })
 export class AddProductComponent implements OnInit {
   productForm: FormGroup;
-  macchinari: MacchinarioDTO[] = [];
-  categories: any[] = [];
+  categories: Category[] = [];
 
   constructor(private fb: FormBuilder, private richiesteService: RichiesteService) {
     this.productForm = this.fb.group({
@@ -19,31 +19,17 @@ export class AddProductComponent implements OnInit {
       location: ['', Validators.required],
       quantity: [0, Validators.required],
       inputQuantity: [0, Validators.required],
-      macchinarioId: ['', Validators.required],
       categoryId: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.loadMacchinari();
+    this.loadCategories();
   }
 
-  loadMacchinari(): void {
-    this.richiesteService.getAllMachines().subscribe(
-      (macchinari: MacchinarioDTO[]) => {
-        this.macchinari = macchinari;
-      },
-      error => {
-        console.error('Errore nel caricamento dei macchinari', error);
-      }
-    );
-  }
-
-  onMacchinarioChange(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    const macchinarioId = Number(target.value);
-    this.richiesteService.getCategories(macchinarioId).subscribe(
-      (categories: any[]) => {
+  loadCategories(): void {
+    this.richiesteService.getAllCategories().subscribe(
+      (categories: Category[]) => {
         this.categories = categories;
       },
       error => {
@@ -62,7 +48,6 @@ export class AddProductComponent implements OnInit {
             quantity: 0,
             inputQuantity: 0
           });
-          this.categories = []; // Svuota le categorie selezionate
         },
         error => {
           console.error('Errore nell\'aggiunta del prodotto', error);

@@ -1,124 +1,162 @@
-  package Gestionale.Magazzino.Service;
+package Gestionale.Magazzino.Service;
 
-  import Gestionale.Magazzino.Dto.CategoryDTO;
-  import Gestionale.Magazzino.Dto.MacchinarioDTO;
-  import Gestionale.Magazzino.Dto.ProductDTO;
-  import Gestionale.Magazzino.Entity.Category;
-  import Gestionale.Magazzino.Entity.Macchinario;
-  import Gestionale.Magazzino.Entity.Product;
-  import Gestionale.Magazzino.Repository.CategoryRepository;
-  import Gestionale.Magazzino.Repository.MacchinarioRepository;
-  import jakarta.persistence.EntityNotFoundException;
-  import jakarta.transaction.Transactional;
-  import org.springframework.beans.factory.annotation.Autowired;
-  import org.springframework.stereotype.Service;
+import Gestionale.Magazzino.Dto.CategoryDTO;
+import Gestionale.Magazzino.Dto.MacchinarioDTO;
+import Gestionale.Magazzino.Dto.ProductDTO;
+import Gestionale.Magazzino.Entity.Category;
+import Gestionale.Magazzino.Entity.Macchinario;
+import Gestionale.Magazzino.Entity.Product;
+import Gestionale.Magazzino.Repository.CategoryRepository;
+import Gestionale.Magazzino.Repository.MacchinarioRepository;
+import Gestionale.Magazzino.Repository.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-  import java.util.ArrayList;
-  import java.util.List;
-  import java.util.Optional;
-  import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.Collectors;
 
-  @Service
-  public class MacchinarioService {
+@Service
+public class MacchinarioService {
 
-    @Autowired
-    private MacchinarioRepository macchinarioRepository;
+  @Autowired
+  private MacchinarioRepository macchinarioRepository;
 
-    public List<MacchinarioDTO> getAllMacchinarios() {
-      return macchinarioRepository.findAll().stream()
-        .map(this::convertToDTO)
-        .collect(Collectors.toList());
-    }
+  @Autowired
+  private CategoryRepository categoryRepository;
 
-    @Transactional
-    public MacchinarioDTO getMacchinarioById(Long id) {
-      Macchinario macchinario = macchinarioRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Macchinario non trovato con id: " + id));
-      // Assicurati che la lista categories sia caricata prima di accedervi
-      macchinario.getCategories().size(); // Forza il caricamento della lista
-      return convertToDTO(macchinario);
-    }
+  @Autowired
+  private ProductRepository productRepository;
 
-    @Transactional
-    public MacchinarioDTO createMacchinario(MacchinarioDTO macchinarioDTO) {
-      Macchinario macchinario = new Macchinario();
-      macchinario.setName(macchinarioDTO.getName());
-
-      // Aggiungi le categorie con i relativi prodotti al macchinario
-      if (macchinarioDTO.getCategories() != null) {
-        for (CategoryDTO categoryDTO : macchinarioDTO.getCategories()) {
-          Category category = new Category();
-          category.setName(categoryDTO.getName());
-
-          // Aggiungi i prodotti alla categoria
-          if (categoryDTO.getProducts() != null) {
-            List<Product> products = new ArrayList<>();
-            for (ProductDTO productDTO : categoryDTO.getProducts()) {
-              Product product = new Product();
-              product.setName(productDTO.getName());
-              product.setLocation(productDTO.getLocation());
-              product.setQuantity(productDTO.getQuantity());
-              product.setInputQuantity(productDTO.getInputQuantity());
-              product.setCategory(category); // Imposta la relazione inversa
-
-              products.add(product);
-            }
-            category.setProducts(products);
-          }
-
-          category.setMacchinario(macchinario); // Imposta la relazione inversa
-          macchinario.getCategories().add(category);
-        }
-      }
-
-      Macchinario savedMacchinario = macchinarioRepository.save(macchinario);
-      return convertToDTO(savedMacchinario);
-    }
-
-    public MacchinarioDTO updateMacchinario(Long id, MacchinarioDTO macchinarioDTO) {
-      Macchinario macchinario = macchinarioRepository.findById(id).orElseThrow();
-      macchinario.setName(macchinarioDTO.getName());
-      macchinario = macchinarioRepository.save(macchinario);
-      return convertToDTO(macchinario);
-    }
-
-    public void deleteMacchinario(Long id) {
-      macchinarioRepository.deleteById(id);
-    }
-
-    private MacchinarioDTO convertToDTO(Macchinario macchinario) {
-      MacchinarioDTO macchinarioDTO = new MacchinarioDTO();
-      macchinarioDTO.setId(macchinario.getId());
-      macchinarioDTO.setName(macchinario.getName());
-      macchinarioDTO.setCategories(macchinario.getCategories().stream().map(this::convertCategoryToDTO).collect(Collectors.toList()));
-      return macchinarioDTO;
-    }
-
-    private Macchinario convertToEntity(MacchinarioDTO macchinarioDTO) {
-      Macchinario macchinario = new Macchinario();
-      macchinario.setId(macchinarioDTO.getId());
-      macchinario.setName(macchinarioDTO.getName());
-      // Not setting categories here to avoid circular dependency
-      return macchinario;
-    }
-
-    private CategoryDTO convertCategoryToDTO(Category category) {
-      CategoryDTO categoryDTO = new CategoryDTO();
-      categoryDTO.setId(category.getId());
-      categoryDTO.setName(category.getName());
-      categoryDTO.setMacchinarioId(category.getMacchinario().getId());
-      categoryDTO.setProducts(category.getProducts().stream().map(this::convertProductToDTO).collect(Collectors.toList()));
-      return categoryDTO;
-    }
-
-    private ProductDTO convertProductToDTO(Product product) {
-      ProductDTO productDTO = new ProductDTO();
-      productDTO.setId(product.getId());
-      productDTO.setName(product.getName());
-      productDTO.setLocation(product.getLocation());
-      productDTO.setQuantity(product.getQuantity());
-      productDTO.setInputQuantity(product.getInputQuantity());
-      productDTO.setCategoryId(product.getCategory().getId());
-      return productDTO;
-    }
+  public List<MacchinarioDTO> getAllMacchinarios() {
+    return macchinarioRepository.findAll().stream()
+      .map(this::convertToDTO)
+      .collect(Collectors.toList());
   }
+
+  public MacchinarioDTO getMacchinarioById(Long id) {
+    Macchinario macchinario = macchinarioRepository.findById(id)
+      .orElseThrow(() -> new EntityNotFoundException("Macchinario not found with id: " + id));
+    return convertToDTO(macchinario);
+  }
+
+  public MacchinarioDTO createMacchinario(MacchinarioDTO macchinarioDTO) {
+    Macchinario macchinario = new Macchinario();
+    macchinario.setName(macchinarioDTO.getName());
+
+    // Imposta le categorie
+    Set<Category> categories = Optional.ofNullable(macchinarioDTO.getCategoryIds())
+      .orElse(Collections.emptyList()).stream()
+      .map(id -> categoryRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Category not found with id: " + id)))
+      .collect(Collectors.toSet());
+    macchinario.setCategories(categories);
+
+    // Imposta i prodotti selezionati
+    Set<Product> products = Optional.ofNullable(macchinarioDTO.getProductIds())
+      .orElse(Collections.emptyList()).stream()
+      .map(id -> productRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id)))
+      .collect(Collectors.toSet());
+    macchinario.setProducts(products);
+
+    return convertToDTO(macchinarioRepository.save(macchinario));
+  }
+
+  public MacchinarioDTO updateMacchinario(Long id, MacchinarioDTO macchinarioDTO) {
+    Macchinario macchinario = macchinarioRepository.findById(id)
+      .orElseThrow(() -> new EntityNotFoundException("Macchinario not found with id: " + id));
+
+    macchinario.setName(macchinarioDTO.getName());
+
+    // Aggiornamento delle categorie
+    Set<Category> categories = Optional.ofNullable(macchinarioDTO.getCategoryIds())
+      .orElse(Collections.emptyList()).stream()
+      .map(categoryId -> categoryRepository.findById(categoryId)
+        .orElseThrow(() -> new EntityNotFoundException("Category not found with id: " + categoryId)))
+      .collect(Collectors.toSet());
+    macchinario.setCategories(categories);
+
+    // Aggiornamento dei prodotti
+    Set<Product> products = Optional.ofNullable(macchinarioDTO.getProductIds())
+      .orElse(Collections.emptyList()).stream()
+      .map(productId -> productRepository.findById(productId)
+        .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId)))
+      .collect(Collectors.toSet());
+
+    // Associa solo i prodotti selezionati al macchinario
+    macchinario.setProducts(products);
+
+    // Salva e restituisce il macchinario aggiornato
+    return convertToDTO(macchinarioRepository.save(macchinario));
+  }
+
+
+
+  @Transactional
+  public void updateProductQuantity(Long macchinarioId, Long categoryId, Long productId, int quantityChange) {
+    Macchinario macchinario = macchinarioRepository.findById(macchinarioId)
+      .orElseThrow(() -> new EntityNotFoundException("Macchinario not found with id: " + macchinarioId));
+
+    Product product = productRepository.findById(productId)
+      .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId));
+
+    if (!product.getCategory().getId().equals(categoryId)) {
+      throw new IllegalArgumentException("Product does not belong to the specified category.");
+    }
+
+    int newQuantity = product.getQuantity() + quantityChange;
+    if (newQuantity < 0) {
+      throw new IllegalArgumentException("Quantity cannot be negative.");
+    }
+
+    product.setQuantity(newQuantity);
+    productRepository.save(product);
+  }
+
+  public void deleteMacchinario(Long id) {
+    macchinarioRepository.deleteById(id);
+  }
+
+  private MacchinarioDTO convertToDTO(Macchinario macchinario) {
+    return new MacchinarioDTO(
+      macchinario.getId(),
+      macchinario.getName(),
+      macchinario.getCategories().stream().map(Category::getId).collect(Collectors.toList()),
+      macchinario.getProducts().stream().map(Product::getId).collect(Collectors.toList())
+    );
+  }
+
+  public List<ProductDTO> getProductsByCategoryId(Long categoryId) {
+    List<Product> products = productRepository.findByCategoryIds(Collections.singletonList(categoryId));
+    return products.stream()
+      .map(this::convertToDTO)
+      .collect(Collectors.toList());
+  }
+
+  public List<CategoryDTO> getCategoriesByMacchinarioId(Long macchinarioId) {
+    Macchinario macchinario = macchinarioRepository.findById(macchinarioId)
+      .orElseThrow(() -> new EntityNotFoundException("Macchinario not found with id: " + macchinarioId));
+
+    Set<Category> categories = macchinario.getCategories();
+    return categories.stream()
+      .map(this::convertCategoryToDTO)
+      .collect(Collectors.toList());
+  }
+
+  private CategoryDTO convertCategoryToDTO(Category category) {
+    return new CategoryDTO(category.getId(), category.getName());
+  }
+
+  private ProductDTO convertToDTO(Product product) {
+    return new ProductDTO(
+      product.getId(),
+      product.getName(),
+      product.getLocation(),
+      product.getQuantity(),
+      product.getInputQuantity(),
+      product.getCategory().getId()
+    );
+  }
+}

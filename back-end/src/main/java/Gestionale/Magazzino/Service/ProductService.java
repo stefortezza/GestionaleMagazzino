@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,63 +20,62 @@ public class ProductService {
   @Autowired
   private CategoryRepository categoryRepository;
 
-  public List<ProductDTO> getAllProducts() {
-    return productRepository.findAll().stream()
-      .map(product -> new ProductDTO(product.getId(), product.getName(), product.getLocation(), product.getQuantity(), product.getInputQuantity(), product.getCategory().getId()))
-      .toList();
+  public List<Product> getAllProducts() {
+    return productRepository.findAll();
   }
 
-  public ProductDTO getProductById(Long id) {
-    Optional<Product> productOptional = productRepository.findById(id);
-    if (productOptional.isPresent()) {
-      Product product = productOptional.get();
-      return new ProductDTO(product.getId(), product.getName(), product.getLocation(), product.getQuantity(), product.getInputQuantity(), product.getCategory().getId());
-    } else {
-      return null;
-    }
+  public Product saveProduct(Product product) {
+    return productRepository.save(product);
   }
 
-  public List<ProductDTO> getProductsByCategoryId(Long categoryId) {
-    return productRepository.findByCategoryId(categoryId);
+  public Product getProductById(Long id) {
+    return productRepository.findById(id).orElse(null);
   }
 
-  public ProductDTO createProduct(ProductDTO productDTO) {
-    Optional<Category> categoryOptional = categoryRepository.findById(productDTO.getCategoryId());
-    if (categoryOptional.isEmpty()) {
-      throw new IllegalArgumentException("Categoria non trovata per id: " + productDTO.getCategoryId());
-    }
+  public Category getCategoryById(Long id) {
+    return categoryRepository.findById(id).orElse(null);
+  }
 
-    Category category = categoryOptional.get();
 
-    Product product = new Product();
+  public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
+    Product product = productRepository.findById(id).orElseThrow();
     product.setName(productDTO.getName());
     product.setLocation(productDTO.getLocation());
     product.setQuantity(productDTO.getQuantity());
     product.setInputQuantity(productDTO.getInputQuantity());
-    product.setCategory(category);
-
-    Product savedProduct = productRepository.save(product);
-    return new ProductDTO(savedProduct.getId(), savedProduct.getName(), savedProduct.getLocation(), savedProduct.getQuantity(), savedProduct.getInputQuantity(), savedProduct.getCategory().getId());
-  }
-
-  public List<ProductDTO> updateProductQuantity(Long macchinarioId, Long categoryId, Long productId, int quantityChange) {
-    Optional<Product> productOpt = productRepository.findById(productId);
-    if (productOpt.isPresent()) {
-      Product product = productOpt.get();
-      String productName = product.getName();
-      List<Product> productsToUpdate = productRepository.findByName(productName);
-      productsToUpdate.forEach(p -> p.setQuantity(p.getQuantity() + quantityChange));
-      productRepository.saveAll(productsToUpdate);
-
-      return productsToUpdate.stream()
-        .map(p -> new ProductDTO(p.getId(), p.getName(), p.getLocation(), p.getQuantity(), p.getInputQuantity(), p.getCategory().getId()))
-        .collect(Collectors.toList());
-    } else {
-      throw new RuntimeException("Product not found");
-    }
+    product.setCategory(categoryRepository.findById(productDTO.getCategoryId()).orElseThrow());
+    return convertToDTO(productRepository.save(product));
   }
 
   public void deleteProduct(Long id) {
     productRepository.deleteById(id);
+  }
+
+  public List<ProductDTO> getProductsByCategoryId(Long categoryId) {
+    // Per mantenere compatibilità con i clienti che utilizzano solo un ID
+    return getProductsByCategoryIds(List.of(categoryId));
+  }
+
+  // Metodo per ottenere prodotti per ID di categoria
+  public List<ProductDTO> getProductsByCategoryIds(List<Long> categoryIds) {
+    List<Product> products = productRepository.findByCategoryIds(categoryIds);
+    return products.stream()
+      .map(this::convertToDTO)
+      .collect(Collectors.toList());
+  }
+
+
+  public List<Product> findProductsByCategoryIds(List<Long> categoryIds) {
+    // Assumi che il tuo repository abbia un metodo per trovare prodotti per ID di categoria
+    return productRepository.findByCategoryIds(categoryIds);
+  }
+
+  private ProductDTO convertToDTO(Product product) {
+    // Implementa la conversione da Product a ProductDTO
+    ProductDTO dto = new ProductDTO();
+    dto.setId(product.getId());
+    dto.setName(product.getName());
+    // Imposta altri campi se necessario
+    return dto;
   }
 }

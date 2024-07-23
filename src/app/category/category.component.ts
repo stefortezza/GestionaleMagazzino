@@ -1,8 +1,9 @@
-import { ActivatedRoute } from "@angular/router";
-import { Category } from "src/interfaces/category";
-import { Product } from "src/interfaces/product";
-import { RichiesteService } from "../service/richieste.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { RichiesteService } from '../service/richieste.service';
+import { LogService } from '../service/log.service';
+import { Category } from 'src/interfaces/category';
+import { Product } from 'src/interfaces/product';
 
 @Component({
   selector: 'app-category',
@@ -10,87 +11,103 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit {
-  selectedMacchinarioId: number | undefined;
+  selectedMacchinarioId?: number;
   selectedCategoria: Category | null = null;
   categories: Category[] = [];
-  loadingCategories: boolean = false;
   products: Product[] = [];
+  quantityChange: number = 0;
 
-  constructor(private route: ActivatedRoute, private richiesteService: RichiesteService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private richiesteService: RichiesteService,
+    private logService: LogService
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = +params['id'];
-      if (!isNaN(id)) {
+      if (id) {
         this.selectedMacchinarioId = id;
-        console.log('Macchinario selezionato:', this.selectedMacchinarioId);
-        this.loadCategoriesFromServer();
+        this.loadCategoriesForMacchinario();
       } else {
         console.error('ID del macchinario non valido:', id);
       }
     });
   }
 
-  loadCategoriesFromServer(): void {
-    if (this.selectedMacchinarioId === undefined) {
-      console.error('L\'id del macchinario non è valido:', this.selectedMacchinarioId);
-      return;
+  loadCategoriesForMacchinario(): void {
+    if (this.selectedMacchinarioId !== undefined) {
+      this.richiesteService.getCategoriesByMacchinario(this.selectedMacchinarioId).subscribe(
+        (categories: Category[]) => {
+          this.categories = categories;
+        },
+        (error) => {
+          console.error('Errore nel caricamento delle categorie:', error);
+        }
+      );
+    } else {
+      console.error('ID del macchinario non definito.');
     }
-  
-    this.loadingCategories = true;
-  
-    this.richiesteService.getCategories(this.selectedMacchinarioId).subscribe(
-      (categories: Category[]) => {
-        this.categories = categories;
-        console.log('Categorie aggiornate dal server:', this.categories);
-      },
-      (error) => {
-        console.error('Errore nel caricamento delle categorie:', error);
-        // Gestione degli errori
-      }
-    ).add(() => {
-      this.loadingCategories = false;
-    });
   }
 
-  onSelectCategoria(event: any): void {
-    const selectedCategoryId = +event.target.value;
+  onSelectCategoria(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const selectedCategoryId = +target.value;
     this.selectedCategoria = this.categories.find(category => category.id === selectedCategoryId) || null;
-    console.log('Categoria selezionata:', this.selectedCategoria);
 
-    if (selectedCategoryId) {
-      this.loadProductsForCategory(selectedCategoryId);
+    if (this.selectedMacchinarioId && this.selectedCategoria) {
+      this.loadProductsForCategory([this.selectedCategoria.id]);
+    } else {
+      console.error('Categoria selezionata o ID macchinario non validi.');
     }
   }
 
-  loadProductsForCategory(categoryId: number): void {
-    this.richiesteService.getProductsByCategory(categoryId).subscribe(
-      (products: Product[]) => {
-        this.products = products;
-        console.log('Prodotti associati alla categoria:', this.products);
-      },
-      (error) => {
-        console.error('Errore nel caricamento dei prodotti:', error);
-        // Gestione degli errori
-      }
-    );
+  loadProductsForCategory(categoryIds: number[]): void {
+    if (categoryIds.length > 0) { // Verifica se ci sono ID validi
+      this.richiesteService.getProductsByCategoryIds(categoryIds).subscribe(
+        (products: Product[]) => {
+          this.products = products;
+          console.log(`Prodotti caricati per le categorie ${categoryIds}`);
+        },
+        (error) => {
+          console.error('Errore nel caricamento dei prodotti:', error);
+        }
+      );
+    } else {
+      console.error('Nessun ID di categoria fornito.');
+    }
   }
 
-  updateQuantity(productId: string, categoryId: number, quantityChange: number): void {
-    if (productId && quantityChange !== 0) {
-      this.richiesteService.updateProductQuantity(this.selectedMacchinarioId!, categoryId, productId, quantityChange)
-        .subscribe(
-          () => {
-            console.log('Quantità aggiornata nel macchinario.');
-            if (this.selectedCategoria) {
-              this.loadProductsForCategory(this.selectedCategoria.id);
-            }
-          },
-          (error) => {
-            console.error('Errore nell\'aggiornamento della quantità nel macchinario:', error);
-            // Gestione degli errori
+  updateQuantity(productId: number, quantityChange: number): void {
+    if (this.selectedMacchinarioId !== undefined && this.selectedCategoria !== null && productId !== undefined) {
+      const product = this.products.find(p => p.id === productId);
+      const productName = product ? product.name : 'Prodotto sconosciuto';
+  
+      this.richiesteService.updateProductQuantity(
+        this.selectedMacchinarioId,
+        this.selectedCategoria.id,
+        productId,
+        quantityChange
+      ).subscribe(
+        () => {
+          const message = `Quantità modificata per prodotto ${productName}: ${quantityChange}`;
+          if (this.selectedMacchinarioId) {
+            this.richiesteService.getMacchinario(this.selectedMacchinarioId).subscribe(macchinario => {
+              this.logService.addLogEntry({ message, macchinario: macchinario.name });
+            });
           }
-        );
+          console.log('Quantità aggiornata con successo.');
+          
+          if (this.selectedMacchinarioId !== undefined && this.selectedCategoria !== null) {
+            this.loadProductsForCategory([this.selectedCategoria.id]);
+          }
+        },
+        error => {
+          console.error('Errore nell\'aggiornamento della quantità:', error);
+        }
+      );
+    } else {
+      console.error('Dati insufficienti per aggiornare la quantità.');
     }
   }
 }

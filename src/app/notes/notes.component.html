@@ -1,1 +1,15 @@
-<p>notes works!</p>
+<div class="container mt-5">
+  <h2>Modifiche Effettuate</h2>
+  
+  <div class="mb-3">
+    <label for="notesText" class="form-label">Aggiungi note</label>
+    <textarea id="notesText" class="form-control" rows="4" [(ngModel)]="userNotes"></textarea>
+  </div>
+  
+  <ul class="list-group mt-3">
+    <li class="list-group-item" *ngFor="let entry of logEntries">
+      {{ entry.message }}
+    </li>
+  </ul>
+  <button class="btn btn-primary mt-2" (click)="inviaDati()">Invia Dati</button>
+</div>

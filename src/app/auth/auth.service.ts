@@ -24,19 +24,21 @@ export class AuthService {
   }
 
   login(user: { email: string, password: string }): Observable<string> {
-    return this.http.post(`${this.apiURL}/login`, user, { responseType: 'text' }).pipe(
+    return this.http.post<string>(`${this.apiURL}/login`, user, { responseType: 'text' as 'json' }).pipe(
       tap((token: string) => {
         this.token = token;
         this.authSub.next(token);
         localStorage.setItem('user', token);
-        this.userSubject.next(true); // Imposta l'utente come autenticato dopo il login
+        this.userSubject.next(true);
       }),
       catchError(error => {
-        console.error('Login error:', error);
-        return throwError(error);
+        console.error('Login error:', error); // Log dell'errore completo
+        return throwError('Errore durante il login: ' + (error.message || error));
       })
     );
   }
+  
+
 
   logout() {
     this.token = null;

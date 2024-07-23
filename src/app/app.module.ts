@@ -16,6 +16,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { AddMacchinarioComponent } from './add-macchinario/add-macchinario.component';
 import { CommonModule } from '@angular/common';
 
+
 @NgModule({
   declarations: [
     AppComponent,

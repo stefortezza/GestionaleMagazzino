@@ -4,10 +4,7 @@
     <input id="name" formControlName="name">
   </div>
   <div>
-    <label for="macchinario">Macchinario</label>
-    <select id="macchinario" formControlName="macchinarioId">
-      <option *ngFor="let macchinario of macchinari" [value]="macchinario.id">{{ macchinario.name }}</option>
-    </select>
+
   </div>
   <button type="submit" [disabled]="categoryForm.invalid" class="mt-5">Aggiungi Categoria</button>
 </form>

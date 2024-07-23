@@ -1,29 +1,24 @@
 <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="mt-5">
   <div>
     <label for="name">Nome Prodotto</label>
-    <input id="name" formControlName="name">
+    <input id="name" formControlName="name" type="text" placeholder="Inserisci il nome del prodotto">
   </div>
   <div>
     <label for="location">Locazione</label>
-    <input id="location" formControlName="location">
+    <input id="location" formControlName="location" type="text" placeholder="Inserisci la locazione">
   </div>
   <div>
     <label for="quantity">Quantità</label>
-    <input id="quantity" formControlName="quantity" type="number">
+    <input id="quantity" formControlName="quantity" type="number" placeholder="Inserisci la quantità">
   </div>
   <div>
     <label for="inputQuantity">Quantità in ingresso</label>
-    <input id="inputQuantity" formControlName="inputQuantity" type="number">
-  </div>
-  <div>
-    <label for="macchinarioId">Macchinario</label>
-    <select id="macchinarioId" formControlName="macchinarioId" (change)="onMacchinarioChange($event)">
-      <option *ngFor="let macchinario of macchinari" [value]="macchinario.id">{{ macchinario.name }}</option>
-    </select>
+    <input id="inputQuantity" formControlName="inputQuantity" type="number" placeholder="Inserisci la quantità in ingresso">
   </div>
   <div>
     <label for="categoryId">Categoria</label>
     <select id="categoryId" formControlName="categoryId">
+      <option value="" disabled selected>Seleziona una categoria</option>
       <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
     </select>
   </div>

@@ -53,4 +53,10 @@ export class NavbarComponent implements OnInit {
     this.authSrv.logout();
     this.user = null;
   }
+
+  onSubmit(): void {
+    this.authSrv.logout();
+    this.user = null;
+    this.router.navigate(['/home']);
+}
 }

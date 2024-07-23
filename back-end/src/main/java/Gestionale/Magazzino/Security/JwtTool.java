@@ -14,15 +14,16 @@ public class JwtTool {
 
   @Value("${jwt.secret}")
   private String secret;
-  @Value("${jwt.duration}")
-  private long duration;
+
+//  @Value("${jwt.duration}")
+//  private long duration;
 
   //crea il token impostando data di inizio, data di fine, id dell'utente e firma del token attraverso
   //la chiave
   public String createToken(User user) {
     return Jwts.builder()
       .issuedAt(new Date(System.currentTimeMillis())) //INIZIO
-      .expiration(new Date(System.currentTimeMillis() + duration)) //FINE
+//      .expiration(new Date(System.currentTimeMillis() )) //FINE
       .subject(String.valueOf(user.getUserId()))
       .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
       .compact();

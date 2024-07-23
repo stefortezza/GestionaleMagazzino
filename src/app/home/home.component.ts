@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RichiesteService } from '../service/richieste.service';
 import { MacchinarioDTO } from 'src/interfaces/macchinario-dto';
-import { AuthService } from '../auth/auth.service'; // Importa il servizio di autenticazione
-import { AuthData } from 'src/interfaces/auth-data.interface'; // Se necessario, importa il tipo AuthData
+import { AuthService } from '../auth/auth.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -11,33 +11,50 @@ import { AuthData } from 'src/interfaces/auth-data.interface'; // Se necessario,
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  isLoggedIn: boolean = false;
+  email: string = '';
+  password: string = '';
   macchinari: MacchinarioDTO[] = [];
-  user: AuthData | null = null; // Definisci una proprietà per l'utente autenticato
+  showLogin: boolean = false;
 
   constructor(
     private richiesteService: RichiesteService,
     private router: Router,
-    private authService: AuthService // Inietta il servizio di autenticazione
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    // Controlla se l'utente è autenticato
-    this.authService.user$.subscribe((isLoggedIn) => {
+    this.authService.user$.subscribe((isLoggedIn: boolean) => {
+      this.isLoggedIn = isLoggedIn;
+      this.showLogin = !isLoggedIn;
       if (isLoggedIn) {
-        this.user = this.authService.getCurrentUser(); // Ottieni l'utente corrente
-        this.loadMacchinari(); // Carica i macchinari solo se l'utente è autenticato
+        this.loadMacchinari();
       } else {
-        this.user = null;
-        this.macchinari = []; // Azzera i macchinari se l'utente non è autenticato
+        this.macchinari = [];
       }
     });
+  }
+
+  login(loginForm: NgForm): void {
+    if (loginForm.valid) {
+      const userCredentials = { email: this.email, password: this.password };
+      this.authService.login(userCredentials).subscribe({
+        next: () => {
+          this.email = '';
+          this.password = '';
+          this.loadMacchinari();
+        },
+        error: (error: any) => {
+          console.error('Errore durante il login:', error);
+        }
+      });
+    }
   }
 
   loadMacchinari(): void {
     this.richiesteService.getAllMachines().subscribe(
       (data: MacchinarioDTO[]) => {
         this.macchinari = data;
-        console.log('Dati macchinari:', this.macchinari);
       },
       (error) => {
         console.error('Errore nel recupero dei macchinari:', error);
@@ -46,19 +63,11 @@ export class HomeComponent implements OnInit {
   }
 
   onMacchinarioChange(event: any): void {
-    const selectedMacchinario = event.target?.value;
-    console.log("Macchinario selezionato:", selectedMacchinario);
-    // Trova l'ID del macchinario selezionato
-    const selectedMacchinarioId = this.macchinari.find(m => m.name === selectedMacchinario)?.id;
+    const selectedMacchinarioId = this.macchinari.find(macchinario => macchinario.name === event.target.value)?.id;
     if (selectedMacchinarioId) {
-      // Naviga alla pagina category e passa l'id del macchinario selezionato come parametro
       this.router.navigate(['/category', selectedMacchinarioId]);
     } else {
-      console.error('Nessun macchinario trovato con il nome:', selectedMacchinario);
+      console.error('Nessun macchinario trovato con il nome:', event.target.value);
     }
-  }
-
-  goToCategory(macchinarioName: string) {
-    this.router.navigate(['/category'], { queryParams: { macchinario: macchinarioName } });
   }
 }

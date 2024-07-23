@@ -1,4 +1,19 @@
-<div class="home-container pt-3" *ngIf="user">
+<div class="login-container mt-5" *ngIf="showLogin">
+  <h1>Login</h1>
+  <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+    <div class="form-group">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" name="email" id="email" required class="form-control" [(ngModel)]="email">
+    </div>
+    <div class="form-group">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" name="password" id="password" required class="form-control" [(ngModel)]="password">
+    </div>
+    <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary mt-4">Accedi</button>
+  </form>
+</div>
+
+<div class="home-container pt-3" *ngIf="isLoggedIn && !showLogin">
   <h1>Seleziona un Macchinario</h1>
   <select (change)="onMacchinarioChange($event)">
     <option value="">Seleziona un macchinario</option>

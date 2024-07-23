@@ -1,7 +1,5 @@
 package Gestionale.Magazzino.Dto;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +13,7 @@ public class ProductDTO {
   private int inputQuantity;
   private Long categoryId;
 
-  // Costruttore per la query
+  // Costruttore
   public ProductDTO(Long id, String name, String location, int quantity, int inputQuantity, Long categoryId) {
     this.id = id;
     this.name = name;

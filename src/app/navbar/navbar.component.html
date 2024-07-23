@@ -1,51 +1,38 @@
 <nav>
   <a href="/home">
-    <img src="favicon.ico" alt="Logo" class="logo">
+    <img src="favicon.ico" alt="Logo" class="logo" />
   </a>
   <a routerLink="/home">Home</a>
-  <a routerLink="/notes">Notes</a>
   <ng-container *ngIf="isLoggedIn">
+    <a routerLink="/notes">Notes</a>
     <a routerLink="/inserisci-macchinario">Inserisci Macchinario</a>
     <a routerLink="/add-category">Aggiungi Categoria</a>
     <a routerLink="/add-product">Aggiungi Prodotto</a>
+    <div class="auth-links">
+      <div class="welcome-text">
+        Benvenuto {{ user?.user?.name }} {{ user?.user?.surname }}
+        <button type="button" class="btn btn-danger" (click)="logout()">
+          Logout
+        </button>
+      </div>
+    </div>
   </ng-container>
   <ng-container *ngIf="!isLoggedIn">
-    <a routerLink="/accedi">Accedi</a>
-    <a routerLink="/registrati">Registrati</a>
-  </ng-container>
-  <div class="navbar-content">
     <div class="auth-links">
-      <div class="register-forgot text-end mx-2" *ngIf="!isLoggedIn && currentRoute !== '/registrati'">
-        <a routerLink="/registrati" class="register-link fw-semibold mb-0 m-0">
-          Registrazione
-        </a>
-        <a href="#" class="forgot-password-link mt-0">Password dimenticata?</a>
-      </div>
-      <ng-container *ngIf="!isLoggedIn || currentRoute === '/accedi'">
-        <input type="email" placeholder="Email" class="email-input px-2" [(ngModel)]="email">
-        <input type="password" placeholder="Password" class="password-input px-2" [(ngModel)]="password">
-        <button class="login-button" (click)="login()">Login</button>
-      </ng-container>
-      <div *ngIf="isLoggedIn" class="welcome-text">
-        Benvenuto {{ user?.user?.name }} {{ user?.user?.surname }}
-        <button type="button" class="btn btn-danger" (click)="logout()">Logout</button>
-      </div>
+      <a routerLink="/registrati">Registrati</a>
+      <input
+        type="email"
+        placeholder="Email"
+        class="email-input px-2"
+        [(ngModel)]="email"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        class="password-input px-2"
+        [(ngModel)]="password"
+      />
+      <button class="login-button" (click)="login()">Accedi</button>
     </div>
-  </div>
+  </ng-container>
 </nav>
-
-<!-- Form di Login al centro della pagina -->
-<div class="container text-center mt-5" *ngIf="!isLoggedIn && currentRoute === '/accedi'">
-  <h1>Login</h1>
-  <form #loginForm="ngForm" (ngSubmit)="login()">
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" class="form-control" required [(ngModel)]="email">
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" class="form-control" required [(ngModel)]="password">
-    </div>
-    <button type="submit" class="btn btn-primary">Accedi</button>
-  </form>
-</div>

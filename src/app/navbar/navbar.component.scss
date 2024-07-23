@@ -1,51 +1,79 @@
 nav {
-  background-color: #007bff;
-  color: #fff;
+  background: linear-gradient(to top, rgba(0, 123, 255, 0.8), rgba(0, 123, 255, 0.4));
+  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
 }
 
-.navbar-content {
-  display: flex;
-  align-items: center;
+.logo {
+  width: 40px;
+  height: auto;
 }
 
-.navbar-content a {
-  color: #fff;
+a {
+  color: white;
   text-decoration: none;
   padding: 10px;
   margin-right: 10px;
 }
 
-.navbar-content .auth-links {
+.auth-links {
   display: flex;
   align-items: center;
 }
 
-.auth-links .login-register {
-  margin-left: auto;
-}
-
-.auth-links .login-register a {
-  color: #fff;
+.auth-links a {
+  color: white;
   text-decoration: none;
   padding: 10px;
   margin-right: 10px;
 }
 
-.auth-links .login-register .btn {
-  padding: 8px 16px;
-  font-size: 14px;
-  color: #007bff;
+.container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  border: 2px solid #007bff;
+}
+
+.container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.auth-links .login-register .btn:hover {
-  background-color: #007bff;
-  color: #fff;
+.btn-primary:hover {
+  background-color: #0056b3;
 }
