@@ -56,26 +56,22 @@ export class CategoryComponent implements OnInit {
     this.selectedCategoria = this.categories.find(category => category.id === selectedCategoryId) || null;
 
     if (this.selectedMacchinarioId && this.selectedCategoria) {
-      this.loadProductsForCategory([this.selectedCategoria.id]);
+      this.loadProductsForCategory(this.selectedCategoria.id);
     } else {
       console.error('Categoria selezionata o ID macchinario non validi.');
     }
   }
 
-  loadProductsForCategory(categoryIds: number[]): void {
-    if (categoryIds.length > 0) { // Verifica se ci sono ID validi
-      this.richiesteService.getProductsByCategoryIds(categoryIds).subscribe(
-        (products: Product[]) => {
-          this.products = products;
-          console.log(`Prodotti caricati per le categorie ${categoryIds}`);
-        },
-        (error) => {
-          console.error('Errore nel caricamento dei prodotti:', error);
-        }
-      );
-    } else {
-      console.error('Nessun ID di categoria fornito.');
-    }
+  loadProductsForCategory(categoryIds: number): void {
+    this.richiesteService.getProductsByMacchinarioAndCategory(this.selectedMacchinarioId || 0, categoryIds).subscribe(
+      (products: Product[]) => {
+        this.products = products;
+        console.log(`Prodotti caricati per le categorie ${categoryIds}`);
+      },
+      (error) => {
+        console.error('Errore nel caricamento dei prodotti:', error);
+      }
+    );
   }
 
   updateQuantity(productId: number, quantityChange: number): void {
@@ -99,7 +95,7 @@ export class CategoryComponent implements OnInit {
           console.log('Quantità aggiornata con successo.');
           
           if (this.selectedMacchinarioId !== undefined && this.selectedCategoria !== null) {
-            this.loadProductsForCategory([this.selectedCategoria.id]);
+            this.loadProductsForCategory(this.selectedCategoria.id);
           }
         },
         error => {

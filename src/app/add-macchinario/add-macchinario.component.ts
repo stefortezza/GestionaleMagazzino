@@ -50,11 +50,13 @@ export class AddMacchinarioComponent implements OnInit {
       this.selectedCategoryIds = this.selectedCategoryIds.filter(id => id !== categoryId);
     }
 
+    // Carica i prodotti solo per la categoria selezionata corrente
     if (this.selectedCategoryIds.length > 0) {
       this.richiesteService.getProductsByCategoryIds(this.selectedCategoryIds).subscribe(
         (products: Product[]) => {
           this.products = products;
           this.macchinarioForm.get('productIds')?.setValue([]);  // Reset dei prodotti selezionati
+          this.selectedProductIds = []; // Reset dell'array dei prodotti selezionati
         },
         error => {
           console.error('Errore nel caricamento dei prodotti', error);
@@ -91,21 +93,39 @@ export class AddMacchinarioComponent implements OnInit {
         categories: [],
         products: []
       };
-  
+
       console.log('Macchinario DTO inviato:', macchinarioDTO);
-  
+
       this.richiesteService.addMacchinario(macchinarioDTO).subscribe(
         response => {
           console.log('Macchinario aggiunto con successo', response);
-          this.macchinarioForm.reset();
-          this.products = [];
-          this.selectedCategoryIds = [];
-          this.selectedProductIds = [];
+          this.resetForm(); // Reset del form e delle selezioni
         },
         error => {
           console.error('Errore nell\'aggiunta del macchinario', error);
         }
       );
     }
-  }   
+  }
+
+  resetForm(): void {
+    this.macchinarioForm.reset();
+    this.products = [];
+    this.selectedCategoryIds = [];
+    this.selectedProductIds = [];
+    // Resetta anche il campo 'categoryIds' e 'productIds' del form
+    this.macchinarioForm.get('categoryIds')?.setValue([]);
+    this.macchinarioForm.get('productIds')?.setValue([]);
+
+    // Deselect all checkboxes manually
+    const categoryCheckboxes = document.querySelectorAll('input[type="checkbox"][name="categoryCheckbox"]');
+    categoryCheckboxes.forEach((checkbox) => {
+      (checkbox as HTMLInputElement).checked = false;
+    });
+
+    const productCheckboxes = document.querySelectorAll('input[type="checkbox"][name="productCheckbox"]');
+    productCheckboxes.forEach((checkbox) => {
+      (checkbox as HTMLInputElement).checked = false;
+    });
+  }
 }

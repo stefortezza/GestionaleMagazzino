@@ -128,8 +128,17 @@ public class MacchinarioService {
     );
   }
 
-  public List<ProductDTO> getProductsByCategoryId(Long categoryId) {
-    List<Product> products = productRepository.findByCategoryIds(Collections.singletonList(categoryId));
+  public List<ProductDTO> getProductsByMacchinarioAndCategory(Long macchinarioId, Long categoryId) {
+    Optional<Macchinario> macchinarioOptional = macchinarioRepository.findById(macchinarioId);
+    List<Product> products = new ArrayList<>();
+    if (macchinarioOptional.isPresent()) {
+      Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
+      if (categoryOptional.isPresent()) {
+        Macchinario macchinario = macchinarioOptional.get();
+        Category category = categoryOptional.get();
+        products = macchinario.getProducts().stream().filter((prodotto) -> prodotto.getCategory().equals(category)).toList();
+      }
+    }
     return products.stream()
       .map(this::convertToDTO)
       .collect(Collectors.toList());

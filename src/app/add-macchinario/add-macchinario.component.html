@@ -2,14 +2,14 @@
   <div>
     <label for="categoryIds">Categorie</label>
     <div *ngFor="let category of categories">
-      <input type="checkbox" [value]="category.id" (change)="onCategoryChange($event)"/> {{ category.name }}
+      <input type="checkbox" [value]="category.id" (change)="onCategoryChange($event)" name="categoryCheckbox" /> {{ category.name }}
     </div>
   </div>
 
   <div *ngIf="products.length > 0">
     <label for="productIds">Prodotti</label>
     <div *ngFor="let product of products">
-      <input type="checkbox" [value]="product.id" (change)="onProductChange($event)"/> {{ product.name }}
+      <input type="checkbox" [value]="product.id" (change)="onProductChange($event)" name="productCheckbox" /> {{ product.name }}
     </div>
   </div>
 

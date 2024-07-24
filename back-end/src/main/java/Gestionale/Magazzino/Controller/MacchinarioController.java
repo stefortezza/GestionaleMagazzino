@@ -86,10 +86,10 @@ public class MacchinarioController {
     }
   }
 
-  @GetMapping("/macchinario/categories/{categoryId}/products")
-  public ResponseEntity<List<ProductDTO>> getProductsByCategoryId(@PathVariable Long categoryId) {
+  @GetMapping("/macchinario/{macchinarioId}/categories/{categoryId}/products")
+  public ResponseEntity<List<ProductDTO>> getProductsByMacchinarioAndCategory(@PathVariable Long macchinarioId, @PathVariable Long categoryId) {
     try {
-      List<ProductDTO> products = macchinarioService.getProductsByCategoryId(categoryId);
+      List<ProductDTO> products = macchinarioService.getProductsByMacchinarioAndCategory(macchinarioId, categoryId);
       return ResponseEntity.ok(products);
     } catch (Exception e) {
       logger.error("Error retrieving products by category id " + categoryId, e);
