@@ -2,14 +2,16 @@
   <div>
     <label for="categoryIds">Categorie</label>
     <div *ngFor="let category of categories">
-      <input type="checkbox" [value]="category.id" (change)="onCategoryChange($event)" name="categoryCheckbox" /> {{ category.name }}
+      <input type="checkbox" [value]="category.id" (change)="onCategoryChange($event)" name="categoryCheckbox" 
+             [checked]="selectedCategoryIds.includes(category.id)" /> {{ category.name }}
     </div>
   </div>
 
   <div *ngIf="products.length > 0">
     <label for="productIds">Prodotti</label>
     <div *ngFor="let product of products">
-      <input type="checkbox" [value]="product.id" (change)="onProductChange($event)" name="productCheckbox" /> {{ product.name }}
+      <input type="checkbox" [value]="product.id" (change)="onProductChange($event)" name="productCheckbox" 
+             [checked]="selectedProductIds.includes(product.id)" /> {{ product.name }}
     </div>
   </div>
 
@@ -18,5 +20,5 @@
     <input id="name" formControlName="name" type="text" placeholder="Inserisci il nome del macchinario">
   </div>
 
-  <button type="submit" [disabled]="!isFormValid()" class="mt-5">Aggiungi Macchinario</button>
+  <button type="submit" [disabled]="!isFormValid()" class="mt-5">Aggiungi/Modifica Macchinario</button>
 </form>

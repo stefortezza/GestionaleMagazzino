@@ -33,12 +33,14 @@ public class Config {
       .csrf(csrf -> csrf.disable())
       .cors(Customizer.withDefaults())
       .authorizeHttpRequests(authz -> authz
-        .requestMatchers("/api/**").permitAll() // Permetti tutte le richieste API
-        .anyRequest().authenticated() // Tutte le altre richieste devono essere autenticate
+        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+        .requestMatchers("/api/**").permitAll()
+        .anyRequest().authenticated()
       );
 
     return httpSecurity.build();
   }
+
 
 
   @Bean

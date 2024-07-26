@@ -29,4 +29,5 @@ export class LogService {
   private saveLogEntries(): void {
     localStorage.setItem('logEntries', JSON.stringify(this.logEntries));
   }
+
 }

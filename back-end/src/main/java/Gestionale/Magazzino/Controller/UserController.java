@@ -14,21 +14,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
   @Autowired
   private UserService userService;
 
-  @GetMapping("/api/users")
-  @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+  @GetMapping("/users")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public List<User> getAllUsers() {
     return userService.getAllUsers();
   }
 
-  @GetMapping("/api/users/{id}")
-  @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+  @GetMapping("/users/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public User getUserById(@PathVariable int id) {
     Optional<User> userOptional = userService.getUserById(id);
 
@@ -39,7 +39,7 @@ public class UserController {
     }
   }
 
-  @PutMapping("/api/users/{id}")
+  @PutMapping("/users/{id}")
   @PreAuthorize("hasAuthority('ADMIN')")
   public User updateUser(@PathVariable int id, @RequestBody @Validated UserDto userDto, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
@@ -49,9 +49,10 @@ public class UserController {
     return userService.updateUser(id, userDto);
   }
 
-  @DeleteMapping("/api/users/{id}")
+  @DeleteMapping("/users/{id}")
   @PreAuthorize("hasAuthority('ADMIN')")
   public String deleteUser(@PathVariable int id) {
     return userService.deleteUser(id);
   }
 }
+

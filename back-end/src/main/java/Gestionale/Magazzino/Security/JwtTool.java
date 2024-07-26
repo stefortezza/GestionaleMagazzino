@@ -2,12 +2,14 @@ package Gestionale.Magazzino.Security;
 
 import Gestionale.Magazzino.Entity.User;
 import Gestionale.Magazzino.Exceptions.UnauthorizedException;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtTool {
@@ -23,8 +25,8 @@ public class JwtTool {
   public String createToken(User user) {
     return Jwts.builder()
       .issuedAt(new Date(System.currentTimeMillis())) //INIZIO
-//      .expiration(new Date(System.currentTimeMillis() )) //FINE
       .subject(String.valueOf(user.getUserId()))
+      .claim("roles", List.of(user.getRole().name())) // Aggiungi il ruolo
       .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
       .compact();
   }
@@ -32,8 +34,8 @@ public class JwtTool {
   //effettuta la verifica del token ricevuto. Verifica la veridicita` del token e la sua scadenza
   public void verifyToken(String token) {
     try {
-      Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).
-        build().parse(token);
+      Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
+        .build().parse(token);
     } catch (Exception e) {
       throw new UnauthorizedException("Error in authorization, relogin!");
     }
@@ -42,5 +44,11 @@ public class JwtTool {
   public int getIdFromToken(String token) {
     return Integer.parseInt(Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
       .build().parseSignedClaims(token).getPayload().getSubject());
+  }
+
+  public List<String> getRolesFromToken(String token) {
+    Claims claims = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
+      .build().parseSignedClaims(token).getPayload();
+    return claims.get("roles", List.class);
   }
 }

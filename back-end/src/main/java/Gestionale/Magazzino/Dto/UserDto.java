@@ -20,5 +20,6 @@ public class UserDto {
   private String name;
   @NotBlank(message = "Surname can not be null or empty!")
   private String surname;
-
+  @NotBlank(message = "Role can not be null or empty!")
+  private String role;
 }

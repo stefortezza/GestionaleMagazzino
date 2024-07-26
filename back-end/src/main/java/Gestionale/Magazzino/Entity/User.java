@@ -1,6 +1,6 @@
 package Gestionale.Magazzino.Entity;
 
-
+import Gestionale.Magazzino.enums.Roles;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,38 +14,40 @@ import java.util.List;
 @Entity
 public class User implements UserDetails {
 
-    @Id
-    @GeneratedValue
-    private int userId;
-    private String username;
-    private String email;
-    private String password;
-    private String name;
-    private String surname;
+  @Id
+  @GeneratedValue
+  private int userId;
+  private String username;
+  private String email;
+  private String password;
+  private String name;
+  private String surname;
 
+  @Enumerated(EnumType.STRING)
+  private Roles role;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of();
+    return List.of(new SimpleGrantedAuthority(role.name()));
   }
 
   @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+  public boolean isAccountNonExpired() {
+    return true;
+  }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+  @Override
+  public boolean isEnabled() {
+    return true;
+  }
 }

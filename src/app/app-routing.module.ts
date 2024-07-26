@@ -8,6 +8,8 @@ import { AddProductComponent } from './add-product/add-product.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AddMacchinarioComponent } from './add-macchinario/add-macchinario.component';
+import { ModificaMacchinarioComponent } from './modifica-macchinario/modifica-macchinario.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -17,6 +19,7 @@ const routes: Routes = [
   { path: 'inserisci-macchinario', component: AddMacchinarioComponent },
   { path: 'add-category', component: AddCategoryComponent },
   { path: 'add-product', component: AddProductComponent },
+  { path: 'modifica-macchinario', component: ModificaMacchinarioComponent },
   { path: 'accedi', component: LoginComponent },
   { path: 'registrati', component: RegisterComponent },
   { path: '**', redirectTo: '/home' }

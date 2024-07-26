@@ -1,19 +1,20 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RichiesteService } from '../service/richieste.service';
 import { Category } from 'src/interfaces/category';
 import { Product } from 'src/interfaces/product';
 import { MacchinarioDTO } from 'src/interfaces/macchinario-dto';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-add-macchinario',
-  templateUrl: './add-macchinario.component.html',
-  styleUrls: ['./add-macchinario.component.scss']
+  selector: 'app-modifica-macchinario',
+  templateUrl: './modifica-macchinario.component.html',
+  styleUrls: ['./modifica-macchinario.component.scss']
 })
-export class AddMacchinarioComponent implements OnInit {
-  @Input() macchinarioId?: number;
+export class ModificaMacchinarioComponent implements OnInit {
+  macchinarioId?: number;
   macchinarioForm: FormGroup;
+  macchinarios: MacchinarioDTO[] = [];
   categories: Category[] = [];
   products: Product[] = [];
   selectedCategoryIds: number[] = [];
@@ -22,16 +23,18 @@ export class AddMacchinarioComponent implements OnInit {
   constructor(
     private richiesteService: RichiesteService,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.macchinarioForm = this.fb.group({
       name: ['', Validators.required],
-      categoryIds: [[]],  // Permetti la selezione multipla
-      productIds: [[]]  // Permetti la selezione multipla
+      categoryIds: [[]],
+      productIds: [[]]
     });
   }
 
   ngOnInit(): void {
+    this.loadMacchinarios();
     this.loadCategories();
     this.route.params.subscribe(params => {
       if (params['id']) {
@@ -39,6 +42,17 @@ export class AddMacchinarioComponent implements OnInit {
         this.loadMacchinario();
       }
     });
+  }
+
+  loadMacchinarios(): void {
+    this.richiesteService.getAllMachines().subscribe(
+      (macchinarios: MacchinarioDTO[]) => {
+        this.macchinarios = macchinarios;
+      },
+      error => {
+        console.error('Errore nel caricamento dei macchinari', error);
+      }
+    );
   }
 
   loadCategories(): void {
@@ -54,7 +68,7 @@ export class AddMacchinarioComponent implements OnInit {
 
   loadMacchinario(): void {
     if (this.macchinarioId) {
-      this.richiesteService.getMacchinarioById(this.macchinarioId).subscribe(
+      this.richiesteService.getMacchinario(this.macchinarioId).subscribe(
         (macchinario: MacchinarioDTO) => {
           this.macchinarioForm.patchValue(macchinario);
           this.selectedCategoryIds = macchinario.categoryIds;
@@ -73,7 +87,6 @@ export class AddMacchinarioComponent implements OnInit {
       this.richiesteService.getProductsByCategoryIds(this.selectedCategoryIds).subscribe(
         (products: Product[]) => {
           this.products = products;
-          this.selectedProductIds = [];
         },
         error => {
           console.error('Errore nel caricamento dei prodotti', error);
@@ -81,6 +94,16 @@ export class AddMacchinarioComponent implements OnInit {
       );
     } else {
       this.products = [];
+    }
+  }
+
+  onMacchinarioChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const macchinarioId = Number(target.value);
+
+    if (macchinarioId) {
+      this.macchinarioId = macchinarioId;
+      this.loadMacchinario();
     }
   }
 
@@ -116,7 +139,7 @@ export class AddMacchinarioComponent implements OnInit {
   onSubmit(): void {
     if (this.isFormValid()) {
       const macchinarioDTO: MacchinarioDTO = {
-        id: this.macchinarioId || 0,
+        id: this.macchinarioId!,
         name: this.macchinarioForm.get('name')?.value,
         categoryIds: this.selectedCategoryIds,
         productIds: this.selectedProductIds,
@@ -126,27 +149,16 @@ export class AddMacchinarioComponent implements OnInit {
 
       console.log('Macchinario DTO inviato:', macchinarioDTO);
 
-      if (this.macchinarioId) {
-        this.richiesteService.updateMacchinario(this.macchinarioId, macchinarioDTO).subscribe(
-          response => {
-            console.log('Macchinario aggiornato con successo', response);
-            this.resetForm();
-          },
-          error => {
-            console.error('Errore nell\'aggiornamento del macchinario', error);
-          }
-        );
-      } else {
-        this.richiesteService.addMacchinario(macchinarioDTO).subscribe(
-          response => {
-            console.log('Macchinario aggiunto con successo', response);
-            this.resetForm();
-          },
-          error => {
-            console.error('Errore nell\'aggiunta del macchinario', error);
-          }
-        );
-      }
+      this.richiesteService.updateMacchinario(this.macchinarioId!, macchinarioDTO).subscribe(
+        response => {
+          console.log('Macchinario aggiornato con successo', response);
+          this.router.navigate(['/home']);
+          this.resetForm();
+        },
+        error => {
+          console.error('Errore nell\'aggiornamento del macchinario', error);
+        }
+      );
     }
   }
 
@@ -155,17 +167,5 @@ export class AddMacchinarioComponent implements OnInit {
     this.products = [];
     this.selectedCategoryIds = [];
     this.selectedProductIds = [];
-    this.macchinarioForm.get('categoryIds')?.setValue([]);
-    this.macchinarioForm.get('productIds')?.setValue([]);
-
-    const categoryCheckboxes = document.querySelectorAll('input[type="checkbox"][name="categoryCheckbox"]');
-    categoryCheckboxes.forEach((checkbox) => {
-      (checkbox as HTMLInputElement).checked = false;
-    });
-
-    const productCheckboxes = document.querySelectorAll('input[type="checkbox"][name="productCheckbox"]');
-    productCheckboxes.forEach((checkbox) => {
-      (checkbox as HTMLInputElement).checked = false;
-    });
   }
 }

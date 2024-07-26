@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
-import { throwError, Observable } from 'rxjs';
-import { Product } from 'src/interfaces/product';
-import { Category } from 'src/interfaces/category';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { MacchinarioDTO } from 'src/interfaces/macchinario-dto';
+import { Category } from 'src/interfaces/category';
+import { Product } from 'src/interfaces/product';
 
 @Injectable({
   providedIn: 'root'
@@ -40,10 +40,11 @@ export class RichiesteService {
   }
 
   getProductsByCategoryIds(categoryIds: number[]): Observable<Product[]> {
-    return this.http.post<Product[]>(`${this.apiUrl}/products/by-categories`, { categoryIds });
+    return this.http.post<Product[]>(`${this.apiUrl}/products/by-categories`, { categoryIds }).pipe(
+      catchError(this.handleError)
+    );
   }
   
-
   getProductsByMacchinario(macchinarioId: number): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrl}/products/macchinario/${macchinarioId}`).pipe(
       catchError(this.handleError)
@@ -84,12 +85,16 @@ export class RichiesteService {
     );
   }
 
-
   addMacchinario(macchinario: MacchinarioDTO): Observable<MacchinarioDTO> {
     return this.http.post<MacchinarioDTO>(`${this.apiUrl}/macchinario`, macchinario).pipe(
       catchError(this.handleError)
     );
   }
+
+  updateMacchinario(id: number, macchinario: MacchinarioDTO): Observable<MacchinarioDTO> {
+    return this.http.put<MacchinarioDTO>(`${this.apiUrl}/macchinario/${id}`, macchinario);
+  }
+
 
   addCategory(category: { name: string }): Observable<Category> {
     return this.http.post<Category>(`${this.apiUrl}/categories`, category).pipe(
@@ -118,5 +123,11 @@ export class RichiesteService {
     }
     console.error(errorMessage);
     return throwError(errorMessage);
+  }
+
+  getMacchinarioById(macchinarioId: number): Observable<MacchinarioDTO> {
+    return this.http.get<MacchinarioDTO>(`${this.apiUrl}/macchinario/${macchinarioId}`).pipe(
+      catchError(this.handleError)
+    );
   }
 }

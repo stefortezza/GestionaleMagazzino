@@ -15,6 +15,8 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AddMacchinarioComponent } from './add-macchinario/add-macchinario.component';
 import { CommonModule } from '@angular/common';
+import { ModificaMacchinarioComponent } from './modifica-macchinario/modifica-macchinario.component';
+import { SectionHomeComponent } from './section-home/section-home.component';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { CommonModule } from '@angular/common';
     AddProductComponent,
     RegisterComponent,
     LoginComponent,
-    AddMacchinarioComponent
+    AddMacchinarioComponent,
+    ModificaMacchinarioComponent,
+    SectionHomeComponent,
   ],
   imports: [
     BrowserModule,

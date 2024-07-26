@@ -4,6 +4,7 @@ import Gestionale.Magazzino.Dto.UserDto;
 import Gestionale.Magazzino.Entity.User;
 import Gestionale.Magazzino.Exceptions.UserNotFoundException;
 import Gestionale.Magazzino.Repository.UserRepository;
+import Gestionale.Magazzino.enums.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,29 +27,22 @@ public class UserService {
   private JavaMailSender javaMailSender;
 
   public User saveUser(UserDto userDto) {
-    // Controlla se esiste già un utente con la stessa email
     Optional<User> existingUser = userRepository.findByEmail(userDto.getEmail());
     if (existingUser.isPresent()) {
       throw new IllegalArgumentException("Email già registrata!");
     }
-
-    // Creazione del nuovo utente solo se l'email non esiste già
     User user = new User();
     user.setUsername(userDto.getUsername());
     user.setEmail(userDto.getEmail());
     user.setPassword(passwordEncoder.encode(userDto.getPassword()));
     user.setName(userDto.getName());
     user.setSurname(userDto.getSurname());
+    user.setRole(Roles.valueOf(userDto.getRole().toUpperCase()));
 
-    // Invio email di registrazione
     sendRegistrationMail(user);
-
-    // Salvataggio dell'utente nel repository
     userRepository.save(user);
-    System.out.println("User with id " + user.getUserId() + " correctly saved!");
     return user;
   }
-
   public List<User> getAllUsers() {
     return userRepository.findAll();
   }
@@ -74,8 +68,8 @@ public class UserService {
       user.setName(userDto.getName());
       user.setSurname(userDto.getSurname());
       user.setEmail(userDto.getEmail());
-
       user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+      user.setRole(Roles.valueOf(userDto.getRole().toUpperCase()));
 
       return userRepository.save(user);
     } else {

@@ -1,13 +1,16 @@
 <nav>
   <a href="/home">
-    <img src="favicon.ico" alt="Logo" class="logo" />
+    <img src="../../assets/img/logo_page-0001-removebg-preview.png" alt="Logo" class="logo" />
   </a>
   <a routerLink="/home">Home</a>
   <ng-container *ngIf="isLoggedIn">
-    <a routerLink="/notes">Notes</a>
-    <a routerLink="/inserisci-macchinario">Inserisci Macchinario</a>
-    <a routerLink="/add-category">Aggiungi Categoria</a>
-    <a routerLink="/add-product">Aggiungi Prodotto</a>
+    <ng-container *ngIf="isAdmin">
+      <a routerLink="/add-category">Aggiungi Categoria</a>
+      <a routerLink="/add-product">Aggiungi Ricambio</a>
+      <a routerLink="/inserisci-macchinario">Inserisci Macchinario</a>
+      <a routerLink="/modifica-macchinario">Modifica Macchinario</a>
+    </ng-container>
+    <a routerLink="/notes">Report</a>
     <div class="auth-links">
       <div class="welcome-text">
         Benvenuto {{ user?.user?.name }} {{ user?.user?.surname }}

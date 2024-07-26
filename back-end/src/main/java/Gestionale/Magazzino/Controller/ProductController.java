@@ -5,6 +5,7 @@ import Gestionale.Magazzino.Entity.Product;
 import Gestionale.Magazzino.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class ProductController {
   }
 
   @GetMapping("/products/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
     Product product = productService.getProductById(id);
     if (product == null) {
@@ -36,6 +38,7 @@ public class ProductController {
   }
 
   @PostMapping("/products")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
     Product product = new Product();
     product.setName(productDTO.getName());
@@ -49,6 +52,7 @@ public class ProductController {
   }
 
   @PutMapping("/products/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
     Product product = productService.getProductById(id);
     if (product == null) {
@@ -65,6 +69,7 @@ public class ProductController {
   }
 
   @DeleteMapping("/products/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
     productService.deleteProduct(id);
     return ResponseEntity.noContent().build();
@@ -76,5 +81,4 @@ public class ProductController {
     List<ProductDTO> products = productService.getProductsByCategoryIds(categoryIds);
     return ResponseEntity.ok(products);
   }
-
 }

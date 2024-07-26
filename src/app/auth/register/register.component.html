@@ -6,14 +6,29 @@
         <div class="form-group">
             <label for="name" class="form-label">Nome</label>
             <input type="text" id="name" name="name" required class="form-control" [(ngModel)]="name" />
+        </div>
+        <div class="form-group">
             <label for="surname" class="form-label">Cognome</label>
             <input type="text" id="surname" name="surname" required class="form-control" [(ngModel)]="surname" />
+        </div>
+        <div class="form-group">
             <label for="username" class="form-label">Username</label>
             <input type="text" id="username" name="username" required class="form-control" [(ngModel)]="username" />
+        </div>
+        <div class="form-group">
             <label for="email" class="form-label">Email</label>
             <input type="email" id="email" name="email" required class="form-control" [(ngModel)]="email" />
+        </div>
+        <div class="form-group">
             <label for="password" class="form-label">Password</label>
             <input type="password" id="password" name="password" required class="form-control" [(ngModel)]="password" />
+        </div>
+        <div class="form-group">
+            <label for="role" class="form-label">Ruolo</label>
+            <select id="role" name="role" required class="form-control" [(ngModel)]="role">
+                <option value="USER">USER</option>
+                <option value="ADMIN">ADMIN</option>
+            </select>
         </div>
         <button type="submit" [disabled]="signupForm.invalid" class="btn btn-primary mt-4">Registrati</button>
     </form>

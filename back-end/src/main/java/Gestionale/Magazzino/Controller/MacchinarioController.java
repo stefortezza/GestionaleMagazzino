@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class MacchinarioController {
   }
 
   @GetMapping("/macchinario/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<MacchinarioDTO> getMacchinarioById(@PathVariable Long id) {
     try {
       MacchinarioDTO macchinario = macchinarioService.getMacchinarioById(id);
@@ -52,6 +54,7 @@ public class MacchinarioController {
   }
 
   @PostMapping("/macchinario")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<MacchinarioDTO> createMacchinario(@RequestBody MacchinarioDTO macchinarioDTO) {
     try {
       MacchinarioDTO createdMacchinario = macchinarioService.createMacchinario(macchinarioDTO);
@@ -63,11 +66,13 @@ public class MacchinarioController {
   }
 
   @PutMapping("/macchinario/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<MacchinarioDTO> updateMacchinario(@PathVariable Long id, @RequestBody MacchinarioDTO macchinarioDTO) {
     try {
       MacchinarioDTO updatedMacchinario = macchinarioService.updateMacchinario(id, macchinarioDTO);
       return ResponseEntity.ok(updatedMacchinario);
     } catch (EntityNotFoundException e) {
+      logger.error("Macchinario not found with id: " + id, e);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     } catch (Exception e) {
       logger.error("Error updating macchinario with id " + id, e);
@@ -75,7 +80,9 @@ public class MacchinarioController {
     }
   }
 
+
   @DeleteMapping("/macchinario/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<Void> deleteMacchinario(@PathVariable Long id) {
     try {
       macchinarioService.deleteMacchinario(id);

@@ -16,6 +16,7 @@ export class RegisterComponent {
   username: string = '';
   email: string = '';
   password: string = '';
+  role: string = 'USER';  // Campo aggiunto per il ruolo
 
   constructor(private authSrv: AuthService, private router: Router) {}
 
@@ -26,7 +27,8 @@ export class RegisterComponent {
         surname: this.surname,
         username: this.username,
         email: this.email,
-        password: this.password
+        password: this.password,
+        role: this.role  // Aggiunto il ruolo all'oggetto utente
       };
 
       this.authSrv.signUp(user).subscribe(
