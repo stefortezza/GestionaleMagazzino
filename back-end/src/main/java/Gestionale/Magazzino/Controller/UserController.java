@@ -22,13 +22,11 @@ public class UserController {
   private UserService userService;
 
   @GetMapping("/users")
-  @PreAuthorize("hasAuthority('ADMIN')")
   public List<User> getAllUsers() {
     return userService.getAllUsers();
   }
 
   @GetMapping("/users/{id}")
-  @PreAuthorize("hasAuthority('ADMIN')")
   public User getUserById(@PathVariable int id) {
     Optional<User> userOptional = userService.getUserById(id);
 
@@ -40,7 +38,6 @@ public class UserController {
   }
 
   @PutMapping("/users/{id}")
-  @PreAuthorize("hasAuthority('ADMIN')")
   public User updateUser(@PathVariable int id, @RequestBody @Validated UserDto userDto, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       throw new BadRequestException(bindingResult.getAllErrors().stream()
@@ -50,7 +47,6 @@ public class UserController {
   }
 
   @DeleteMapping("/users/{id}")
-  @PreAuthorize("hasAuthority('ADMIN')")
   public String deleteUser(@PathVariable int id) {
     return userService.deleteUser(id);
   }

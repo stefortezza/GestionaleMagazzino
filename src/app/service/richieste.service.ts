@@ -12,6 +12,7 @@ import { Product } from 'src/interfaces/product';
 export class RichiesteService {
 
   private apiUrl = 'http://localhost:8080/api';
+  user$: any;
 
   constructor(private http: HttpClient) { }
 

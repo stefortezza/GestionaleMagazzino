@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { AuthData } from 'src/interfaces/auth-data.interface';
 
 @Injectable({
@@ -14,6 +14,7 @@ export class AuthService {
   private userSubject = new BehaviorSubject<boolean>(false);
   user$: Observable<boolean> = this.userSubject.asObservable();
   user: AuthData | null = null;
+  
 
   constructor(private http: HttpClient) {
     const storedUser = this.getStoredUser();
@@ -24,7 +25,7 @@ export class AuthService {
     }
   }
 
-  login(user: { email: string; password: string }): Observable<string> {
+  login(user: { email: string; password: string }): Observable<boolean> {
     return this.http.post<string>(`${this.apiURL}/login`, user, { responseType: 'text' as 'json' }).pipe(
       tap((token: string) => {
         this.token = token;
@@ -33,18 +34,19 @@ export class AuthService {
         this.userSubject.next(true);
         this.updateCurrentUser();
       }),
+      map(() => true),
       catchError(error => {
         console.error('Login error:', error);
-        return throwError('Errore durante il login: ' + (error.message || error));
+        return of(false);
       })
     );
   }
-  
+
   private updateCurrentUser(): void {
     this.user = this.getCurrentUser();
     console.log('Updated User:', this.user);
   }
-  
+
   logout() {
     this.token = null;
     this.authSub.next(null);
@@ -60,32 +62,30 @@ export class AuthService {
   getCurrentUser(): AuthData | null {
     const storedUser = this.getStoredUser();
     if (storedUser) {
-        const tokenData = this.parseJwt(storedUser);
-        if (tokenData) {
-            return {
-                accessToken: storedUser,
-                user: {
-                    id: tokenData.id,
-                    name: tokenData.name,
-                    surname: tokenData.surname,
-                    email: tokenData.email,
-                    roles: tokenData.roles
-                }
-            };
-        }
+      const tokenData = this.parseJwt(storedUser);
+      if (tokenData) {
+        return {
+          accessToken: storedUser,
+          user: {
+            id: tokenData.id,
+            name: tokenData.name,
+            surname: tokenData.surname,
+            email: tokenData.email,
+            roles: tokenData.roles
+          }
+        };
+      }
     }
     return null;
-}
-
-
+  }
 
   signUp(user: { email: string; password: string }): Observable<string> {
     return this.http.post<string>(`${this.apiURL}/register`, user).pipe(
       catchError(this.handleError)
     );
   }
-  
-   private parseJwt(token: string): any {
+
+  private parseJwt(token: string): any {
     try {
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');

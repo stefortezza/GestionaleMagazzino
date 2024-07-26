@@ -1,8 +1,6 @@
 <div class="container mt-5">
-  <h2>Modifiche Effettuate</h2>
-  
   <div class="mb-3">
-    <label for="notesText" class="form-label">Aggiungi note</label>
+    <label for="notesText" class="carattere fw-bold mb-3">Aggiungi note</label>
     <textarea id="notesText" class="form-control" rows="4" [(ngModel)]="userNotes"></textarea>
   </div>
   
@@ -11,5 +9,5 @@
       {{ entry.message }}
     </li>
   </ul>
-  <button class="btn btn-primary mt-2" (click)="inviaDati()">Invia Dati</button>
+  <button class="btn btn-danger mt-2" (click)="inviaDati()">Invia Dati</button>
 </div>

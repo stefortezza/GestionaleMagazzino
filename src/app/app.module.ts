@@ -7,7 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { NotesComponent } from './notes/notes.component';
 import { CategoryComponent } from './category/category.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
-import { AddProductComponent } from './add-product/add-product.component';
+import { AddProductComponent } from './add-ricambio/add-product.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptor } from './auth/token.interceptor';

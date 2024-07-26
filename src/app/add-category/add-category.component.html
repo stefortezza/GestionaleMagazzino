@@ -1,10 +1,7 @@
 <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="mt-5">
   <div>
-    <label for="name">Nome Categoria</label>
-    <input id="name" formControlName="name">
-  </div>
-  <div>
-
+    <label for="name" class="carattere fw-bold">Nome Categoria</label>
+    <input id="name" formControlName="name" type="text" placeholder="Inserisci il nome della categoria">
   </div>
   <button type="submit" [disabled]="categoryForm.invalid" class="mt-5">Aggiungi Categoria</button>
 </form>

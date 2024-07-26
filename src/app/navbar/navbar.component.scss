@@ -1,15 +1,19 @@
 nav {
-  background: linear-gradient(to top, rgba(0, 123, 255, 0.8), rgba(0, 123, 255, 0.4));
+  background: linear-gradient(to bottom right, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0.4)); /* Sfumatura rossa per abbinare il logo */
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per dare profondità */
 }
 
 .logo {
   width: 250px;
   height: auto;
+  display: block; /* Rimuove gli spazi indesiderati attorno all'immagine */
+  border: none; /* Rimuove qualsiasi bordo visibile attorno all'immagine */
+  box-shadow: none; /* Rimuove l'ombra dell'immagine, se non è necessaria */
 }
 
 a {
@@ -17,6 +21,11 @@ a {
   text-decoration: none;
   padding: 10px;
   margin-right: 10px;
+  transition: color 0.3s ease; /* Transizione solo per il colore del testo */
+}
+
+a:hover {
+  color: rgba(255, 0, 0, 0.8); /* Cambia solo il colore del testo al passaggio del mouse */
 }
 
 .auth-links {
@@ -29,6 +38,11 @@ a {
   text-decoration: none;
   padding: 10px;
   margin-right: 10px;
+  transition: color 0.3s ease; /* Transizione solo per il colore del testo */
+}
+
+.auth-links a:hover {
+  color: rgba(255, 0, 0, 0.8); /* Cambia solo il colore del testo al passaggio del mouse */
 }
 
 .container {

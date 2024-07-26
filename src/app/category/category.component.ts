@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RichiesteService } from '../service/richieste.service';
 import { LogService } from '../service/log.service';
+import { SharedService } from '../service/shared-service.service';
 import { Category } from 'src/interfaces/category';
 import { Product } from 'src/interfaces/product';
 
@@ -16,11 +17,13 @@ export class CategoryComponent implements OnInit {
   categories: Category[] = [];
   products: Product[] = [];
   quantityChange: number = 0;
+  isAdmin: boolean = false; // Nuovo flag per controllare se l'utente è admin
 
   constructor(
     private route: ActivatedRoute,
     private richiesteService: RichiesteService,
-    private logService: LogService
+    private logService: LogService,
+    private sharedService: SharedService // Inietta il servizio condiviso
   ) {}
 
   ngOnInit(): void {
@@ -32,6 +35,11 @@ export class CategoryComponent implements OnInit {
       } else {
         console.error('ID del macchinario non valido:', id);
       }
+    });
+
+    // Sottoscrivi al valore isAdmin dal servizio condiviso
+    this.sharedService.isAdmin$.subscribe(isAdmin => {
+      this.isAdmin = isAdmin;
     });
   }
 
@@ -86,7 +94,7 @@ export class CategoryComponent implements OnInit {
         quantityChange
       ).subscribe(
         () => {
-          const message = `Quantità modificata per prodotto ${productName}: ${quantityChange}`;
+          const message = `Quantità modificata del ricambio ${productName}: ${quantityChange}`;
           if (this.selectedMacchinarioId) {
             this.richiesteService.getMacchinario(this.selectedMacchinarioId).subscribe(macchinario => {
               this.logService.addLogEntry({ message, macchinario: macchinario.name });

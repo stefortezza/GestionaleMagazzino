@@ -40,7 +40,6 @@ public class MacchinarioController {
   }
 
   @GetMapping("/macchinario/{id}")
-  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<MacchinarioDTO> getMacchinarioById(@PathVariable Long id) {
     try {
       MacchinarioDTO macchinario = macchinarioService.getMacchinarioById(id);
@@ -54,7 +53,6 @@ public class MacchinarioController {
   }
 
   @PostMapping("/macchinario")
-  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<MacchinarioDTO> createMacchinario(@RequestBody MacchinarioDTO macchinarioDTO) {
     try {
       MacchinarioDTO createdMacchinario = macchinarioService.createMacchinario(macchinarioDTO);
@@ -66,7 +64,6 @@ public class MacchinarioController {
   }
 
   @PutMapping("/macchinario/{id}")
-  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<MacchinarioDTO> updateMacchinario(@PathVariable Long id, @RequestBody MacchinarioDTO macchinarioDTO) {
     try {
       MacchinarioDTO updatedMacchinario = macchinarioService.updateMacchinario(id, macchinarioDTO);
@@ -82,7 +79,6 @@ public class MacchinarioController {
 
 
   @DeleteMapping("/macchinario/{id}")
-  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<Void> deleteMacchinario(@PathVariable Long id) {
     try {
       macchinarioService.deleteMacchinario(id);

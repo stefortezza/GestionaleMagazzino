@@ -4,15 +4,17 @@ import { HomeComponent } from './home/home.component';
 import { NotesComponent } from './notes/notes.component';
 import { CategoryComponent } from './category/category.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
-import { AddProductComponent } from './add-product/add-product.component';
+import { AddProductComponent } from './add-ricambio/add-product.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AddMacchinarioComponent } from './add-macchinario/add-macchinario.component';
 import { ModificaMacchinarioComponent } from './modifica-macchinario/modifica-macchinario.component';
-
+import { SectionHomeComponent } from './section-home/section-home.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'section-home', component: SectionHomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'notes', component: NotesComponent },
   { path: 'category/:id', component: CategoryComponent },
@@ -20,9 +22,8 @@ const routes: Routes = [
   { path: 'add-category', component: AddCategoryComponent },
   { path: 'add-product', component: AddProductComponent },
   { path: 'modifica-macchinario', component: ModificaMacchinarioComponent },
-  { path: 'accedi', component: LoginComponent },
   { path: 'registrati', component: RegisterComponent },
-  { path: '**', redirectTo: '/home' }
+  { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({

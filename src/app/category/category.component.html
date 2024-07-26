@@ -23,7 +23,7 @@
           <td>{{ product.location }}</td>
           <td>
             <input type="number" [(ngModel)]="product.inputQuantity" placeholder="Quantità" style="width: 60px; margin-right: 5px;" />
-            <button (click)="updateQuantity(product.id, product.inputQuantity)">+</button>
+            <button *ngIf="isAdmin" (click)="updateQuantity(product.id, product.inputQuantity)">+</button>
             <button (click)="updateQuantity(product.id, -product.inputQuantity)">-</button>
           </td>
         </tr>

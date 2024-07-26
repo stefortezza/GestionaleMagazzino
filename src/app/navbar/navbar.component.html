@@ -1,41 +1,27 @@
-<nav>
-  <a href="/home">
+<nav *ngIf="isNavbarActive">
+  <a (click)="onLogoClick()">
     <img src="../../assets/img/logo_page-0001-removebg-preview.png" alt="Logo" class="logo" />
   </a>
-  <a routerLink="/home">Home</a>
-  <ng-container *ngIf="isLoggedIn">
-    <ng-container *ngIf="isAdmin">
-      <a routerLink="/add-category">Aggiungi Categoria</a>
-      <a routerLink="/add-product">Aggiungi Ricambio</a>
-      <a routerLink="/inserisci-macchinario">Inserisci Macchinario</a>
-      <a routerLink="/modifica-macchinario">Modifica Macchinario</a>
-    </ng-container>
-    <a routerLink="/notes">Report</a>
-    <div class="auth-links">
-      <div class="welcome-text">
-        Benvenuto {{ user?.user?.name }} {{ user?.user?.surname }}
-        <button type="button" class="btn btn-danger" (click)="logout()">
-          Logout
-        </button>
+
+  <!-- Mostra solo i link aggiuntivi se showAdditionalLinks è true -->
+  <ng-container *ngIf="showAdditionalLinks">
+    <ng-container *ngIf="isLoggedIn">
+      <a routerLink="/home">Home</a>
+      <ng-container *ngIf="isAdmin">
+        <a routerLink="/add-category">Aggiungi Categoria</a>
+        <a routerLink="/add-product">Aggiungi Ricambio</a>
+        <a routerLink="/inserisci-macchinario">Inserisci Macchinario</a>
+        <a routerLink="/modifica-macchinario">Modifica Macchinario</a>
+      </ng-container>
+      <a routerLink="/notes">Report</a>
+      <div class="auth-links">
+        <div class="welcome-text">
+          Benvenuto {{ user?.user?.name }} {{ user?.user?.surname }}
+          <button type="button" class="btn btn-danger" (click)="logout()">
+            Logout
+          </button>
+        </div>
       </div>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="!isLoggedIn">
-    <div class="auth-links">
-      <a routerLink="/registrati">Registrati</a>
-      <input
-        type="email"
-        placeholder="Email"
-        class="email-input px-2"
-        [(ngModel)]="email"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        class="password-input px-2"
-        [(ngModel)]="password"
-      />
-      <button class="login-button" (click)="login()">Accedi</button>
-    </div>
+    </ng-container>
   </ng-container>
 </nav>

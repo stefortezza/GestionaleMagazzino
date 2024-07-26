@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LogService } from '../service/log.service';
 import { RichiesteService } from '../service/richieste.service';
-import { MacchinarioDTO } from 'src/interfaces/macchinario-dto';
+import { AuthService } from '../auth/auth.service'; // Importa AuthService
 
 @Component({
   selector: 'app-notes',
@@ -14,24 +14,39 @@ export class NotesComponent implements OnInit, OnDestroy {
   macchinarioNames: { [id: string]: string } = {}; // Mappa per memorizzare i nomi dei macchinari
   userNotes: string = ''; // Nuova proprietà per memorizzare il testo della textarea
   private logClearedSubscription: Subscription;
+  private userSubscription: Subscription = new Subscription;
+  isAdmin: boolean = false; // Variabile per il ruolo dell'utente
 
-  constructor(private logService: LogService, private richiesteService: RichiesteService) {
+  constructor(
+    private logService: LogService,
+    private richiesteService: RichiesteService,
+    private authService: AuthService // Inietta AuthService
+  ) {
     this.logClearedSubscription = this.logService.logCleared$.subscribe(() => {
       this.loadLogEntries();
     });
   }
 
   ngOnInit(): void {
-    this.loadLogEntries();
+    this.userSubscription = this.authService.user$.subscribe(isLoggedIn => {
+      if (isLoggedIn) {
+        const currentUser = this.authService.getCurrentUser();
+        this.isAdmin = currentUser?.user?.roles.includes('ADMIN') || false;
+      } else {
+        this.isAdmin = false;
+      }
+      this.loadLogEntries();
+    });
   }
 
   ngOnDestroy(): void {
     this.logClearedSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 
   inviaDati(): void {
     const emailData = {
-      to: 'cultrerarek@gmail.com',
+      to: 'stefano.fortezza98@hotmail.it',
       subject: 'Dati dal tuo sistema',
       body: this.formatLogEntriesAsHtml(this.logEntries.filter(entry => entry.message.toLowerCase().includes('quantità modificata'))) +
             `<p>Note dell'utente: ${this.userNotes}</p>`
@@ -39,7 +54,6 @@ export class NotesComponent implements OnInit, OnDestroy {
 
     this.richiesteService.inviaDati(emailData).subscribe(
       () => {
-        console.log('Email inviata con successo.');
         this.clearLog();
       },
       (error) => {
@@ -57,7 +71,10 @@ export class NotesComponent implements OnInit, OnDestroy {
   }
 
   loadLogEntries(): void {
-    this.logEntries = this.logService.getLogEntries().filter(entry => entry.message.toLowerCase().includes('quantità modificata'));
+    this.logEntries = this.logService.getLogEntries().filter(entry => 
+      this.isAdmin || entry.message.toLowerCase().includes('quantità modificata')
+    );
+    console.log('Filtered Log Entries:', this.logEntries); // Aggiungi questa riga per debug
   
     // Carica i nomi dei macchinari
     const macchinarioIds = Array.from(new Set(this.logEntries.map(entry => entry.macchinario).filter(id => !isNaN(Number(id)))));
@@ -67,7 +84,6 @@ export class NotesComponent implements OnInit, OnDestroy {
         this.richiesteService.getMacchinario(numericId).subscribe(
           macchinario => {
             this.macchinarioNames[id] = macchinario.name;
-            console.log(`Nome macchinario ${id}: ${macchinario.name}`); // Aggiungi questo log per debugging
           },
           error => console.error('Errore nel caricamento del macchinario:', error)
         );
@@ -76,6 +92,7 @@ export class NotesComponent implements OnInit, OnDestroy {
       }
     });
   }
+  
 
   clearLog(): void {
     this.logService.clearLog();

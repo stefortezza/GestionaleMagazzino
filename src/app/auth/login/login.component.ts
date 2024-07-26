@@ -12,11 +12,17 @@ export class LoginComponent {
   constructor(private authSrv: AuthService, private router: Router) {}
 
   login(form: NgForm) {
-      try {
-          this.authSrv.login(form.value).subscribe();
-          this.router.navigate(['/']);
-      } catch (error) {
-          console.error(error);
+    this.authSrv.login(form.value).subscribe({
+      next: (success) => {
+        if (success) {
+          this.router.navigate(['/section-home']); 
+        } else {
+          console.error('Login failed');
+        }
+      },
+      error: (error) => {
+        console.error('Login error:', error);
       }
+    });
   }
 }

@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
     this.authService.user$.subscribe((isLoggedIn: boolean) => {
       this.isLoggedIn = isLoggedIn;
       this.showLogin = !isLoggedIn;
+
       if (isLoggedIn) {
         this.loadMacchinari();
       } else {

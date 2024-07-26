@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { AuthData } from 'src/interfaces/auth-data.interface';
 import { Router, NavigationEnd } from '@angular/router';
+import { SharedService } from '../service/shared-service.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,42 +15,61 @@ export class NavbarComponent implements OnInit {
   password: string = '';
   isLoggedIn: boolean = false;
   isAdmin: boolean = false;
-  currentRoute: string = '';
+  showAdditionalLinks: boolean = false;
+  @Input() isNavbarActive: boolean = false;
 
-  constructor(public authSrv: AuthService, private router: Router) {}
+  constructor(
+    private authSrv: AuthService, 
+    private router: Router,
+    private sharedService: SharedService // Inietta il servizio condiviso
+  ) {}
 
   ngOnInit(): void {
-    this.authSrv.user$.subscribe((isLoggedIn) => {
-        this.isLoggedIn = isLoggedIn;
-        if (isLoggedIn) {
-            this.user = this.authSrv.getCurrentUser();
-            this.isAdmin = this.user?.user.roles.includes('ADMIN') || false;
+    this.authSrv.user$.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+      if (isLoggedIn) {
+        this.user = this.authSrv.getCurrentUser();
+        this.isAdmin = this.user?.user?.roles.includes('ADMIN') || false;
+        this.sharedService.setIsAdmin(this.isAdmin); // Imposta il valore isAdmin nel servizio condiviso
+        this.showAdditionalLinks = this.router.url !== '/login' && this.router.url !== '/section-home';
+      } else {
+        this.user = null;
+        this.isAdmin = false;
+        this.sharedService.setIsAdmin(this.isAdmin); // Imposta isAdmin a false nel servizio condiviso
+        this.showAdditionalLinks = false;
+      }
+    });
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const currentUrl = event.urlAfterRedirects;
+        if (currentUrl === '/login') {
+          this.showAdditionalLinks = false;
+        } else if (currentUrl === '/section-home') {
+          this.showAdditionalLinks = false; 
         } else {
-            this.user = null;
-            this.isAdmin = false;
+          this.showAdditionalLinks = this.isLoggedIn;
         }
+      }
     });
-
-    this.router.events.subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-            this.currentRoute = event.url;
-        }
-    });
-}
-
+  }
 
   login(): void {
     if (this.email && this.password) {
       const userCredentials = { email: this.email, password: this.password };
       this.authSrv.login(userCredentials).subscribe({
-        next: (token) => {
-          this.user = this.authSrv.getCurrentUser();  
-          this.isAdmin = this.user?.user.roles.includes('ADMIN') || false; 
-          console.log('Is Admin after login:', this.isAdmin);
-          this.email = '';
-          this.password = '';
+        next: success => {
+          if (success) {
+            this.user = this.authSrv.getCurrentUser();
+            this.isAdmin = this.user?.user?.roles.includes('ADMIN') || false;
+            this.sharedService.setIsAdmin(this.isAdmin); // Imposta il valore isAdmin nel servizio condiviso
+            this.email = '';
+            this.password = '';
+            this.activateNavbar();
+            this.router.navigate(['/section-home']);
+          }
         },
-        error: (error) => {
+        error: error => {
           console.error('Errore durante il login:', error);
         }
       });
@@ -58,14 +78,22 @@ export class NavbarComponent implements OnInit {
 
   logout(): void {
     this.authSrv.logout();
-    this.user = null;
+    this.isLoggedIn = false;
     this.isAdmin = false;
+    this.sharedService.setIsAdmin(this.isAdmin); // Imposta isAdmin a false nel servizio condiviso
+    this.showAdditionalLinks = false;
+    this.router.navigate(['/login']);
   }
 
-  onSubmit(): void {
-    this.authSrv.logout();
-    this.user = null;
-    this.isAdmin = false;
-    this.router.navigate(['/home']);
+  activateNavbar(): void {
+    this.showAdditionalLinks = true;
+  }
+
+  onLogoClick(): void {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/home']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }

@@ -1,6 +1,6 @@
 <form [formGroup]="macchinarioForm" (ngSubmit)="onSubmit()" class="mt-5">
   <div>
-    <label for="categoryIds">Categorie</label>
+    <label for="categoryIds" class=" carattere fw-bold ">Categorie</label>
     <div *ngFor="let category of categories">
       <input type="checkbox" [value]="category.id" (change)="onCategoryChange($event)" name="categoryCheckbox" 
              [checked]="selectedCategoryIds.includes(category.id)" /> {{ category.name }}
@@ -8,7 +8,7 @@
   </div>
 
   <div *ngIf="products.length > 0">
-    <label for="productIds">Prodotti</label>
+    <label for="productIds" class="carattere fw-bold">Ricambi</label>
     <div *ngFor="let product of products">
       <input type="checkbox" [value]="product.id" (change)="onProductChange($event)" name="productCheckbox" 
              [checked]="selectedProductIds.includes(product.id)" /> {{ product.name }}
@@ -16,9 +16,9 @@
   </div>
 
   <div>
-    <label for="name">Nome Macchinario</label>
+    <label for="name" class="carattere fw-bold">Nome Macchinario</label>
     <input id="name" formControlName="name" type="text" placeholder="Inserisci il nome del macchinario">
   </div>
 
-  <button type="submit" [disabled]="!isFormValid()" class="mt-5">Aggiungi/Modifica Macchinario</button>
+  <button type="submit" [disabled]="!isFormValid()" class="mt-5">Aggiungi Macchinario</button>
 </form>

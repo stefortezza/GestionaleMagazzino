@@ -1,43 +1,41 @@
-<div>
-    <h2>Modifica Macchinario</h2>
-    <form [formGroup]="macchinarioForm" (ngSubmit)="onSubmit()">  
-      <div>
-        <label>Macchinari:</label>
-        <select (change)="onMacchinarioChange($event)">
-          <option value="" disabled selected>Seleziona Macchinario</option>
-          <option *ngFor="let macchinario of macchinarios" [value]="macchinario.id">
-            {{ macchinario.name }}
-          </option>
-        </select>
+<div class="mt-5">
+  <form [formGroup]="macchinarioForm" (ngSubmit)="onSubmit()">  
+    <div>
+      <label class="carattere">Macchinario:</label>
+      <select (change)="onMacchinarioChange($event)">
+        <option value="" disabled selected>Seleziona macchinario</option>
+        <option *ngFor="let macchinario of macchinarios" [value]="macchinario.id">
+          {{ macchinario.name }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label class="carattere">Categorie:</label>
+      <div *ngFor="let category of categories">
+        <input
+          type="checkbox"
+          [value]="category.id"
+          (change)="onCategoryChange($event)"
+          [checked]="selectedCategoryIds.includes(category.id)"
+        />
+        {{ category.name }}
       </div>
-  
-      <div>
-        <label>Categorie:</label>
-        <div *ngFor="let category of categories">
-          <input
-            type="checkbox"
-            [value]="category.id"
-            (change)="onCategoryChange($event)"
-            [checked]="selectedCategoryIds.includes(category.id)"
-          />
-          {{ category.name }}
-        </div>
+    </div>
+
+    <div>
+      <label class="carattere">Prodotti:</label>
+      <div *ngFor="let product of products">
+        <input
+          type="checkbox"
+          [value]="product.id"
+          (change)="onProductChange($event)"
+          [checked]="selectedProductIds.includes(product.id)"
+        />
+        {{ product.name }}
       </div>
-  
-      <div>
-        <label>Prodotti:</label>
-        <div *ngFor="let product of products">
-          <input
-            type="checkbox"
-            [value]="product.id"
-            (change)="onProductChange($event)"
-            [checked]="selectedProductIds.includes(product.id)"
-          />
-          {{ product.name }}
-        </div>
-      </div>
-  
-      <button type="submit" [disabled]="!isFormValid()">Salva Modifiche</button>
-    </form>
-  </div>
-  
+    </div>
+
+    <button type="submit" [disabled]="!isFormValid()">Salva Modifiche</button>
+  </form>
+</div>
