@@ -3,7 +3,6 @@
     <img src="../../assets/img/logo_page-0001-removebg-preview.png" alt="Logo" class="logo" />
   </a>
 
-  <!-- Mostra solo i link aggiuntivi se showAdditionalLinks è true -->
   <ng-container *ngIf="showAdditionalLinks">
     <ng-container *ngIf="isLoggedIn">
       <a routerLink="/home">Home</a>
@@ -12,6 +11,7 @@
         <a routerLink="/add-product">Aggiungi Ricambio</a>
         <a routerLink="/inserisci-macchinario">Inserisci Macchinario</a>
         <a routerLink="/modifica-macchinario">Modifica Macchinario</a>
+        <a routerLink="/registrati"> Registrati</a>
       </ng-container>
       <a routerLink="/notes">Report</a>
       <div class="auth-links">
