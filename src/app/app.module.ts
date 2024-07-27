@@ -17,6 +17,7 @@ import { AddMacchinarioComponent } from './add-macchinario/add-macchinario.compo
 import { CommonModule } from '@angular/common';
 import { ModificaMacchinarioComponent } from './modifica-macchinario/modifica-macchinario.component';
 import { SectionHomeComponent } from './section-home/section-home.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { SectionHomeComponent } from './section-home/section-home.component';
     AddMacchinarioComponent,
     ModificaMacchinarioComponent,
     SectionHomeComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,

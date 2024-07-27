@@ -18,6 +18,7 @@ export class AddMacchinarioComponent implements OnInit {
   products: Product[] = [];
   selectedCategoryIds: number[] = [];
   selectedProductIds: number[] = [];
+  errorMessage: string = '';  // Variabile per il messaggio di errore
 
   constructor(
     private richiesteService: RichiesteService,
@@ -56,7 +57,11 @@ export class AddMacchinarioComponent implements OnInit {
     if (this.macchinarioId) {
       this.richiesteService.getMacchinarioById(this.macchinarioId).subscribe(
         (macchinario: MacchinarioDTO) => {
-          this.macchinarioForm.patchValue(macchinario);
+          this.macchinarioForm.patchValue({
+            name: macchinario.name,
+            categoryIds: macchinario.categoryIds,
+            productIds: macchinario.productIds
+          });
           this.selectedCategoryIds = macchinario.categoryIds;
           this.selectedProductIds = macchinario.productIds;
           this.loadProductsForCategories();
@@ -73,7 +78,6 @@ export class AddMacchinarioComponent implements OnInit {
       this.richiesteService.getProductsByCategoryIds(this.selectedCategoryIds).subscribe(
         (products: Product[]) => {
           this.products = products;
-          this.selectedProductIds = [];
         },
         error => {
           console.error('Errore nel caricamento dei prodotti', error);
@@ -120,33 +124,29 @@ export class AddMacchinarioComponent implements OnInit {
         name: this.macchinarioForm.get('name')?.value,
         categoryIds: this.selectedCategoryIds,
         productIds: this.selectedProductIds,
-        categories: [],
-        products: []
+        categories: [], // Non necessario per l'invio se non richiesto
+        products: [] // Non necessario per l'invio se non richiesto
       };
 
       console.log('Macchinario DTO inviato:', macchinarioDTO);
 
-      if (this.macchinarioId) {
-        this.richiesteService.updateMacchinario(this.macchinarioId, macchinarioDTO).subscribe(
-          response => {
-            console.log('Macchinario aggiornato con successo', response);
-            this.resetForm();
-          },
-          error => {
-            console.error('Errore nell\'aggiornamento del macchinario', error);
-          }
-        );
-      } else {
-        this.richiesteService.addMacchinario(macchinarioDTO).subscribe(
-          response => {
-            console.log('Macchinario aggiunto con successo', response);
-            this.resetForm();
-          },
-          error => {
-            console.error('Errore nell\'aggiunta del macchinario', error);
-          }
-        );
-      }
+      const request$ = this.macchinarioId
+        ? this.richiesteService.updateMacchinario(this.macchinarioId, macchinarioDTO)
+        : this.richiesteService.addMacchinario(macchinarioDTO);
+
+      request$.subscribe(
+        response => {
+          console.log(this.macchinarioId ? 'Macchinario aggiornato con successo' : 'Macchinario aggiunto con successo', response);
+          this.resetForm();
+        },
+        error => {
+          this.errorMessage = error;  // Imposta il messaggio di errore
+          console.error('Errore nell\'aggiunta o aggiornamento del macchinario', error);
+          
+          // Mantieni il messaggio di errore e resetta il modulo dopo un delay
+          setTimeout(() => this.resetForm(), 1500);  // Ritarda il reset 
+        }
+      );
     }
   }
 
@@ -157,6 +157,9 @@ export class AddMacchinarioComponent implements OnInit {
     this.selectedProductIds = [];
     this.macchinarioForm.get('categoryIds')?.setValue([]);
     this.macchinarioForm.get('productIds')?.setValue([]);
+    
+    // Pulire il messaggio di errore solo dopo il reset
+    this.errorMessage = '';  
 
     const categoryCheckboxes = document.querySelectorAll('input[type="checkbox"][name="categoryCheckbox"]');
     categoryCheckboxes.forEach((checkbox) => {

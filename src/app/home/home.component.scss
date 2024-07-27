@@ -5,10 +5,28 @@
   margin-top: 20px;
 }
 
-.select-macchinario {
-  margin-bottom: 20px;
+.home-container h1 {
+  color: #fff !important; /* Forza il colore del testo a bianco */
 }
 
+.select-macchinario {
+  margin-bottom: 20px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff !important; /* Forza lo sfondo bianco */
+  color: #333 !important; /* Forza il colore del testo */
+}
+
+/* Aggiungi eventualmente uno stile per il hover o focus */
+.select-macchinario:hover,
+.select-macchinario:focus {
+  border-color: #007bff !important; /* Forza il colore del bordo quando è in focus o hover */
+  outline: none; /* Rimuove il bordo di default del focus */
+}
+
+/* Altri stili */
 .login-container {
   max-width: 400px;
   margin: auto;

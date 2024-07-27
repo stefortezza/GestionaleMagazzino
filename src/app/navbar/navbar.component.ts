@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
   isAdmin: boolean = false;
   showAdditionalLinks: boolean = false;
   @Input() isNavbarActive: boolean = false;
+  currentDate: string = '';
 
   constructor(
     private authSrv: AuthService, 
@@ -25,6 +26,7 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.setCurrentDate();  // Imposta la data odierna
     this.authSrv.user$.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
       if (isLoggedIn) {
@@ -51,6 +53,16 @@ export class NavbarComponent implements OnInit {
           this.showAdditionalLinks = this.isLoggedIn;
         }
       }
+    });
+  }
+
+  setCurrentDate(): void {
+    const today = new Date();
+    // Usa la funzione `toLocaleDateString()` per ottenere la data nel formato desiderato
+    this.currentDate = today.toLocaleDateString('it-IT', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
     });
   }
 
@@ -91,7 +103,7 @@ export class NavbarComponent implements OnInit {
 
   onLogoClick(): void {
     if (this.isLoggedIn) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/section-home']);
     } else {
       this.router.navigate(['/login']);
     }

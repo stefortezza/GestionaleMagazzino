@@ -11,5 +11,5 @@ import java.util.List;
 
 @Repository
 public interface MacchinarioRepository extends JpaRepository<Macchinario, Long> {
-
+  boolean existsByName(String name);
 }

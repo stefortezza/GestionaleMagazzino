@@ -154,6 +154,10 @@ public class MacchinarioService {
       .collect(Collectors.toList());
   }
 
+  public boolean existsByName(String name) {
+    return macchinarioRepository.existsByName(name);
+  }
+
   private CategoryDTO convertCategoryToDTO(Category category) {
     return new CategoryDTO(category.getId(), category.getName());
   }

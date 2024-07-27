@@ -1,6 +1,10 @@
 <form [formGroup]="macchinarioForm" (ngSubmit)="onSubmit()" class="mt-5">
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+  
   <div>
-    <label for="categoryIds" class=" carattere fw-bold ">Categorie</label>
+    <label for="categoryIds" class="carattere fw-bold">Categorie</label>
     <div *ngFor="let category of categories">
       <input type="checkbox" [value]="category.id" (change)="onCategoryChange($event)" name="categoryCheckbox" 
              [checked]="selectedCategoryIds.includes(category.id)" /> {{ category.name }}

@@ -1,3 +1,34 @@
-.carattere{
+.container {
+    color: #fff; /* Imposta il colore del testo a bianco per tutto il contenitore */
+  }
+  
+  .carattere {
     font-size: 1.2em;
-}
+    color: #fff; /* Imposta il colore del testo a bianco per gli elementi con la classe 'carattere' */
+  }
+  
+  #notesText {
+    background-color: #ffffff; /* Sfondo scuro per il textarea per contrasto */
+    color: #000000; /* Colore del testo bianco per il textarea */
+    border: 1px solid #555; /* Bordo leggermente più chiaro per il textarea */
+  }
+  
+  .list-group-item {
+    background-color: #444; /* Sfondo scuro per gli elementi della lista */
+    color: #fff; /* Colore del testo bianco per gli elementi della lista */
+    border: 1px solid #555; /* Bordo leggermente più chiaro per gli elementi della lista */
+  }
+  
+  .list-group-item:hover {
+    background-color: #555; /* Colore di sfondo più chiaro quando l'elemento della lista è in hover */
+  }
+  
+  .btn-danger {
+    background-color: #dc3545; /* Colore di sfondo rosso per il pulsante */
+    color: #fff; /* Colore del testo bianco per il pulsante */
+    border: none; /* Rimuove il bordo predefinito */
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333; /* Colore di sfondo rosso scuro per il pulsante quando è in hover */
+  }

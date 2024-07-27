@@ -1,5 +1,5 @@
 <div class="category-details text-center">
-  <h1>Scegli una categoria per il macchinario {{ selectedMacchinarioId }}:</h1>
+  <h1>Scegli una categoria per il macchinario {{ macchinarioName }}:</h1>
   <select (change)="onSelectCategoria($event)">
     <option value="">Seleziona una categoria</option>
     <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>

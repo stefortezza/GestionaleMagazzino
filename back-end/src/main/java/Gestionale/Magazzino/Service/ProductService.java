@@ -36,7 +36,6 @@ public class ProductService {
     return categoryRepository.findById(id).orElse(null);
   }
 
-
   public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
     Product product = productRepository.findById(id).orElseThrow();
     product.setName(productDTO.getName());
@@ -52,11 +51,9 @@ public class ProductService {
   }
 
   public List<ProductDTO> getProductsByCategoryId(Long categoryId) {
-    // Per mantenere compatibilità con i clienti che utilizzano solo un ID
     return getProductsByCategoryIds(List.of(categoryId));
   }
 
-  // Metodo per ottenere prodotti per ID di categoria
   public List<ProductDTO> getProductsByCategoryIds(List<Long> categoryIds) {
     List<Product> products = productRepository.findByCategoryIds(categoryIds);
     return products.stream()
@@ -64,18 +61,18 @@ public class ProductService {
       .collect(Collectors.toList());
   }
 
-
-  public List<Product> findProductsByCategoryIds(List<Long> categoryIds) {
-    // Assumi che il tuo repository abbia un metodo per trovare prodotti per ID di categoria
-    return productRepository.findByCategoryIds(categoryIds);
+  public boolean productExistsByName(String name) {
+    return productRepository.findByName(name) != null;
   }
 
   private ProductDTO convertToDTO(Product product) {
-    // Implementa la conversione da Product a ProductDTO
     ProductDTO dto = new ProductDTO();
     dto.setId(product.getId());
     dto.setName(product.getName());
-    // Imposta altri campi se necessario
+    dto.setLocation(product.getLocation());
+    dto.setQuantity(product.getQuantity());
+    dto.setInputQuantity(product.getInputQuantity());
+    dto.setCategoryId(product.getCategory().getId());
     return dto;
   }
 }

@@ -12,6 +12,7 @@ import { Product } from 'src/interfaces/product';
 export class AddProductComponent implements OnInit {
   productForm: FormGroup;
   categories: Category[] = [];
+  errorMessage: string = '';  // Variabile per il messaggio di errore
 
   constructor(private fb: FormBuilder, private richiesteService: RichiesteService) {
     this.productForm = this.fb.group({
@@ -43,16 +44,26 @@ export class AddProductComponent implements OnInit {
       this.richiesteService.addProduct(this.productForm.value).subscribe(
         response => {
           console.log('Prodotto aggiunto con successo', response);
-          // Resetta il form dopo l'aggiunta del prodotto
-          this.productForm.reset({
-            quantity: 0,
-            inputQuantity: 0
-          });
+          this.resetForm();
         },
         error => {
+          if (error.status === 403) {
+            this.errorMessage = 'Accesso negato. Verifica le tue credenziali e i permessi.';
+          } else {
+            this.errorMessage = 'Un ricambio con lo stesso nome esiste già.';
+          }
           console.error('Errore nell\'aggiunta del prodotto', error);
+          setTimeout(() => this.resetForm(), 1500);  // Ritarda il reset
         }
       );
     }
+  }
+
+  private resetForm(): void {
+    this.productForm.reset({
+      quantity: 0,
+      inputQuantity: 0
+    });
+    this.errorMessage = '';  // Pulisce il messaggio di errore
   }
 }

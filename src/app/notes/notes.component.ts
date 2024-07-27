@@ -48,7 +48,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     const emailData = {
       to: 'stefano.fortezza98@hotmail.it',
       subject: 'Dati dal tuo sistema',
-      body: this.formatLogEntriesAsHtml(this.logEntries.filter(entry => entry.message.toLowerCase().includes('quantità modificata'))) +
+      body: this.formatLogEntriesAsHtml(this.logEntries.filter(entry => entry.message.toLowerCase().includes('ricambio utilizzato'))) +
             `<p>Note dell'utente: ${this.userNotes}</p>`
     };
 
@@ -72,7 +72,7 @@ export class NotesComponent implements OnInit, OnDestroy {
 
   loadLogEntries(): void {
     this.logEntries = this.logService.getLogEntries().filter(entry => 
-      this.isAdmin || entry.message.toLowerCase().includes('quantità modificata')
+      this.isAdmin || entry.message.toLowerCase().includes('ricambio utilizzato')
     );
     console.log('Filtered Log Entries:', this.logEntries); // Aggiungi questa riga per debug
   

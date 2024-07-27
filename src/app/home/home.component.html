@@ -15,7 +15,7 @@
 
 <div class="home-container pt-3" *ngIf="isLoggedIn && !showLogin">
   <h1>Seleziona intervento</h1>
-  <select (change)="onMacchinarioChange($event)">
+  <select class="select-macchinario" (change)="onMacchinarioChange($event)">
     <option value="">Seleziona un macchinario</option>
     <option *ngFor="let macchinario of macchinari" [value]="macchinario.name">{{ macchinario.name }}</option>
   </select>

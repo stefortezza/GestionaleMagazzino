@@ -38,6 +38,11 @@ public class ProductController {
 
   @PostMapping("/products")
   public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
+    // Verifica se il prodotto esiste già
+    if (productService.productExistsByName(productDTO.getName())) {
+      return ResponseEntity.badRequest().body(null); // Ritorna un errore 400 se il prodotto esiste già
+    }
+
     Product product = new Product();
     product.setName(productDTO.getName());
     product.setLocation(productDTO.getLocation());
@@ -48,6 +53,8 @@ public class ProductController {
     ProductDTO newProductDTO = new ProductDTO(product.getId(), product.getName(), product.getLocation(), product.getQuantity(), product.getInputQuantity(), product.getCategory().getId());
     return ResponseEntity.ok(newProductDTO);
   }
+
+
 
   @PutMapping("/products/{id}")
   public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {

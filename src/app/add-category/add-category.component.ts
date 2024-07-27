@@ -10,6 +10,7 @@ import { Category } from 'src/interfaces/category';
 })
 export class AddCategoryComponent implements OnInit {
   categoryForm: FormGroup;
+  errorMessage: string = '';  // Variabile per il messaggio di errore
 
   constructor(private richiesteService: RichiesteService, private fb: FormBuilder) {
     this.categoryForm = this.fb.group({
@@ -17,25 +18,27 @@ export class AddCategoryComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    // Non è necessario caricare i macchinari
-  }
+  ngOnInit(): void {}
 
   onSubmit(): void {
     if (this.categoryForm.valid) {
       const { name } = this.categoryForm.value;
-
-      // Se la categoria non esiste già, procedi con l'aggiunta
       this.richiesteService.addCategory({ name }).subscribe(
         response => {
           console.log('Categoria aggiunta con successo', response);
-          // Gestisci il successo, ad esempio resettando il modulo o navigando da qualche parte
-          this.categoryForm.reset();
+          this.resetForm();
         },
         error => {
+          this.errorMessage = error;
           console.error('Errore nell\'aggiunta della categoria', error);
+          setTimeout(() => this.resetForm(), 1500);  // Ritarda il reset
         }
       );
     }
+  }
+
+  private resetForm(): void {
+    this.categoryForm.reset();
+    this.errorMessage = '';  // Pulisce il messaggio di errore
   }
 }

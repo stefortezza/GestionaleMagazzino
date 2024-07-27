@@ -60,6 +60,11 @@ public class CategoryService {
       .collect(Collectors.toList());
   }
 
+  public boolean categoryExistsByName(String name) {
+    return categoryRepository.existsByName(name);
+  }
+
+
   private ProductDTO convertToDTO(Product product) {
     return new ProductDTO(product.getId(), product.getName(), product.getLocation(), product.getQuantity(), product.getInputQuantity(), product.getCategory().getId());
   }

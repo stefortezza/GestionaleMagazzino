@@ -51,6 +51,12 @@ button[type="submit"]:disabled {
   cursor: not-allowed;
 }
 
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+
 .carattere{
   font-size: 1.2em;
 }

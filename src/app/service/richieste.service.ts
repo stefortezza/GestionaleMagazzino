@@ -2,18 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { MacchinarioDTO } from 'src/interfaces/macchinario-dto';
 import { Category } from 'src/interfaces/category';
+import { MacchinarioDTO } from 'src/interfaces/macchinario-dto';
 import { Product } from 'src/interfaces/product';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RichiesteService {
-
   private apiUrl = 'http://localhost:8080/api';
-  user$: any;
-
+  
   constructor(private http: HttpClient) { }
 
   getAllMachines(): Observable<MacchinarioDTO[]> {
@@ -45,7 +43,7 @@ export class RichiesteService {
       catchError(this.handleError)
     );
   }
-  
+
   getProductsByMacchinario(macchinarioId: number): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrl}/products/macchinario/${macchinarioId}`).pipe(
       catchError(this.handleError)
@@ -79,7 +77,7 @@ export class RichiesteService {
   updateProductQuantity(macchinarioId: number, categoryId: number, productId: number, quantityChange: number): Observable<void> {
     return this.http.post<void>(
       `${this.apiUrl}/macchinario/${macchinarioId}/categories/${categoryId}/products/${productId}/update-quantity`,
-      null, // Corpo della richiesta non necessario
+      null, 
       { params: { quantityChange: quantityChange.toString() } }
     ).pipe(
       catchError(this.handleError)
@@ -88,7 +86,12 @@ export class RichiesteService {
 
   addMacchinario(macchinario: MacchinarioDTO): Observable<MacchinarioDTO> {
     return this.http.post<MacchinarioDTO>(`${this.apiUrl}/macchinario`, macchinario).pipe(
-      catchError(this.handleError)
+      catchError(error => {
+        if (error.status === 409) {
+          return throwError('Il macchinario esiste già.');
+        }
+        return this.handleError(error);
+      })
     );
   }
 
@@ -96,16 +99,25 @@ export class RichiesteService {
     return this.http.put<MacchinarioDTO>(`${this.apiUrl}/macchinario/${id}`, macchinario);
   }
 
-
   addCategory(category: { name: string }): Observable<Category> {
     return this.http.post<Category>(`${this.apiUrl}/categories`, category).pipe(
-      catchError(this.handleError)
+      catchError(error => {
+        if (error.status === 409) {
+          return throwError('La categoria esiste già.');
+        }
+        return this.handleError(error);
+      })
     );
   }
 
-  addProduct(product: Product): Observable<Product> {
+  addProduct(product: { name: string, location: string, quantity: number, inputQuantity: number, categoryId: number }): Observable<Product> {
     return this.http.post<Product>(`${this.apiUrl}/products`, product).pipe(
-      catchError(this.handleError)
+      catchError(error => {
+        if (error.status === 409) {
+          return throwError('Un ricambio con lo stesso nome esiste già.');
+        }
+        return this.handleError(error);
+      })
     );
   }
 
