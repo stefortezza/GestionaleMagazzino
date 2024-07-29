@@ -18,4 +18,5 @@ public class Evento {
   private LocalDate data;
   private String titolo;
   private String descrizione;
+  private String motivo;
 }

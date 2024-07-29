@@ -13,14 +13,15 @@ export class CalendarComponent implements OnInit {
   meseCorrente: Date;
   giorni: (number | null)[] = [];
   eventi: Evento[] = [];
+  selectedDate: string | null = null;
+  eventoDaEliminare: Evento | undefined;
   form: FormGroup;
   giorniSettimana: string[] = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
   giornoSelezionato: number | null = null;
-  eventoInModifica: Evento | null = null; // Evento attualmente in modifica
-  isEditing = false; // Flag per determinare se siamo in modalità modifica
-  isAdmin = false; // Flag per determinare se l'utente è amministratore
-  showModal = false; // Flag per mostrare/nascondere il modale di conferma
-  eventoDaEliminare: Evento | null = null; // Evento da eliminare
+  eventoInModifica: Evento | null = null;
+  isEditing = false;
+  isAdmin = false;
+  showModal = false;
   nomiMesi: string[] = [
     'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
     'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
@@ -35,7 +36,8 @@ export class CalendarComponent implements OnInit {
     this.form = this.fb.group({
       data: ['', Validators.required],
       titolo: ['', Validators.required],
-      descrizione: ['']
+      descrizione: [''],
+      motivo: ['', Validators.required]
     });
 
     this.sharedService.isAdmin$.subscribe(isAdmin => {
@@ -57,6 +59,7 @@ export class CalendarComponent implements OnInit {
     const primoGiorno = new Date(anno, mese, 1).getDay();
     const ultimoGiorno = new Date(anno, mese + 1, 0).getDate();
 
+    // Corregge la numerazione dei giorni della settimana, che inizia da Domenica in JavaScript
     for (let i = 0; i < primoGiorno; i++) {
       this.giorni.push(null);
     }
@@ -80,17 +83,19 @@ export class CalendarComponent implements OnInit {
   }
 
   selezionaGiorno(giorno: number | null): void {
-    if (giorno === null) return; // Non fare nulla se il giorno è null
-
+    if (giorno === null) {
+      return;
+    }
+  
     this.giornoSelezionato = giorno;
-
-    // Imposta il valore del campo 'data' del modulo
-    const dataSelezionata = `${this.anno}-${String(this.meseCorrente.getMonth() + 1).padStart(2, '0')}-${String(giorno).padStart(2, '0')}`;
+    this.selectedDate = `${this.anno}-${String(this.meseCorrente.getMonth() + 1).padStart(2, '0')}-${String(giorno).padStart(2, '0')}`;
+  
+    // Popola il modulo con la data selezionata
     this.form.patchValue({
-      data: dataSelezionata
+      data: this.selectedDate
     });
-
-    // Carica gli eventi per il giorno selezionato
+  
+    // Carica gli eventi del giorno selezionato
     this.caricaEventiDelGiorno(giorno);
   }
 
@@ -112,17 +117,16 @@ export class CalendarComponent implements OnInit {
       const evento: Evento = {
         data: this.form.value.data,
         titolo: this.form.value.titolo,
-        descrizione: this.form.value.descrizione
+        descrizione: this.form.value.descrizione,
+        motivo: this.form.value.motivo
       };
 
       if (this.isEditing && this.eventoInModifica && this.eventoInModifica.id !== undefined) {
-        // Aggiorna l'evento esistente
         this.richiesteService.updateEvento(this.eventoInModifica.id, evento).subscribe(() => {
           this.caricaEventi();
           this.resetForm();
         });
       } else {
-        // Aggiungi un nuovo evento
         this.richiesteService.addEvento(evento).subscribe(() => {
           this.caricaEventi();
           this.resetForm();
@@ -131,14 +135,16 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  resetForm(): void {
+    this.form.reset();
+    this.isEditing = false;
+    this.eventoInModifica = null;
+  }
+
   modificaEvento(evento: Evento): void {
     this.isEditing = true;
     this.eventoInModifica = evento;
-    this.form.patchValue({
-      data: evento.data,
-      titolo: evento.titolo,
-      descrizione: evento.descrizione
-    });
+    this.form.patchValue(evento);
   }
 
   eliminaEvento(evento: Evento): void {
@@ -150,53 +156,74 @@ export class CalendarComponent implements OnInit {
     if (this.eventoDaEliminare && this.eventoDaEliminare.id !== undefined) {
       this.richiesteService.deleteEvento(this.eventoDaEliminare.id).subscribe(() => {
         this.caricaEventi();
-        this.showModal = false;
-        this.eventoDaEliminare = null;
+        this.annullaEliminazione();
       });
-    } else {
-      console.error('ID dell\'evento non è definito.');
-      this.showModal = false;
-      this.eventoDaEliminare = null;
     }
   }
 
   annullaEliminazione(): void {
     this.showModal = false;
-    this.eventoDaEliminare = null;
-  }
-
-  resetForm(): void {
-    this.isEditing = false;
-    this.eventoInModifica = null;
-    this.form.reset();
-  }
-
-  classiGiorno(giorno: number | null): { [key: string]: boolean } {
-    if (giorno === null) {
-      return {};
-    }
-
-    const dataGiorno = new Date(this.anno, this.meseCorrente.getMonth(), giorno);
-    const giornoConEvento = this.eventi.some(evento => {
-      const dataEvento = new Date(evento.data);
-      return dataEvento.getDate() === giorno &&
-             dataEvento.getMonth() === this.meseCorrente.getMonth() &&
-             dataEvento.getFullYear() === this.anno;
-    });
-
-    return {
-      'giorno-selezionato': giorno === this.giornoSelezionato,
-      'giorno-con-evento': giornoConEvento
-    };
+    this.eventoDaEliminare = undefined;
   }
 
   eventiFiltrati(): Evento[] {
     if (this.giornoSelezionato === null) return [];
-    return this.eventi.filter(evento => {
-      const dataEvento = new Date(evento.data);
-      return dataEvento.getDate() === this.giornoSelezionato &&
-             dataEvento.getMonth() === this.meseCorrente.getMonth() &&
-             dataEvento.getFullYear() === this.anno;
-    });
+
+    const data = `${this.anno}-${String(this.meseCorrente.getMonth() + 1).padStart(2, '0')}-${String(this.giornoSelezionato).padStart(2, '0')}`;
+    return this.eventi.filter(evento => evento.data === data);
+  }
+
+  classiGiorno(giorno: number | null): any {
+    if (giorno === null) {
+      return { 'giorno-calendario': true };
+    }
+    
+    const giornoStringa = `${this.anno}-${String(this.meseCorrente.getMonth() + 1).padStart(2, '0')}-${String(giorno).padStart(2, '0')}`;
+    const eventiDelGiorno = this.eventi.filter(evento => evento.data === giornoStringa);
+  
+    return {
+      'giorno-calendario': true,
+      'giorno-con-eventi': eventiDelGiorno.length > 0
+    };
+  }
+
+  getPalliniForGiorno(giorno: number | null): string[] {
+    if (giorno === null) return [];
+    
+    const giornoStringa = `${this.anno}-${String(this.meseCorrente.getMonth() + 1).padStart(2, '0')}-${String(giorno).padStart(2, '0')}`;
+    const eventiDelGiorno = this.eventi.filter(evento => evento.data === giornoStringa);
+
+    // Restituisce un array di colori per ogni evento del giorno
+    return eventiDelGiorno.map(evento => this.getColorForMotivo(evento.motivo));
+  }
+
+  getColorForMotivo(motivo: string): string {
+    switch (motivo) {
+      case 'MANUTENZIONE ORDINARIA':
+        return 'yellow';
+      case 'MANUTENZIONE PROGRAMMATA':
+        return 'red';
+      case 'LOGISTICA':
+        return 'blue';
+      case 'INFO PERSONALE':
+        return 'green';
+      case 'SCADENZE':
+        return 'orange';
+      case 'VERIFICHE':
+        return 'violet';
+      default:
+        return 'white';
+    }
+  }
+  
+  getMotivoForGiorno(giorno: number | null): string {
+    if (giorno === null) {
+      return '';
+    }
+  
+    const giornoStringa = `${this.anno}-${String(this.meseCorrente.getMonth() + 1).padStart(2, '0')}-${String(giorno).padStart(2, '0')}`;
+    const eventiDelGiorno = this.eventi.filter(evento => evento.data === giornoStringa);
+    
+    return eventiDelGiorno.length > 0 ? eventiDelGiorno[0].motivo : '';
   }
 }

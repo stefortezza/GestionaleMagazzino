@@ -21,9 +21,11 @@ h1 {
     background-size: cover;
     background-position: center;
     margin: 0;
-    height: 100vh;
+    overflow: hidden; /* Nasconde eventuali barre di scorrimento */
+    min-height: 100vh; /* Assicura che il body almeno l'altezza del viewport */
   }
   
+  /* Sovrapposizione semitrasparente */
   body::before {
     content: "";
     position: absolute;

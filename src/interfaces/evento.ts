@@ -3,5 +3,6 @@ export interface Evento {
     data: string;
     titolo: string;
     descrizione?: string;
+    motivo: string;
   }
   
