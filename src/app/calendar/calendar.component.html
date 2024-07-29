@@ -1,1 +1,79 @@
-<p>calendar works!</p>
+<div class="calendar-container">
+  <div class="calendar-main">
+    <div class="calendar-header">
+      <button (click)="cambiaMese(-1)">&lt;</button>
+      <span>{{ nomeMese }} {{ anno }}</span>
+      <button (click)="cambiaMese(1)">&gt;</button>
+    </div>
+
+    <!-- Aggiungi i giorni della settimana -->
+    <div class="calendar-days mt-1">
+      <div class="giorno-settimana" *ngFor="let giorno of giorniSettimana">
+        {{ giorno }}
+      </div>
+    </div>
+
+    <div class="calendar-grid">
+      <div *ngFor="let giorno of giorni" class="giorno-calendario"
+           [ngClass]="classiGiorno(giorno)"
+           (click)="selezionaGiorno(giorno)">
+        {{ giorno }}
+      </div>
+    </div>
+
+    <div class="event-form">
+      <h3 class="fw-bold">{{ isEditing ? 'Modifica Evento' : 'Aggiungi Evento' }}</h3>
+      <form [formGroup]="form" (ngSubmit)="salvaEvento()">
+        <div class="form-group">
+          <label for="data">Data:</label>
+          <input id="data" formControlName="data" type="date" />
+        </div>        
+        <div class="form-group">
+          <label for="titolo">Titolo:</label>
+          <input id="titolo" formControlName="titolo" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="descrizione">Descrizione:</label>
+          <textarea id="descrizione" formControlName="descrizione"></textarea>
+        </div>
+        <button class="mt-2"  type="submit" [disabled]="!form.valid">{{ isEditing ? 'Salva Modifiche' : 'Aggiungi' }}</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="attivita-giorno">
+    <h3 class="fw-bold text-center">Attività del Giorno</h3>
+    <ul>
+        <li *ngFor="let evento of eventiFiltrati()" class="evento-item">
+            <!-- Contenitore per il pallino, titolo e descrizione -->
+            <div class="activity-content">
+                <span class="bullet"></span>
+                <div class="content-text">
+                    <strong>{{ evento.titolo }}</strong>
+                    <p>{{ evento.descrizione }}</p>
+                </div>
+            </div>
+            
+            <!-- Contenitore dei pulsanti -->
+            <div class="buttons-container">
+                <!-- Pulsante per modificare l'evento -->
+                <button *ngIf="isAdmin" (click)="modificaEvento(evento)" class="btn-modifica">Modifica</button>
+                <!-- Pulsante per eliminare l'evento -->
+                <button *ngIf="isAdmin" (click)="eliminaEvento(evento)" class="btn-elimina">Elimina</button>
+            </div>
+        </li>  
+    </ul>
+</div>
+
+
+
+<!-- Modale di Conferma -->
+<div class="modal" [ngClass]="{ 'show': showModal }">
+  <div class="modal-content">
+    <h4>Sei sicuro di voler eliminare questo evento?</h4>
+    <div class="modal-buttons">
+      <button (click)="confermaEliminazione()">Conferma</button>
+      <button (click)="annullaEliminazione()">Annulla</button>
+    </div>
+  </div>
+</div>

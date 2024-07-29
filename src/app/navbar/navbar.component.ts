@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
   showAdditionalLinks: boolean = false;
   @Input() isNavbarActive: boolean = false;
   currentDate: string = '';
+  daysFromStartOfYear: number = 0;  // Aggiungi questa proprietà
 
   constructor(
     private authSrv: AuthService, 
@@ -27,6 +28,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCurrentDate();  // Imposta la data odierna
+    this.calculateDaysFromStartOfYear();  // Calcola i giorni dall'inizio dell'anno
     this.authSrv.user$.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
       if (isLoggedIn) {
@@ -64,6 +66,13 @@ export class NavbarComponent implements OnInit {
       month: '2-digit',
       year: 'numeric'
     });
+  }
+
+  calculateDaysFromStartOfYear(): void {
+    const start = new Date(new Date().getFullYear(), 0, 1); 
+    const today = new Date();
+    const diff = today.getTime() - start.getTime();
+    this.daysFromStartOfYear = Math.ceil(diff / (1000 * 60 * 60 * 24));
   }
 
   login(): void {
@@ -105,7 +114,7 @@ export class NavbarComponent implements OnInit {
     if (this.isLoggedIn) {
       this.router.navigate(['/section-home']);
     } else {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
     }
   }
 }

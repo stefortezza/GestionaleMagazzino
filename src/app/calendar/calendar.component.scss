@@ -1,0 +1,326 @@
+.calendar-container {
+  font-family: "Outfit", sans-serif;
+  color: #333;
+  max-width: 1200px; /* Larghezza massima per contenere il calendario e il modulo */
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  gap: 20px; /* Spazio tra il calendario e il contenitore delle attività */
+}
+
+/* Sezione principale del calendario */
+.calendar-main {
+  flex: 1; 
+  display: flex;
+  flex-direction: column; /* Disporre il calendario e il modulo per aggiungere eventi verticalmente */
+}
+
+/* Intestazione del calendario */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(to bottom right, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0.4));
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-header button {
+  background-color: rgba(255, 0, 0, 0.8); 
+  color: white; 
+  border: none; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-header button:hover {
+  background-color: rgba(255, 0, 0, 1); 
+  transform: scale(1.05); 
+}
+
+.calendar-header button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed; 
+}
+
+/* Giorni della settimana */
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  padding: 10px;
+  background-color: #f9f9f9; 
+  border-radius: 8px; 
+  border: 1px solid #ddd; 
+  margin-bottom: 10px;
+}
+
+.giorno-settimana {
+  font-weight: bold;
+  text-align: center;
+  background: rgba(255, 0, 0, 0.4); 
+  color: black; 
+  border-radius: 8px; 
+}
+
+/* Griglia del calendario */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  padding: 10px;
+}
+
+.giorno-calendario {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 46px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.giorno-calendario:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.giorno-selezionato {
+  background-color: rgba(255, 0, 0, 0.8);
+  color: white;
+  border: 1px solid rgba(255, 0, 0, 0.8);
+}
+
+.giorno-con-evento {
+  background-color: rgba(255, 0, 0, 0.2);
+  color: rgba(255, 0, 0, 0.8);
+}
+
+/* Stili generali per la sezione delle attività del giorno */
+.attivita-giorno {
+  width: 300px; /* Larghezza fissa per il contenitore delle attività */
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+}
+
+/* Stili per gli elementi della lista di attività */
+.attivita-giorno ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.attivita-giorno li {
+  margin-bottom: 20px; /* Spazio tra le attività */
+  display: flex;
+  flex-direction: column; /* Disposizione verticale per descrizione e pulsanti */
+}
+
+/* Contenitore del pallino, titolo e descrizione */
+.activity-content {
+  display: flex;
+  align-items: flex-start; /* Allinea il pallino e il testo in alto */
+  gap: 10px; /* Spazio tra il pallino e il testo */
+  margin-bottom: 10px; /* Spazio tra la descrizione e i pulsanti */
+}
+
+/* Pallino accanto al titolo */
+.bullet {
+  display: inline-block;
+  width: 10px; /* Larghezza del pallino */
+  height: 10px; /* Altezza del pallino */
+  background-color: #ff4d4d; /* Colore del pallino */
+  border-radius: 8px; /* Forma rotonda per il pallino */
+  margin-top: 6px; /* Spazio verticale per allineare il pallino con il titolo */
+}
+
+/* Contenitore per il testo (titolo e descrizione) */
+.content-text {
+  display: flex;
+  flex-direction: column; /* Disposizione verticale per titolo e descrizione */
+}
+
+/* Titolo e descrizione */
+.attivita-giorno strong {
+  font-size: 16px;
+  color: rgba(255, 0, 0, 0.8);
+  display: inline-flex;
+  align-items: center; /* Allinea il pallino e il titolo verticalmente */
+}
+
+.attivita-giorno p {
+  margin: 5px 0; /* Spazio tra descrizione e altri elementi */
+  color: #666; /* Colore del testo della descrizione */
+}
+
+/* Contenitore dei pulsanti */
+.buttons-container {
+  display: flex;
+  gap: 10px; /* Spazio tra i pulsanti */
+  margin-top: 10px; /* Spazio sopra i pulsanti */
+}
+
+/* Stili generali per i pulsanti nella sezione delle attività del giorno */
+.attivita-giorno button {
+  background-color: #ff4d4d; /* Colore di sfondo rosso */
+  color: white; /* Colore del testo bianco */
+  border: none; /* Nessun bordo */
+  border-radius: 4px; /* Angoli arrotondati */
+  padding: 8px 12px; /* Spaziatura interna */
+  cursor: pointer; /* Cursore a mano per indicare cliccabilità */
+  font-size: 14px; /* Dimensione del testo */
+  transition: background-color 0.3s, transform 0.3s; /* Transizioni per colore e trasformazione */
+}
+
+/* Effetti di hover per i pulsanti */
+.attivita-giorno button:hover {
+  background-color: #e60000; /* Colore di sfondo rosso scuro al passaggio del mouse */
+  transform: scale(1.05); /* Effetto di ingrandimento al passaggio del mouse */
+}
+
+.attivita-giorno button:disabled {
+  background-color: #ccc; /* Colore di sfondo per i pulsanti disabilitati */
+  cursor: not-allowed; /* Cursore non cliccabile per i pulsanti disabilitati */
+}
+
+/* Stili specifici per il pulsante Modifica */
+.btn-modifica {
+  background-color: #ff7f7f; /* Colore di sfondo rosso chiaro per il pulsante di modifica */
+}
+
+.btn-modifica:hover {
+  background-color: #ff4d4d; /* Colore di sfondo rosso al passaggio del mouse */
+}
+
+/* Stili specifici per il pulsante Elimina */
+.btn-elimina {
+  background-color: #ff4d4d; /* Colore di sfondo rosso per il pulsante di eliminazione */
+}
+
+.btn-elimina:hover {
+  background-color: #e60000; /* Colore di sfondo rosso scuro al passaggio del mouse */
+}
+
+
+
+/* Modulo di eventi */
+.event-form {
+  margin-top: 10px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Spazio tra gli elementi del modulo */
+}
+
+.event-form h3 {
+  margin: 0; /* Rimuove il margine predefinito per coerenza */
+  font-size: 20px; /* Font size più grande per il titolo */
+  color: #333;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Spazio tra etichetta e input/textarea */
+}
+
+label {
+  font-weight: bold;
+  font-size: 16px; /* Font size più grande per le etichette */
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px; /* Font size più grande per coerenza */
+}
+
+textarea {
+  height: 50px; /* Altezza maggiore per il textarea */
+  resize: vertical;
+}
+
+button[type="submit"] {
+  background-color: rgba(255, 0, 0, 0.8);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px; /* Font size più grande per il pulsante */
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: rgba(255, 0, 0, 1);
+}
+
+/* Modale di conferma */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  background-color: rgba(255, 0, 0, 0.8);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.modal-buttons button:hover {
+  background-color: rgba(255, 0, 0, 1);
+}

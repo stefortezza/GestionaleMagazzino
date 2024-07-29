@@ -10,6 +10,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { AddMacchinarioComponent } from './add-macchinario/add-macchinario.component';
 import { ModificaMacchinarioComponent } from './modifica-macchinario/modifica-macchinario.component';
 import { SectionHomeComponent } from './section-home/section-home.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'add-category', component: AddCategoryComponent },
   { path: 'add-product', component: AddProductComponent },
   { path: 'modifica-macchinario', component: ModificaMacchinarioComponent },
+  { path: 'calendar', component: CalendarComponent },
   { path: 'registrati', component: RegisterComponent },
   { path: '**', redirectTo: '/login' }
 ];

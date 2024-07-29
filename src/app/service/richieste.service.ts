@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { Category } from 'src/interfaces/category';
 import { MacchinarioDTO } from 'src/interfaces/macchinario-dto';
 import { Product } from 'src/interfaces/product';
+import { Evento } from 'src/interfaces/evento';
 
 @Injectable({
   providedIn: 'root'
@@ -127,6 +128,43 @@ export class RichiesteService {
     );
   }
 
+  getMacchinarioById(macchinarioId: number): Observable<MacchinarioDTO> {
+    return this.http.get<MacchinarioDTO>(`${this.apiUrl}/macchinario/${macchinarioId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+   // Metodi per la gestione degli eventi
+   getAllEventi(): Observable<Evento[]> {
+    return this.http.get<Evento[]>(`${this.apiUrl}/eventi`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getEventoById(id: number): Observable<Evento> {
+    return this.http.get<Evento>(`${this.apiUrl}/eventi/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  addEvento(evento: Evento): Observable<Evento> {
+    return this.http.post<Evento>(`${this.apiUrl}/eventi`, evento).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  updateEvento(id: number, evento: Evento): Observable<Evento> {
+    return this.http.put<Evento>(`${this.apiUrl}/eventi/${id}`, evento).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  deleteEvento(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/eventi/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Errore sconosciuto.';
     if (error.error instanceof ErrorEvent) {
@@ -136,11 +174,5 @@ export class RichiesteService {
     }
     console.error(errorMessage);
     return throwError(errorMessage);
-  }
-
-  getMacchinarioById(macchinarioId: number): Observable<MacchinarioDTO> {
-    return this.http.get<MacchinarioDTO>(`${this.apiUrl}/macchinario/${macchinarioId}`).pipe(
-      catchError(this.handleError)
-    );
   }
 }

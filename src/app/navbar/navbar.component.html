@@ -16,7 +16,8 @@
       <a routerLink="/notes">Report</a>
       <div class="auth-links">
         <div class="welcome-text">
-          Benvenuto, {{ currentDate }}
+          <p>Benvenuto, {{ currentDate }}</p>
+          <p>Giorno: {{ daysFromStartOfYear }}</p>
           <button type="button" class="btn btn-danger" (click)="logout()">
             Logout
           </button>
