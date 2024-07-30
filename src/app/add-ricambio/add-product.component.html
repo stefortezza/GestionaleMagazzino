@@ -1,4 +1,4 @@
-<form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="mt-5">
+<form [formGroup]="productForm" (ngSubmit)="showConfirmation()" class="mt-5">
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
   </div>
@@ -33,3 +33,24 @@
   
   <button type="submit" [disabled]="productForm.invalid" class="mt-5">Aggiungi Prodotto</button>
 </form>
+
+<!-- Modale di conferma -->
+<div class="modal fade" tabindex="-1" [ngClass]="{'show d-block': showModal}" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content custom-modal-content">
+      <div class="modal-header custom-modal-header">
+        <h5 class="modal-title">Conferma</h5>
+        <button type="button" class="close" (click)="cancelSubmit()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body custom-modal-body">
+        <p>Sei sicuro di voler aggiungere questo ricambio?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn custom-confirm-btn" (click)="confirmSubmit()">Conferma</button>
+        <button type="button" class="btn custom-cancel-btn" (click)="cancelSubmit()">Annulla</button>
+      </div>
+    </div>
+  </div>
+</div>

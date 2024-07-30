@@ -19,6 +19,7 @@ export class AddMacchinarioComponent implements OnInit {
   selectedCategoryIds: number[] = [];
   selectedProductIds: number[] = [];
   errorMessage: string = '';  // Variabile per il messaggio di errore
+  showModal: boolean = false; // Variabile per la visualizzazione della modale
 
   constructor(
     private richiesteService: RichiesteService,
@@ -119,38 +120,48 @@ export class AddMacchinarioComponent implements OnInit {
 
   onSubmit(): void {
     if (this.isFormValid()) {
-      const macchinarioDTO: MacchinarioDTO = {
-        id: this.macchinarioId || 0,
-        name: this.macchinarioForm.get('name')?.value,
-        categoryIds: this.selectedCategoryIds,
-        productIds: this.selectedProductIds,
-        categories: [], // Non necessario per l'invio se non richiesto
-        products: [] // Non necessario per l'invio se non richiesto
-      };
-
-      console.log('Macchinario DTO inviato:', macchinarioDTO);
-
-      const request$ = this.macchinarioId
-        ? this.richiesteService.updateMacchinario(this.macchinarioId, macchinarioDTO)
-        : this.richiesteService.addMacchinario(macchinarioDTO);
-
-      request$.subscribe(
-        response => {
-          console.log(this.macchinarioId ? 'Macchinario aggiornato con successo' : 'Macchinario aggiunto con successo', response);
-          this.resetForm();
-        },
-        error => {
-          this.errorMessage = error;  // Imposta il messaggio di errore
-          console.error('Errore nell\'aggiunta o aggiornamento del macchinario', error);
-          
-          // Mantieni il messaggio di errore e resetta il modulo dopo un delay
-          setTimeout(() => this.resetForm(), 1500);  // Ritarda il reset 
-        }
-      );
+      this.showModal = true; // Mostra la modale di conferma
     }
   }
 
-  resetForm(): void {
+  confirmSubmit(): void {
+    const macchinarioDTO: MacchinarioDTO = {
+      id: this.macchinarioId || 0,
+      name: this.macchinarioForm.get('name')?.value,
+      categoryIds: this.selectedCategoryIds,
+      productIds: this.selectedProductIds,
+      categories: [], // Non necessario per l'invio se non richiesto
+      products: [] // Non necessario per l'invio se non richiesto
+    };
+
+    console.log('Macchinario DTO inviato:', macchinarioDTO);
+
+    const request$ = this.macchinarioId
+      ? this.richiesteService.updateMacchinario(this.macchinarioId, macchinarioDTO)
+      : this.richiesteService.addMacchinario(macchinarioDTO);
+
+    request$.subscribe(
+      response => {
+        console.log(this.macchinarioId ? 'Macchinario aggiornato con successo' : 'Macchinario aggiunto con successo', response);
+        this.resetForm();
+        this.showModal = false; // Nascondi la modale
+      },
+      error => {
+        this.errorMessage = error; // Imposta il messaggio di errore
+        console.error('Errore nell\'aggiunta o aggiornamento del macchinario', error);
+        
+        // Mantieni il messaggio di errore e resetta il modulo dopo un delay
+        setTimeout(() => this.resetForm(), 1500); // Ritarda il reset 
+        this.showModal = false; // Nascondi la modale
+      }
+    );
+  }
+
+  cancelSubmit(): void {
+    this.showModal = false; // Nascondi la modale
+  }
+
+  private resetForm(): void {
     this.macchinarioForm.reset();
     this.products = [];
     this.selectedCategoryIds = [];

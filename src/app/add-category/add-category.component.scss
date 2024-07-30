@@ -60,3 +60,52 @@ button[type="submit"]:disabled {
 .carattere{
   font-size: 1.2em;
 }
+
+.custom-modal-content {
+  background-color: #f8f9fa; /* Colore di sfondo simile alla navbar */
+  border-radius: 0.3rem;
+}
+
+.custom-modal-header {
+  background-color: #343a40; /* Colore di sfondo simile alla navbar */
+  color: #ffffff; /* Colore del testo simile alla navbar */
+}
+
+.custom-modal-body {
+  background-color: #ffffff; /* Colore di sfondo del corpo della modale */
+  color: #343a40; /* Colore del testo simile alla navbar */
+}
+
+.custom-confirm-btn {
+  background-color: #28a745; /* Colore del pulsante di conferma */
+  color: #ffffff; /* Colore del testo del pulsante */
+}
+
+.custom-confirm-btn:hover {
+  background-color: #218838; /* Colore del pulsante di conferma al passaggio del mouse */
+}
+
+.custom-cancel-btn {
+  background-color: #dc3545; /* Colore del pulsante di annullamento */
+  color: #ffffff; /* Colore del testo del pulsante */
+}
+
+.custom-cancel-btn:hover {
+  background-color: #c82333; /* Colore del pulsante di annullamento al passaggio del mouse */
+}
+
+.modal.fade:not(.show) {
+  display: none;  /* Nasconde la modale quando non è visibile */
+}
+
+.modal.show {
+  display: block;
+  background: rgba(0, 0, 0, 0.5); /* Sfondo semi-trasparente */
+}
+
+.modal-dialog {
+  position: fixed;
+  top: 41%;
+  left: 39%;
+  transform: translate(-50%, -50%);
+}

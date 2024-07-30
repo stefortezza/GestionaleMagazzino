@@ -19,6 +19,7 @@ export class ModificaMacchinarioComponent implements OnInit {
   products: Product[] = [];
   selectedCategoryIds: number[] = [];
   selectedProductIds: number[] = [];
+  showModal: boolean = false; // Variabile per gestire la visibilità della modale
 
   constructor(
     private richiesteService: RichiesteService,
@@ -138,6 +139,12 @@ export class ModificaMacchinarioComponent implements OnInit {
 
   onSubmit(): void {
     if (this.isFormValid()) {
+      this.showModal = true; // Mostra la modale di conferma
+    }
+  }
+
+  confirmSubmit(): void {
+    if (this.isFormValid()) {
       const macchinarioDTO: MacchinarioDTO = {
         id: this.macchinarioId!,
         name: this.macchinarioForm.get('name')?.value,
@@ -160,6 +167,12 @@ export class ModificaMacchinarioComponent implements OnInit {
         }
       );
     }
+
+    this.showModal = false; // Nascondi la modale di conferma
+  }
+
+  cancelSubmit(): void {
+    this.showModal = false; // Nascondi la modale di conferma
   }
 
   resetForm(): void {

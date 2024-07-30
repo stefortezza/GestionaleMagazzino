@@ -11,6 +11,7 @@ import { Category } from 'src/interfaces/category';
 export class AddCategoryComponent implements OnInit {
   categoryForm: FormGroup;
   errorMessage: string = '';  // Variabile per il messaggio di errore
+  showModal: boolean = false;  // Variabile per la visualizzazione della modale
 
   constructor(private richiesteService: RichiesteService, private fb: FormBuilder) {
     this.categoryForm = this.fb.group({
@@ -22,19 +23,29 @@ export class AddCategoryComponent implements OnInit {
 
   onSubmit(): void {
     if (this.categoryForm.valid) {
-      const { name } = this.categoryForm.value;
-      this.richiesteService.addCategory({ name }).subscribe(
-        response => {
-          console.log('Categoria aggiunta con successo', response);
-          this.resetForm();
-        },
-        error => {
-          this.errorMessage = error;
-          console.error('Errore nell\'aggiunta della categoria', error);
-          setTimeout(() => this.resetForm(), 1500);  // Ritarda il reset
-        }
-      );
+      this.showModal = true;  // Mostra la modale di conferma
     }
+  }
+
+  confirmSubmit(): void {
+    const { name } = this.categoryForm.value;
+    this.richiesteService.addCategory({ name }).subscribe(
+      response => {
+        console.log('Categoria aggiunta con successo', response);
+        this.resetForm();
+        this.showModal = false;  // Nascondi la modale
+      },
+      error => {
+        this.errorMessage = error;
+        console.error('Errore nell\'aggiunta della categoria', error);
+        setTimeout(() => this.resetForm(), 1500);  // Ritarda il reset
+        this.showModal = false;  // Nascondi la modale
+      }
+    );
+  }
+
+  cancelSubmit(): void {
+    this.showModal = false;  // Nascondi la modale
   }
 
   private resetForm(): void {

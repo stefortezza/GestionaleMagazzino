@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <div class="event-form mt-2">
+    <div class="event-form mt-2" *ngIf="isAdmin">
       <h3 class="fw-bold">{{ isEditing ? 'Modifica Evento' : 'Aggiungi Evento' }}</h3>
       <form [formGroup]="form" (ngSubmit)="salvaEvento()">
         <div class="form-group">
@@ -87,7 +87,7 @@
     </div>
   </div>
 
-  <div class="attivita-giorno">
+  <div class="attivita-giorno" >
     <h3 class="fw-bold text-center">Attività del Giorno</h3>
     <ul>
       <li *ngFor="let evento of eventiFiltrati()" class="evento-item">

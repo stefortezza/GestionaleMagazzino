@@ -2,7 +2,10 @@
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
   </div>
-  
+  <div>
+    <label for="name" class="carattere fw-bold">Nome Macchinario</label>
+    <input id="name" formControlName="name" type="text" placeholder="Inserisci il nome del macchinario">
+  </div>
   <div>
     <label for="categoryIds" class="carattere fw-bold">Categorie</label>
     <div *ngFor="let category of categories">
@@ -18,11 +21,26 @@
              [checked]="selectedProductIds.includes(product.id)" /> {{ product.name }}
     </div>
   </div>
-
-  <div>
-    <label for="name" class="carattere fw-bold">Nome Macchinario</label>
-    <input id="name" formControlName="name" type="text" placeholder="Inserisci il nome del macchinario">
-  </div>
-
   <button type="submit" [disabled]="!isFormValid()" class="mt-5">Aggiungi Macchinario</button>
 </form>
+
+<!-- Modale di conferma -->
+<div class="modal fade" tabindex="-1" [ngClass]="{'show d-block': showModal}" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content custom-modal-content">
+      <div class="modal-header custom-modal-header">
+        <h5 class="modal-title">Conferma</h5>
+        <button type="button" class="close" (click)="cancelSubmit()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body custom-modal-body">
+        <p>Sei sicuro di voler aggiungere questo macchinario?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn custom-confirm-btn" (click)="confirmSubmit()">Conferma</button>
+        <button type="button" class="btn custom-cancel-btn" (click)="cancelSubmit()">Annulla</button>
+      </div>
+    </div>
+  </div>
+</div>
