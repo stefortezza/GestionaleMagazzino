@@ -1,43 +1,52 @@
+<!-- section-home.component.html -->
 <div class="container">
-    <div class="card" (click)="navigateTo('produzione')">
-      <img
-        src="../../assets/img/Manutenzione.jpg"
-        alt="Manutenzione"
-        class="card-image"
-      />
-      <div class="card-content">
-        <h3>Produzione</h3>
-      </div>
+  <!-- Card per Produzione -->
+  <div class="card" (click)="navigateTo('produzione')">
+    <img src="../../assets/img/Manutenzione.jpg" alt="Produzione" class="card-image" />
+    <div class="card-content">
+      <h3>Produzione</h3>
     </div>
-    <div class="card" (click)="navigateTo('calendar')">
-      <img
-        src="../../assets/img/calendario.jpg"
-        alt="Calendario"
-        class="card-image"
-      />
-      <div class="card-content">
-        <h3>Calendario</h3>
-      </div>
-    </div>
-    <div class="card" (click)="navigateTo('home')">
-      <img
-        src="../../assets/img/Produzione.jpg"
-        alt="Produzione"
-        class="card-image"
-      />
-      <div class="card-content">
-        <h3>Manutenzione</h3>
-      </div>
-    </div>
-    <div class="card" (click)="navigateTo('segreteria')">
-        <img
-          src="../../assets/img/logo_page-0001-removebg-preview.png"
-          alt="Calendario"
-          class="card-image"
-        />
-        <div class="card-content">
-          <h3>Segreteria</h3>
-        </div>
-      </div>
   </div>
-  
+
+  <!-- Card per Calendario -->
+  <div class="card" (click)="navigateTo('calendar')">
+    <img src="../../assets/img/calendario.jpg" alt="Calendario" class="card-image" />
+    <div class="card-content">
+      <h3>Calendario</h3>
+    </div>
+  </div>
+
+  <!-- Card per Manutenzione -->
+  <div class="card" (click)="navigateTo('home')">
+    <img src="../../assets/img/Produzione.jpg" alt="Manutenzione" class="card-image" />
+    <div class="card-content">
+      <h3>Manutenzione</h3>
+    </div>
+  </div>
+
+  <!-- Card per Segreteria -->
+  <div class="card" (click)="navigateTo('segreteria')">
+    <img src="../../assets/img/logo_page-0001-removebg-preview.png" alt="Segreteria" class="card-image" />
+    <div class="card-content">
+      <h3>Segreteria</h3>
+    </div>
+  </div>
+</div>
+
+<!-- Modale di avviso -->
+<div class="modal fade" tabindex="-1" [ngClass]="{'show d-block': showModal}" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content custom-modal-content">
+      <div class="modal-header custom-modal-header">
+        <h5 class="modal-title">Avviso</h5>
+        <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body custom-modal-body">
+        <p>Non hai i permessi per accedere a questa sezione.</p>
+      </div>
+    </div>
+  </div>
+</div>
+

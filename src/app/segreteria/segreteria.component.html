@@ -1,104 +1,115 @@
 <div>
-    <ul class="users-list">
-      <li *ngFor="let user of users" class="user-item">
+  <!-- Intestazione e descrizione -->
+  <header class="header-section">
+    <h2 class="header-title">Lista Utenti</h2>
+  </header>
+
+  <ul class="users-list">
+    <li *ngFor="let user of users" class="user-item">
+      <div class="user-info">
+        <i class="material-icons user-icon">person</i>
         <p>{{ user.name }} {{ user.surname }} ({{ user.email }})</p>
+      </div>
 
-        <!-- Input per selezionare i file -->
-        <div class="file-selection-container">
-          <input
-            type="file"
-            (change)="onFilesSelected($event, user.userId)"
-            multiple
-            [attr.data-user-id]="user.userId"
-          />
-          <!-- Mostra i file selezionati per l'utente corrente -->
-          <ul
-            *ngIf="
-              selectedFiles[user.userId] && selectedFiles[user.userId].length > 0
-            "
-            class="file-list"
+      <!-- Input per selezionare i file -->
+      <div class="file-selection-container">
+        <input
+          type="file"
+          (change)="onFilesSelected($event, user.userId)"
+          multiple
+          [attr.data-user-id]="user.userId"
+          id="fileInput-{{ user.userId }}"
+        />
+        <label for="fileInput-{{ user.userId }}" class="file-input-label">
+          <i class="material-icons">attach_file</i>
+        </label>
+        <!-- Mostra i file selezionati per l'utente corrente -->
+        <ul
+          *ngIf="selectedFiles[user.userId] && selectedFiles[user.userId].length > 0"
+          class="file-list"
+        >
+          <li
+            *ngFor="let file of selectedFiles[user.userId]; let i = index"
+            class="file-item"
           >
-            <li
-              *ngFor="let file of selectedFiles[user.userId]; let i = index"
-              class="file-item"
-            >
-              <span>{{ file.name }}</span>
-              <button (click)="removeFile(user.userId, i)" class="remove-btn mx-2">
-                X
-              </button>
-            </li>
-          </ul>
-        </div>
+            <i class="material-icons file-icon">insert_drive_file</i>
+            <span>{{ file.name }}</span>
+            <button (click)="removeFile(user.userId, i)" class="remove-btn mx-2">
+              <i class="material-icons">remove_circle</i>
+            </button>
+          </li>
+        </ul>
+      </div>
 
-        <!-- Bottone per inviare i dati -->
-        <div class="action-container">
+      <!-- Bottone per inviare i dati -->
+      <div class="action-container">
+        <button
+          (click)="showConfirmationModal(user.userId)"
+          [class.is-loading]="isLoadingForUser(user.userId)"
+          class="action-btn"
+        >
+          Invia dati
+        </button>
+        <!-- Spinner di caricamento per ogni utente -->
+        <div *ngIf="isLoadingForUser(user.userId)" class="loading-spinner-container">
+          <i class="material-icons spinner-icon">autorenew</i>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <!-- Sezione Notifica -->
+  <div
+    *ngIf="notificationMessage"
+    class="notification"
+    [ngClass]="{
+      success: notificationType === 'success',
+      error: notificationType === 'error'
+    }"
+  >
+    {{ notificationMessage }}
+  </div>
+
+  <!-- Modale di conferma -->
+  <div
+    class="modal fade"
+    tabindex="-1"
+    [ngClass]="{ 'show d-block': showModal }"
+    role="dialog"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content custom-modal-content">
+        <div class="modal-header custom-modal-header">
+          <h5 class="modal-title">Conferma</h5>
           <button
-            (click)="showConfirmationModal(user.userId)"
-            [class.is-loading]="isLoadingForUser(user.userId)"
-            class="mt-2"
+            type="button"
+            class="close"
+            (click)="cancelSubmit()"
+            aria-label="Close"
           >
-            Invia dati
+            <i class="material-icons">close</i>
           </button>
-          <!-- Spinner di caricamento per ogni utente -->
-          <div *ngIf="isLoadingForUser(user.userId)" class="loading-spinner-container">
-            <i class="material-icons spinner-icon">autorenew</i>
-          </div>
         </div>
-      </li>
-    </ul>
-
-    <!-- Sezione Notifica -->
-    <div
-      *ngIf="notificationMessage"
-      class="notification"
-      [ngClass]="{
-        success: notificationType === 'success',
-        error: notificationType === 'error'
-      }"
-    >
-      {{ notificationMessage }}
-    </div>
-    
-    <!-- Modale di conferma -->
-    <div
-      class="modal fade"
-      tabindex="-1"
-      [ngClass]="{ 'show d-block': showModal }"
-      role="dialog"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content custom-modal-content">
-          <div class="modal-header custom-modal-header">
-            <h5 class="modal-title">Conferma</h5>
-            <button
-              type="button"
-              class="close"
-              (click)="cancelSubmit()"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body custom-modal-body">
-            <p>Sei sicuro di voler inviare i dati?</p>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn custom-confirm-btn"
-              (click)="confirmSubmit()"
-            >
-              Conferma
-            </button>
-            <button
-              type="button"
-              class="btn custom-cancel-btn"
-              (click)="cancelSubmit()"
-            >
-              Annulla
-            </button>
-          </div>
+        <div class="modal-body custom-modal-body">
+          <p>Sei sicuro di voler inviare i dati?</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn custom-confirm-btn"
+            (click)="confirmSubmit()"
+          >
+            Conferma
+          </button>
+          <button
+            type="button"
+            class="btn custom-cancel-btn"
+            (click)="cancelSubmit()"
+          >
+            Annulla
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>

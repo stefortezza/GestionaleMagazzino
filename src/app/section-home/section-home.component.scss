@@ -48,4 +48,63 @@
       color: #343a40;
     }
   }
+
+/* section-home.component.scss */
+.modal.fade:not(.show) {
+  display: none; /* Nasconde la modale quando non è visibile */
+}
+
+.modal.show {
+  display: block;
+  background: rgba(0, 0, 0, 0.5); /* Sfondo semi-trasparente */
+}
+
+.modal-dialog {
+  position: fixed;
+  top: 41%;
+  left: 39%;
+  transform: translate(-50%, -50%);
+}
+
+.custom-modal-content {
+  background-color: #f8f9fa; /* Colore di sfondo simile alla navbar */
+  border-radius: 0.5rem;
+}
+
+.custom-modal-header {
+  background-color: #343a40; /* Colore di sfondo simile alla navbar */
+  color: #ffffff; /* Colore del testo simile alla navbar */
+}
+
+.custom-modal-body {
+  background-color: #ffffff; /* Colore di sfondo del corpo della modale */
+  color: #343a40; /* Colore del testo simile alla navbar */
+}
+
+.custom-modal-header .close {
+  background: none; /* Rimuove lo sfondo della X di chiusura */
+  border: none; /* Rimuove il bordo della X di chiusura */
+  color: #ffffff; /* Colore della X di chiusura */
+  font-size: 1.5rem; /* Dimensione del font per la X di chiusura */
+  opacity: 0.7; /* Leggera trasparenza per effetto visivo */
+}
+
+.custom-modal-header .close:hover {
+  opacity: 1; /* Opacità piena al passaggio del mouse */
+}
+
+.custom-confirm-btn, .custom-cancel-btn {
+  background-color: #dc3545; /* Colore del pulsante di annullamento */
+  color: #ffffff; /* Colore del testo del pulsante */
+  border: none; /* Rimuove il bordo */
+}
+
+.custom-confirm-btn:hover, .custom-cancel-btn:hover {
+  background-color: #c82333; /* Colore del pulsante di annullamento al passaggio del mouse */
+}
+
+
+
+
+
   
