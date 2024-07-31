@@ -1,8 +1,9 @@
+// notes.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LogService } from '../service/log.service';
 import { RichiesteService } from '../service/richieste.service';
-import { AuthService } from '../auth/auth.service'; // Importa AuthService
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-notes',
@@ -11,16 +12,21 @@ import { AuthService } from '../auth/auth.service'; // Importa AuthService
 })
 export class NotesComponent implements OnInit, OnDestroy {
   logEntries: { message: string, macchinario: string }[] = [];
-  macchinarioNames: { [id: string]: string } = {}; // Mappa per memorizzare i nomi dei macchinari
-  userNotes: string = ''; // Nuova proprietà per memorizzare il testo della textarea
+  macchinarioNames: { [id: string]: string } = {};
+  userNotes: string = '';
   private logClearedSubscription: Subscription;
   private userSubscription: Subscription = new Subscription;
-  isAdmin: boolean = false; // Variabile per il ruolo dell'utente
+  isAdmin: boolean = false;
+  showModal: boolean = false;
+  isLoading: boolean = false; // Variabile per gestire lo stato di caricamento
+  notificationMessage: string | null = null;
+  notificationType: 'success' | 'error' | null = null;
+  private notificationTimeout: any; // Timeout per nascondere la notifica
 
   constructor(
     private logService: LogService,
     private richiesteService: RichiesteService,
-    private authService: AuthService // Inietta AuthService
+    private authService: AuthService
   ) {
     this.logClearedSubscription = this.logService.logCleared$.subscribe(() => {
       this.loadLogEntries();
@@ -42,6 +48,23 @@ export class NotesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.logClearedSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
+    if (this.notificationTimeout) {
+      clearTimeout(this.notificationTimeout);
+    }
+  }
+
+  showConfirmationModal(): void {
+    this.showModal = true;
+  }
+
+  confirmSubmit(): void {
+    this.isLoading = true;
+    this.inviaDati();
+  }
+
+  cancelSubmit(): void {
+    this.showModal = false;
+    this.isLoading = false;
   }
 
   inviaDati(): void {
@@ -55,11 +78,20 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.richiesteService.inviaDati(emailData).subscribe(
       () => {
         this.clearLog();
+        this.notificationMessage = 'Dati inviati con successo!';
+        this.notificationType = 'success';
+        this.showNotification();
       },
       (error) => {
         console.error('Errore nell\'invio dell\'email:', error);
+        this.notificationMessage = 'Errore nell\'invio dei dati.';
+        this.notificationType = 'error';
+        this.showNotification();
       }
-    );
+    ).add(() => {
+      this.isLoading = false;
+      this.showModal = false;
+    });
   }
 
   formatLogEntriesAsHtml(entries: { message: string, macchinario: string }[]): string {
@@ -74,9 +106,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.logEntries = this.logService.getLogEntries().filter(entry => 
       this.isAdmin || entry.message.toLowerCase().includes('ricambio utilizzato')
     );
-    console.log('Filtered Log Entries:', this.logEntries); // Aggiungi questa riga per debug
   
-    // Carica i nomi dei macchinari
     const macchinarioIds = Array.from(new Set(this.logEntries.map(entry => entry.macchinario).filter(id => !isNaN(Number(id)))));
     macchinarioIds.forEach(id => {
       const numericId = Number(id);
@@ -92,11 +122,20 @@ export class NotesComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
 
   clearLog(): void {
     this.logService.clearLog();
     this.logEntries = [];
-    this.userNotes = ''; // Reset del testo della textarea
+    this.userNotes = '';
+  }
+
+  private showNotification(): void {
+    if (this.notificationTimeout) {
+      clearTimeout(this.notificationTimeout);
+    }
+    this.notificationTimeout = setTimeout(() => {
+      this.notificationMessage = null;
+      this.notificationType = null;
+    }, 3000); 
   }
 }

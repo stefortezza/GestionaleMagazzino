@@ -18,6 +18,8 @@ import { CommonModule } from '@angular/common';
 import { ModificaMacchinarioComponent } from './modifica-macchinario/modifica-macchinario.component';
 import { SectionHomeComponent } from './section-home/section-home.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { ProduzioneComponent } from './produzione/produzione.component';
+import { SegreteriaComponent } from './segreteria/segreteria.component';
 
 
 @NgModule({
@@ -35,6 +37,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     ModificaMacchinarioComponent,
     SectionHomeComponent,
     CalendarComponent,
+    ProduzioneComponent,
+    SegreteriaComponent,
   ],
   imports: [
     BrowserModule,

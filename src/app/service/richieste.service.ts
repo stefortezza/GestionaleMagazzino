@@ -6,6 +6,7 @@ import { Category } from 'src/interfaces/category';
 import { MacchinarioDTO } from 'src/interfaces/macchinario-dto';
 import { Product } from 'src/interfaces/product';
 import { Evento } from 'src/interfaces/evento';
+import { UserDetail } from 'src/interfaces/user-detail';
 
 @Injectable({
   providedIn: 'root'
@@ -134,7 +135,6 @@ export class RichiesteService {
     );
   }
 
-   // Metodi per la gestione degli eventi
    getAllEventi(): Observable<Evento[]> {
     return this.http.get<Evento[]>(`${this.apiUrl}/eventi`).pipe(
       catchError(this.handleError)
@@ -163,6 +163,16 @@ export class RichiesteService {
     return this.http.delete<void>(`${this.apiUrl}/eventi/${id}`).pipe(
       catchError(this.handleError)
     );
+  }
+
+  uploadFiles(userId: number, formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users/${userId}/upload`, formData, {
+      observe: 'response'
+    });
+  }
+
+  getAllUsers(): Observable<UserDetail[]> {
+    return this.http.get<UserDetail[]>(`${this.apiUrl}/users`);
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {

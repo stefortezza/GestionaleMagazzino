@@ -32,3 +32,112 @@
   .btn-danger:hover {
     background-color: #c82333; /* Colore di sfondo rosso scuro per il pulsante quando è in hover */
   }
+
+/* Stili per il contenitore dello spinner di caricamento */
+.loading-spinner-container {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+.spinner-icon {
+  font-size: 24px;
+  color: #dc3545; /* Colore rosso per abbinarsi al pulsante */
+  animation: spin 1s linear infinite;
+}
+
+/* Animazione per lo spinner */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Stili per la notifica */
+.notification {
+  position: fixed;
+  bottom: 16px; /* Posizione dal basso */
+  right: 16px; /* Posizione dalla destra */
+  padding: 16px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  z-index: 1000; /* Assicurati che la notifica sia visibile sopra altri elementi */
+  display: flex;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out; /* Transizione per l'effetto di scomparsa */
+}
+
+/* Stile di notifica di successo */
+.notification.success {
+  background-color: #4caf50; /* Verde per successo */
+}
+
+/* Stile di notifica di errore */
+.notification.error {
+  background-color: #f44336; /* Rosso per errore */
+}
+  /* Stili per la modale */
+.custom-modal-content {
+  background-color: #f8f9fa; /* Colore di sfondo simile alla navbar */
+  border-radius: 0.3rem; /* Angoli arrotondati */
+  border: 1px solid #ddd; /* Bordo sottile per abbinare il design */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per dare profondità */
+}
+
+.custom-modal-header {
+  background-color: #343a40; /* Colore di sfondo simile alla navbar */
+  color: #ffffff; /* Colore del testo simile alla navbar */
+  padding: 15px; /* Padding per un migliore spazio interno */
+  border-bottom: 1px solid #ddd; /* Bordo inferiore per separare l'intestazione dal corpo */
+}
+
+.custom-modal-body {
+  background-color: #ffffff; /* Colore di sfondo del corpo della modale */
+  color: #343a40; /* Colore del testo simile alla navbar */
+  padding: 20px; /* Padding per uno spazio interno confortevole */
+}
+
+.custom-confirm-btn {
+  background-color: #28a745; /* Colore del pulsante di conferma */
+  color: #ffffff; /* Colore del testo del pulsante */
+  border: none; /* Rimuove il bordo per un aspetto più pulito */
+  border-radius: 0.3rem; /* Angoli arrotondati per il pulsante */
+  padding: 10px 20px; /* Padding per un clic confortevole */
+  font-size: 16px; /* Dimensione del testo per leggibilità */
+}
+
+.custom-confirm-btn:hover {
+  background-color: #218838; /* Colore del pulsante di conferma al passaggio del mouse */
+}
+
+.custom-cancel-btn {
+  background-color: #dc3545; /* Colore del pulsante di annullamento */
+  color: #ffffff; /* Colore del testo del pulsante */
+  border: none; /* Rimuove il bordo per un aspetto più pulito */
+  border-radius: 0.3rem; /* Angoli arrotondati per il pulsante */
+  padding: 10px 20px; /* Padding per un clic confortevole */
+  font-size: 16px; /* Dimensione del testo per leggibilità */
+}
+
+.custom-cancel-btn:hover {
+  background-color: #c82333; /* Colore del pulsante di annullamento al passaggio del mouse */
+}
+
+.modal.fade:not(.show) {
+  display: none; /* Nasconde la modale quando non è visibile */
+}
+
+.modal.show {
+  display: block;
+  background: rgba(0, 0, 0, 0.5); /* Sfondo semi-trasparente */
+}
+
+.modal-dialog {
+  position: fixed;
+  top: 45%; /* Centrato verticalmente */
+  left: 35%; /* Centrato orizzontalmente */
+  transform: translate(-50%, -50%); /* Centrato perfettamente */
+  max-width: 500px; /* Larghezza massima della modale */
+  width: 90%; /* Larghezza responsiva */
+}

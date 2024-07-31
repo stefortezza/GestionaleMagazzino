@@ -1,3 +1,4 @@
+// navbar.component.ts
 import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { AuthData } from 'src/interfaces/auth-data.interface';
@@ -16,9 +17,11 @@ export class NavbarComponent implements OnInit {
   isLoggedIn: boolean = false;
   isAdmin: boolean = false;
   showAdditionalLinks: boolean = false;
+  showWelcomeText: boolean = false; // Nuova proprietà per gestire la visibilità del div di benvenuto
   @Input() isNavbarActive: boolean = false;
   currentDate: string = '';
   daysFromStartOfYear: number = 0;  // Aggiungi questa proprietà
+  currentPage: string = '';  // Nuova variabile per memorizzare la pagina corrente
 
   constructor(
     private authSrv: AuthService, 
@@ -35,25 +38,22 @@ export class NavbarComponent implements OnInit {
         this.user = this.authSrv.getCurrentUser();
         this.isAdmin = this.user?.user?.roles.includes('ADMIN') || false;
         this.sharedService.setIsAdmin(this.isAdmin); // Imposta il valore isAdmin nel servizio condiviso
-        this.showAdditionalLinks = this.router.url !== '/login' && this.router.url !== '/section-home';
+        this.updateShowAdditionalLinks();
+        this.updateShowWelcomeText();
       } else {
         this.user = null;
         this.isAdmin = false;
         this.sharedService.setIsAdmin(this.isAdmin); // Imposta isAdmin a false nel servizio condiviso
         this.showAdditionalLinks = false;
+        this.showWelcomeText = false; // Nasconde il div di benvenuto se non è loggato
       }
     });
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        const currentUrl = event.urlAfterRedirects;
-        if (currentUrl === '/login') {
-          this.showAdditionalLinks = false;
-        } else if (currentUrl === '/section-home') {
-          this.showAdditionalLinks = false; 
-        } else {
-          this.showAdditionalLinks = this.isLoggedIn;
-        }
+        this.currentPage = event.urlAfterRedirects;
+        this.updateShowAdditionalLinks();
+        this.updateShowWelcomeText(); // Aggiorna la visibilità del div di benvenuto
       }
     });
   }
@@ -103,6 +103,7 @@ export class NavbarComponent implements OnInit {
     this.isAdmin = false;
     this.sharedService.setIsAdmin(this.isAdmin); // Imposta isAdmin a false nel servizio condiviso
     this.showAdditionalLinks = false;
+    this.showWelcomeText = false; // Nasconde il div di benvenuto dopo il logout
     this.router.navigate(['/login']);
   }
 
@@ -116,5 +117,17 @@ export class NavbarComponent implements OnInit {
     } else {
       this.router.navigate(['/']);
     }
+  }
+
+  private updateShowAdditionalLinks(): void {
+    this.showAdditionalLinks = this.isLoggedIn &&
+      this.currentPage !== '/produzione' &&
+      this.currentPage !== '/calendar' &&
+      this.currentPage !== '/segreteria' &&
+      this.currentPage !== '/section-home'; // Aggiungi /section-home
+  }
+
+  private updateShowWelcomeText(): void {
+    this.showWelcomeText = this.isLoggedIn && this.currentPage !== '/login';
   }
 }

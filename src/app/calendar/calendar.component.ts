@@ -49,24 +49,25 @@ export class CalendarComponent implements OnInit {
     this.generaCalendario();
     this.caricaEventi();
   }
-
   generaCalendario(): void {
     const anno = this.meseCorrente.getFullYear();
     const mese = this.meseCorrente.getMonth();
-
+  
     this.giorni = [];
-
+  
     const primoGiorno = new Date(anno, mese, 1).getDay();
     const ultimoGiorno = new Date(anno, mese + 1, 0).getDate();
-
-    // Corregge la numerazione dei giorni della settimana, che inizia da Domenica in JavaScript
-    for (let i = 0; i < primoGiorno; i++) {
+  
+    const offset = (primoGiorno + 6) % 7;
+  
+    for (let i = 0; i < offset; i++) {
       this.giorni.push(null);
     }
     for (let i = 1; i <= ultimoGiorno; i++) {
       this.giorni.push(i);
     }
   }
+  
 
   cambiaMese(offset: number): void {
     this.meseCorrente.setMonth(this.meseCorrente.getMonth() + offset);

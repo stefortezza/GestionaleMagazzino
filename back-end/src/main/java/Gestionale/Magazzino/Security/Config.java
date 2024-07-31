@@ -35,6 +35,7 @@ public class Config {
       .authorizeHttpRequests(authz -> authz
         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
         .requestMatchers("/api/**").permitAll()
+        .requestMatchers(HttpMethod.POST, "/api/users/**").permitAll()
         .anyRequest().authenticated()
       );
 

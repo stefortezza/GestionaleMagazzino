@@ -11,6 +11,8 @@ import { AddMacchinarioComponent } from './add-macchinario/add-macchinario.compo
 import { ModificaMacchinarioComponent } from './modifica-macchinario/modifica-macchinario.component';
 import { SectionHomeComponent } from './section-home/section-home.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { ProduzioneComponent } from './produzione/produzione.component';
+import { SegreteriaComponent } from './segreteria/segreteria.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -24,6 +26,8 @@ const routes: Routes = [
   { path: 'add-product', component: AddProductComponent },
   { path: 'modifica-macchinario', component: ModificaMacchinarioComponent },
   { path: 'calendar', component: CalendarComponent },
+  { path: 'produzione', component: ProduzioneComponent },
+  { path: 'segreteria', component: SegreteriaComponent },
   { path: 'registrati', component: RegisterComponent },
   { path: '**', redirectTo: '/login' }
 ];

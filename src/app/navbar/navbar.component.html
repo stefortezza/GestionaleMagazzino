@@ -1,3 +1,4 @@
+<!-- navbar.component.html -->
 <nav *ngIf="isNavbarActive">
   <a (click)="onLogoClick()">
     <img src="../../assets/img/logo_page-0001-removebg-preview.png" alt="Logo" class="logo" />
@@ -5,24 +6,27 @@
 
   <ng-container *ngIf="showAdditionalLinks">
     <ng-container *ngIf="isLoggedIn">
-      <a routerLink="/home">Home</a>
-      <ng-container *ngIf="isAdmin">
-        <a routerLink="/add-category">Aggiungi Categoria</a>
-        <a routerLink="/add-product">Aggiungi Ricambio</a>
-        <a routerLink="/inserisci-macchinario">Inserisci Macchinario</a>
-        <a routerLink="/modifica-macchinario">Modifica Macchinario</a>
-        <a routerLink="/registrati"> Registrati</a>
+      <!-- I link verranno mostrati solo se non siamo su produzione, calendario, segreteria, o section-home -->
+      <ng-container *ngIf="currentPage !== '/produzione' && currentPage !== '/calendar' && currentPage !== '/segreteria' && currentPage !== '/section-home'">
+        <ng-container *ngIf="isAdmin">
+          <a routerLink="/add-category">Aggiungi Categoria</a>
+          <a routerLink="/add-product">Aggiungi Ricambio</a>
+          <a routerLink="/inserisci-macchinario">Inserisci Macchinario</a>
+          <a routerLink="/modifica-macchinario">Modifica Macchinario</a>
+          <a routerLink="/registrati"> Registrati</a>
+        </ng-container>
+        <a routerLink="/notes">Report</a>
       </ng-container>
-      <a routerLink="/notes">Report</a>
-      <div class="auth-links">
-        <div class="welcome-text">
-          <p>Benvenuto, {{ currentDate }}</p>
-          <p>Giorno: {{ daysFromStartOfYear }}</p>
-          <button type="button" class="btn btn-danger" (click)="logout()">
-            Logout
-          </button>
-        </div>
-      </div>
     </ng-container>
   </ng-container>
+
+  <div class="auth-links" *ngIf="showWelcomeText">
+    <div class="welcome-text">
+      <p>Benvenuto, {{ currentDate }}</p>
+      <p>Giorno: {{ daysFromStartOfYear }}</p>
+      <button type="button" class="btn btn-danger" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </div>
 </nav>
