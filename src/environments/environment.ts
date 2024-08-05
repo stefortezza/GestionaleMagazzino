@@ -1,4 +1,4 @@
 export const environment = {
     production : true,
-    apiURL : 'http://localhost:8080'
+    apiURL : 'https://judicial-lynnell-stefanofortezza-2dfe23ab.koyeb.app/'
 };
