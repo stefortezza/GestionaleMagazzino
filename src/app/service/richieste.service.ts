@@ -12,7 +12,7 @@ import { UserDetail } from 'src/interfaces/user-detail';
   providedIn: 'root'
 })
 export class RichiesteService {
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = 'https://judicial-lynnell-stefanofortezza-2dfe23ab.koyeb.app/api';
   
   constructor(private http: HttpClient) { }
 
