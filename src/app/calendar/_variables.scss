@@ -1,16 +1,11 @@
 // Variabili di colore
-$primary-color: #007bff;
-$secondary-color: #6c757d;
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
 $background-color: #ffffff;
-$border-color: #dee2e6;
-$button-bg: #007bff;
+$border-color: #ddd;
+$button-bg: #e74c3c;
+$button-hover-bg: #c0392b;
 $button-text-color: #ffffff;
-$button-hover-bg: #0056b3; // Assicurati che questa variabile sia definita
-$disabled-color: #c6c6c6;
-$hover-color: #0056b3; // Aggiungi questa riga a _variables.scss se non è già definita
-
-
-// Variabili di dimensione
-$legend-width: 250px;
-$legend-padding: 15px;
+$hover-color: #1abc9c;
+$disabled-color: #95a5a6;
 $pallino-size: 10px;

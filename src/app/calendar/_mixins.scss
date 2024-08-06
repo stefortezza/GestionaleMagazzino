@@ -6,6 +6,22 @@
   box-shadow: $shadow;
 }
 
-@mixin transition($properties, $duration: 0.3s, $timing-function: ease) {
-  transition: $properties $duration $timing-function;
+@mixin transition($properties...) {
+  transition: $properties;
+}
+
+@mixin button-style($bg-color, $text-color) {
+  background-color: $bg-color;
+  color: $text-color;
+  border: none;
+  @include border-radius;
+  cursor: pointer;
+  @include transition(background-color, transform);
+}
+
+@mixin button-hover($hover-color) {
+  &:hover {
+    background-color: $hover-color;
+    transform: scale(1.05);
+  }
 }

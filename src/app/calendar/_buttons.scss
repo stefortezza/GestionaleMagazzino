@@ -1,0 +1,10 @@
+// Stili per i bottoni
+button {
+    @include button-style($primary-color, $button-text-color);
+    @include button-hover($hover-color);
+    &:disabled {
+      background-color: $disabled-color;
+      cursor: not-allowed;
+    }
+  }
+  

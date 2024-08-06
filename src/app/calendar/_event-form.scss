@@ -1,0 +1,27 @@
+// Form di eventi
+.event-form {
+    padding: 20px;
+    background: $background-color;
+    @include border-radius;
+    @include box-shadow;
+    border: 1px solid $border-color;
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      @include border-radius;
+      font-size: 16px;
+    }
+    button[type="submit"] {
+      @include button-style($primary-color, $button-text-color);
+      @include button-hover($hover-color);
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      &:disabled {
+        background-color: $disabled-color;
+        cursor: not-allowed;
+      }
+    }
+  }
+  
