@@ -1,14 +1,16 @@
-$font-family: "Outfit", sans-serif;
-$primary-color: rgba(255, 0, 0, 0.8);
-$hover-color: rgba(255, 0, 0, 1);
-$background-color: #fff;
-$border-color: #ddd;
-$shadow-color: rgba(0, 0, 0, 0.1);
-$text-color: #333;
-$disabled-color: #ccc;
-$button-bg: #ff4d4d;
-$button-hover-bg: #e60000;
-$button-text-color: white;
-$pallino-size: 8px;
-$legend-width: 200px;
-$legend-padding: 20px;
+// Variabili di colore
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$background-color: #ffffff;
+$border-color: #dee2e6;
+$button-bg: #007bff;
+$button-text-color: #ffffff;
+$button-hover-bg: #0056b3; // Assicurati che questa variabile sia definita
+$disabled-color: #c6c6c6;
+$hover-color: #0056b3; // Aggiungi questa riga a _variables.scss se non è già definita
+
+
+// Variabili di dimensione
+$legend-width: 250px;
+$legend-padding: 15px;
+$pallino-size: 10px;

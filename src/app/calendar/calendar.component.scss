@@ -8,7 +8,6 @@
   padding: 10px;
   display: flex;
   gap: 20px;
-  box-sizing: border-box;
   overflow: hidden;
 }
 
@@ -20,9 +19,7 @@
   border: 1px solid $border-color;
   @include border-radius;
   @include box-shadow;
-  box-sizing: border-box;
   h3 {
-    margin: 0 0 10px;
     font-size: 20px;
   }
   .legend-item {
@@ -46,7 +43,6 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
 }
 
 // Intestazione del calendario
@@ -67,9 +63,6 @@
     cursor: pointer;
     font-size: 16px;
     @include transition(background-color, transform);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     &:hover {
       background-color: $hover-color;
       transform: scale(1.05);
@@ -87,7 +80,6 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
-  box-sizing: border-box;
 }
 
 .giorno-settimana {
@@ -132,14 +124,12 @@
   @include border-radius;
   @include box-shadow;
   border: 1px solid $border-color;
-  box-sizing: border-box;
   input, textarea, select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     @include border-radius;
     font-size: 16px;
-    box-sizing: border-box;
   }
   button[type="submit"] {
     background-color: $primary-color;
@@ -164,10 +154,8 @@
   @include border-radius;
   @include box-shadow;
   border: 1px solid $border-color;
-  box-sizing: border-box;
   ul {
     list-style-type: none;
-    padding: 0;
     margin: 0;
   }
   li {
@@ -194,8 +182,6 @@
   strong {
     font-size: 16px;
     color: $primary-color;
-    display: inline-flex;
-    align-items: center;
   }
   p {
     margin: 5px 0;
@@ -204,7 +190,6 @@
   .buttons-container {
     display: flex;
     gap: 10px;
-    margin-top: 10px;
     button {
       background-color: $button-bg;
       color: $button-text-color;
@@ -238,7 +223,6 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  overflow: hidden;
   &.show {
     display: flex;
   }
@@ -249,7 +233,6 @@
     @include box-shadow;
     width: 300px;
     text-align: center;
-    box-sizing: border-box;
   }
   .modal-buttons {
     display: flex;
@@ -324,20 +307,9 @@
   }
   .buttons-container {
     flex-direction: column;
-    gap: 5px;
-  }
-  .attivita-giorno button {
-    width: 100%;
-  }
-  .modal-content {
-    width: 90%;
-    padding: 15px;
-  }
-  .modal-buttons {
-    flex-direction: column;
-    gap: 10px;
     button {
       width: 100%;
+      margin-bottom: 10px;
     }
   }
 }
