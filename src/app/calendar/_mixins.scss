@@ -1,0 +1,9 @@
+@mixin box-shadow($shadow: $shadow-color) {
+    box-shadow: 0 4px 8px $shadow;
+  }
+  @mixin border-radius($radius: 8px) {
+    border-radius: $radius;
+  }
+  @mixin transition($properties: all, $duration: 0.3s) {
+    transition: $properties $duration;
+  }

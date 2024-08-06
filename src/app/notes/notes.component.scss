@@ -1,39 +1,45 @@
-.container {
-    color: #fff; /* Imposta il colore del testo a bianco per tutto il contenitore */
-  }
-  
-  .carattere {
-    font-size: 1.2em;
-    color: #fff; /* Imposta il colore del testo a bianco per gli elementi con la classe 'carattere' */
-  }
-  
-  #notesText {
-    background-color: #ffffff; /* Sfondo scuro per il textarea per contrasto */
-    color: #000000; /* Colore del testo bianco per il textarea */
-    border: 1px solid #555; /* Bordo leggermente più chiaro per il textarea */
-  }
-  
-  .list-group-item {
-    background-color: #444; /* Sfondo scuro per gli elementi della lista */
-    color: #fff; /* Colore del testo bianco per gli elementi della lista */
-    border: 1px solid #555; /* Bordo leggermente più chiaro per gli elementi della lista */
-  }
-  
-  .list-group-item:hover {
-    background-color: #555; /* Colore di sfondo più chiaro quando l'elemento della lista è in hover */
-  }
-  
-  .btn-danger {
-    background-color: #dc3545; /* Colore di sfondo rosso per il pulsante */
-    color: #fff; /* Colore del testo bianco per il pulsante */
-    border: none; /* Rimuove il bordo predefinito */
-  }
-  
-  .btn-danger:hover {
-    background-color: #c82333; /* Colore di sfondo rosso scuro per il pulsante quando è in hover */
-  }
+@import '_variablesNotes.scss';
+@import '_mixinsNotes.scss';
 
-/* Stili per il contenitore dello spinner di caricamento */
+// Contenitore principale
+.container {
+  color: $color-white;
+  padding: 15px; // Aggiunto padding per coerenza tra i dispositivi
+}
+
+// Stili generali
+.carattere {
+  font-size: 1.2em;
+  color: $color-white;
+}
+
+#notesText {
+  background-color: $color-white;
+  color: $color-black;
+  border: 1px solid $color-darker;
+}
+
+.list-group-item {
+  background-color: $color-dark;
+  color: $color-white;
+  border: 1px solid $color-darker;
+
+  &:hover {
+    background-color: darken($color-dark, 10%);
+  }
+}
+
+.btn-danger {
+  background-color: $color-red;
+  color: $color-white;
+  border: none;
+
+  &:hover {
+    background-color: $color-red-dark;
+  }
+}
+
+// Spinner
 .loading-spinner-container {
   display: inline-block;
   vertical-align: middle;
@@ -42,181 +48,114 @@
 
 .spinner-icon {
   font-size: 24px;
-  color: #dc3545; /* Colore rosso per abbinarsi al pulsante */
+  color: $color-red;
   animation: spin 1s linear infinite;
 }
 
-/* Animazione per lo spinner */
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-/* Stili per la notifica */
+// Notifiche
 .notification {
   position: fixed;
-  bottom: 16px; /* Posizione dal basso */
-  right: 16px; /* Posizione dalla destra */
+  bottom: 16px;
+  right: 16px;
   padding: 16px;
-  border-radius: 4px;
-  color: white;
+  @include border-radius(4px);
+  color: $color-white;
   font-weight: bold;
-  z-index: 1000; /* Assicurati che la notifica sia visibile sopra altri elementi */
+  z-index: 1000;
   display: flex;
   align-items: center;
   opacity: 1;
-  transition: opacity 0.5s ease-in-out; /* Transizione per l'effetto di scomparsa */
+  transition: opacity 0.5s ease-in-out;
+
+  &.success {
+    background-color: $color-success;
+  }
+
+  &.error {
+    background-color: $color-error;
+  }
 }
 
-/* Stile di notifica di successo */
-.notification.success {
-  background-color: #4caf50; /* Verde per successo */
-}
-
-/* Stile di notifica di errore */
-.notification.error {
-  background-color: #f44336; /* Rosso per errore */
-}
-  /* Stili per la modale */
+// Modale
 .custom-modal-content {
-  background-color: #f8f9fa; /* Colore di sfondo simile alla navbar */
-  border-radius: 0.3rem; /* Angoli arrotondati */
-  border: 1px solid #ddd; /* Bordo sottile per abbinare il design */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per dare profondità */
+  background-color: $color-light-bg;
+  @include border-radius(0.3rem);
+  border: 1px solid #ddd;
+  @include box-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 .custom-modal-header {
-  background-color: #343a40; /* Colore di sfondo simile alla navbar */
-  color: #ffffff; /* Colore del testo simile alla navbar */
-  padding: 15px; /* Padding per un migliore spazio interno */
-  border-bottom: 1px solid #ddd; /* Bordo inferiore per separare l'intestazione dal corpo */
+  background-color: $color-dark-bg;
+  color: $color-white;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
 }
 
 .custom-modal-body {
-  background-color: #ffffff; /* Colore di sfondo del corpo della modale */
-  color: #343a40; /* Colore del testo simile alla navbar */
-  padding: 20px; /* Padding per uno spazio interno confortevole */
+  background-color: $color-white;
+  color: $color-dark-bg;
+  padding: 20px;
 }
 
 .custom-confirm-btn {
-  background-color: #28a745; /* Colore del pulsante di conferma */
-  color: #ffffff; /* Colore del testo del pulsante */
-  border: none; /* Rimuove il bordo per un aspetto più pulito */
-  border-radius: 0.3rem; /* Angoli arrotondati per il pulsante */
-  padding: 10px 20px; /* Padding per un clic confortevole */
-  font-size: 16px; /* Dimensione del testo per leggibilità */
-}
+  background-color: $color-green;
+  color: $color-white;
+  border: none;
+  @include border-radius(0.3rem);
+  padding: 10px 20px;
+  font-size: 16px;
 
-.custom-confirm-btn:hover {
-  background-color: #218838; /* Colore del pulsante di conferma al passaggio del mouse */
+  &:hover {
+    background-color: $color-green-dark;
+  }
 }
 
 .custom-cancel-btn {
-  background-color: #dc3545; /* Colore del pulsante di annullamento */
-  color: #ffffff; /* Colore del testo del pulsante */
-  border: none; /* Rimuove il bordo per un aspetto più pulito */
-  border-radius: 0.3rem; /* Angoli arrotondati per il pulsante */
-  padding: 10px 20px; /* Padding per un clic confortevole */
-  font-size: 16px; /* Dimensione del testo per leggibilità */
-}
+  background-color: $color-red;
+  color: $color-white;
+  border: none;
+  @include border-radius(0.3rem);
+  padding: 10px 20px;
+  font-size: 16px;
 
-.custom-cancel-btn:hover {
-  background-color: #c82333; /* Colore del pulsante di annullamento al passaggio del mouse */
+  &:hover {
+    background-color: $color-red-dark;
+  }
 }
 
 .modal.fade:not(.show) {
-  display: none; /* Nasconde la modale quando non è visibile */
+  display: none;
 }
 
 .modal.show {
   display: block;
-  background: rgba(0, 0, 0, 0.5); /* Sfondo semi-trasparente */
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .modal-dialog {
   position: fixed;
-  top: 45%; /* Centrato verticalmente */
-  left: 35%; /* Centrato orizzontalmente */
-  transform: translate(-50%, -50%); /* Centrato perfettamente */
-  max-width: 500px; /* Larghezza massima della modale */
-  width: 90%; /* Larghezza responsiva */
-}
-/* Media queries per tablet */
-@media (max-width: 768px) {
-  .modal-dialog {
-    width: 85% !important; /* Larghezza più piccola per tablet */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 500px;
+  width: 90%;
+
+  @media (max-width: 768px) {
+    width: 85% !important;
     max-width: 450px !important;
     top: 50% !important;
-    transform: translate(-30%, -40%) !important;
+    transform: translate(-50%, -60%) !important;
   }
 
-  .container {
-    padding: 15px; /* Aggiunge un po' di padding al contenitore su tablet */
-  }
-
-  .carattere {
-    font-size: 1.1em; /* Riduce leggermente la dimensione del testo su tablet */
-  }
-
-  #notesText {
-    font-size: 14px; /* Riduce la dimensione del testo nel textarea su tablet */
-  }
-
-  .list-group-item {
-    font-size: 14px; /* Riduce la dimensione del testo nella lista su tablet */
-  }
-
-  .btn-danger {
-    padding: 8px 16px; /* Riduce il padding del pulsante su tablet */
-    font-size: 14px; /* Riduce la dimensione del testo del pulsante su tablet */
-  }
-
-  .spinner-icon {
-    font-size: 20px; /* Riduce la dimensione dello spinner su tablet */
-  }
-
-  .notification {
-    font-size: 14px; /* Riduce la dimensione del testo della notifica su tablet */
-    padding: 12px; /* Riduce il padding della notifica su tablet */
-  }
-}
-
-/* Media queries per cellulare */
-@media (max-width: 480px) {
-  .modal-dialog {
-    width: 95% !important; /* Larghezza più piccola per cellulari */
+  @media (max-width: 480px) {
+    width: 95% !important;
     max-width: 350px !important;
     top: 50% !important;
-    transform: translate(-30%, -40%) !important;
-  }
-
-  .container {
-    padding: 10px; /* Aggiunge un po' di padding al contenitore su cellulare */
-  }
-
-  .carattere {
-    font-size: 1em; /* Riduce ulteriormente la dimensione del testo su cellulare */
-  }
-
-  #notesText {
-    font-size: 12px; /* Riduce la dimensione del testo nel textarea su cellulare */
-  }
-
-  .list-group-item {
-    font-size: 12px; /* Riduce la dimensione del testo nella lista su cellulare */
-  }
-
-  .btn-danger {
-    padding: 6px 12px; /* Riduce il padding del pulsante su cellulare */
-    font-size: 12px; /* Riduce la dimensione del testo del pulsante su cellulare */
-  }
-
-  .spinner-icon {
-    font-size: 18px; /* Riduce la dimensione dello spinner su cellulare */
-  }
-
-  .notification {
-    font-size: 12px; /* Riduce la dimensione del testo della notifica su cellulare */
-    padding: 10px; /* Riduce il padding della notifica su cellulare */
+    transform: translate(-50%, -60%) !important;
   }
 }

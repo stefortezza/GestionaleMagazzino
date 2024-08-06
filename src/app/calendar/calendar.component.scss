@@ -1,103 +1,93 @@
-/* Contenitore principale del calendario */
+@import '_variables.scss';
+@import '_mixins.scss';
+
+// Contenitore principale
 .calendar-container {
-  font-family: "Outfit", sans-serif;
-  color: #333;
-  max-width: 1300px; /* Larghezza massima per contenere il calendario e il modulo */
-  margin: 0 auto; /* Centra orizzontalmente */
+  max-width: 1300px;
+  margin: 0 auto;
   padding: 10px;
   display: flex;
-  gap: 20px; /* Spazio tra il calendario e il contenitore delle attività */
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-  overflow: hidden; /* Nasconde eventuali barre di scorrimento */
+  gap: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-/* Sezione Legenda */
+// Sezione Legenda
 .legend {
-  width: 200px; /* Larghezza fissa per la legenda */
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
-  box-sizing: border-box; /* Include padding e bordo nella larghezza */
+  width: $legend-width;
+  padding: $legend-padding;
+  background: $background-color;
+  border: 1px solid $border-color;
+  @include border-radius;
+  @include box-shadow;
+  box-sizing: border-box;
+  h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    .pallino {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+    span {
+      font-size: 14px;
+    }
+  }
 }
 
-.legend h3 {
-  margin: 0 0 10px;
-  font-size: 20px;
-  color: #333;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.legend-item .pallino {
-  width: 15px; /* Larghezza del pallino nella legenda */
-  height: 15px; /* Altezza del pallino nella legenda */
-  border-radius: 50%;
-  margin-right: 15px; /* Spazio tra il pallino e la descrizione */
-}
-
-.legend-item span {
-  font-size: 14px;
-  color: #333;
-}
-
-/* Sezione Calendario e Attività */
+// Calendario e Attività
 .calendar-main {
   flex: 1;
   display: flex;
-  flex-direction: column; /* Disporre il calendario e il modulo per aggiungere eventi verticalmente */
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
-/* Intestazione del calendario */
+// Intestazione del calendario
 .calendar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background: linear-gradient(to bottom right, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0.4));
-  color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
+  background: linear-gradient(to bottom right, $primary-color, rgba(255, 0, 0, 0.4));
+  color: $button-text-color;
+  @include border-radius;
+  @include box-shadow;
+  button {
+    background-color: $primary-color;
+    color: $button-text-color;
+    border: none;
+    @include border-radius;
+    cursor: pointer;
+    font-size: 16px;
+    @include transition(background-color, transform);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background-color: $hover-color;
+      transform: scale(1.05);
+    }
+    &:disabled {
+      background-color: $disabled-color;
+      cursor: not-allowed;
+    }
+  }
 }
 
-.calendar-header button {
-  background-color: rgba(255, 0, 0, 0.8); 
-  color: white; 
-  border: none; 
-  border-radius: 8px; 
-  cursor: pointer; 
-  font-size: 16px;
-  transition: background-color 0.3s, transform 0.3s; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-.calendar-header button:hover {
-  background-color: rgba(255, 0, 0, 1); 
-  transform: scale(1.05); 
-}
-
-.calendar-header button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed; 
-}
-
-/* Giorni della settimana */
-.calendar-days {
+// Giorni della settimana e Griglia
+.calendar-days,
+.calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
-  margin-bottom: 10px;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
+  box-sizing: border-box;
 }
 
 .giorno-settimana {
@@ -106,166 +96,137 @@
   text-align: center;
 }
 
-/* Griglia del calendario */
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
 .giorno-calendario {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 10px;
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  background: $background-color;
+  border: 1px solid $border-color;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
+  @include border-radius;
+  @include transition(background-color, transform);
+  &:hover {
+    background-color: #f9f9f9;
+    transform: scale(1.05);
+  }
+  .pallini-container {
+    display: flex;
+    gap: 4px;
+    margin-top: 5px;
+  }
 }
 
-.giorno-calendario:hover {
-  background-color: #f9f9f9;
-  transform: scale(1.05);
-}
-
-.pallini-container {
-  display: flex;
-  gap: 4px; /* Spazio tra i pallini */
-  margin-top: 5px; /* Spazio sopra i pallini */
-}
-
-/* Pallini colorati */
+// Pallini colorati
 .pallino {
-  width: 8px; 
-  height: 8px;
+  width: $pallino-size;
+  height: $pallino-size;
   border-radius: 50%;
-  background-color: #000; /* Colore di default per i pallini */
+  background-color: #000;
 }
 
-/* Form di eventi */
+// Form di eventi
 .event-form {
   padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
+  background: $background-color;
+  @include border-radius;
+  @include box-shadow;
+  border: 1px solid $border-color;
+  box-sizing: border-box;
+  input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    @include border-radius;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  button[type="submit"] {
+    background-color: $primary-color;
+    color: $button-text-color;
+    border: none;
+    padding: 12px;
+    @include border-radius;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    @include transition(background-color);
+    &:hover {
+      background-color: $hover-color;
+    }
+  }
 }
 
-/* Stili per gli input e textarea */
-input, textarea, select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-/* Pulsanti del modulo */
-button[type="submit"] {
-  background-color: rgba(255, 0, 0, 0.8);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-  background-color: rgba(255, 0, 0, 1);
-}
-
-/* Attività del giorno */
+// Attività del giorno
 .attivita-giorno {
   padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
+  background: $background-color;
+  @include border-radius;
+  @include box-shadow;
+  border: 1px solid $border-color;
+  box-sizing: border-box;
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    margin-bottom: 20px;
+  }
+  .activity-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    .bullet {
+      display: inline-block;
+      background-color: black;
+      border-radius: 50%;
+      margin-top: 6px;
+      width: 10px;
+      height: 10px;
+    }
+    .content-text {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  strong {
+    font-size: 16px;
+    color: $primary-color;
+    display: inline-flex;
+    align-items: center;
+  }
+  p {
+    margin: 5px 0;
+    color: #666;
+  }
+  .buttons-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    button {
+      background-color: $button-bg;
+      color: $button-text-color;
+      border: none;
+      @include border-radius;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 14px;
+      @include transition(background-color, transform);
+      &:hover {
+        background-color: $button-hover-bg;
+        transform: scale(1.05);
+      }
+      &:disabled {
+        background-color: $disabled-color;
+        cursor: not-allowed;
+      }
+    }
+  }
 }
 
-/* Stili per le attività */
-.attivita-giorno ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.attivita-giorno li {
-  margin-bottom: 20px;
-}
-
-.activity-content {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.activity-content .bullet {
-  display: inline-block;
-  background-color: black;
-  border-radius: 50%;
-  margin-top: 6px;
-  width: 10px; /* Larghezza del pallino accanto al titolo */
-  height: 10px; /* Altezza del pallino accanto al titolo */
-}
-
-.content-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.attivita-giorno strong {
-  font-size: 16px;
-  color: rgba(255, 0, 0, 0.8);
-  display: inline-flex;
-  align-items: center;
-}
-
-.attivita-giorno p {
-  margin: 5px 0;
-  color: #666;
-}
-
-/* Pulsanti delle attività */
-.buttons-container {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.attivita-giorno button {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s, transform 0.3s;
-}
-
-.attivita-giorno button:hover {
-  background-color: #e60000;
-  transform: scale(1.05);
-}
-
-.attivita-giorno button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-/* Modale di conferma */
+// Modale di conferma
 .modal {
   display: none;
   position: fixed;
@@ -277,153 +238,106 @@ button[type="submit"]:hover {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  overflow: hidden; /* Nasconde eventuali barre di scorrimento */
+  overflow: hidden;
+  &.show {
+    display: flex;
+  }
+  .modal-content {
+    background: $background-color;
+    padding: 20px;
+    @include border-radius;
+    @include box-shadow;
+    width: 300px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    button {
+      background-color: $primary-color;
+      color: $button-text-color;
+      border: none;
+      padding: 10px 20px;
+      @include border-radius;
+      cursor: pointer;
+      font-size: 16px;
+      @include transition(background-color);
+      &:hover {
+        background-color: $hover-color;
+      }
+    }
+  }
 }
 
-.modal.show {
-  display: flex;
-}
-
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  text-align: center;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-}
-
-.modal-buttons button {
-  background-color: rgba(255, 0, 0, 0.8);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
-
-.modal-buttons button:hover {
-  background-color: rgba(255, 0, 0, 1);
-}
-
-/* Tablet */
+// Tablet
 @media (max-width: 768px) {
   .calendar-container {
     flex-direction: column;
     align-items: center;
-    max-width: 100%; /* Larghezza massima al 100% */
+    max-width: 100%;
     padding: 20px;
   }
-
-  .legend {
-    width: 100%; /* Larghezza al 100% */
-    margin-bottom: 20px; /* Spazio sotto la legenda */
+  .legend, .calendar-header, .calendar-main, .event-form, .attivita-giorno {
+    width: 100%;
+    margin-bottom: 20px;
   }
-
-  .calendar-header {
-    width: 100%; /* Larghezza al 100% */
-    margin-bottom: 10px; /* Spazio sotto l'intestazione */
-  }
-
-  .calendar-main {
-    width: 100%; /* Larghezza al 100% */
-  }
-
-  .calendar-days {
+  .calendar-days, .calendar-grid {
     grid-template-columns: repeat(7, 1fr);
-  }
-
-  .calendar-grid {
-    grid-template-columns: repeat(7, 1fr);
-  }
-
-  .event-form, .attivita-giorno {
-    width: 100%; /* Larghezza al 100% */
-    margin-bottom: 20px; /* Spazio sotto ogni sezione */
   }
 }
 
-/* Mobile */
+// Mobile
 @media (max-width: 480px) {
   .calendar-header {
     flex-direction: column;
     align-items: flex-start;
+    button {
+      width: 100%;
+      margin-top: 10px;
+    }
   }
-
-  .calendar-header button {
-    width: 100%;
-    margin-top: 10px; /* Spazio sopra il pulsante */
-  }
-
-  .calendar-days {
+  .calendar-days, .calendar-grid {
     gap: 5px;
   }
-
-  .calendar-grid {
-    gap: 5px;
-  }
-
   .giorno-calendario {
     padding: 5px;
   }
-
   .legend {
     padding: 10px;
+    h3 {
+      font-size: 18px;
+    }
+    .legend-item span {
+      font-size: 12px;
+    }
   }
-
-  .legend h3 {
-    font-size: 18px;
-  }
-
-  .legend-item span {
-    font-size: 12px;
-  }
-
-  .event-form {
+  .event-form, .attivita-giorno {
     padding: 10px;
+    strong {
+      font-size: 14px;
+    }
+    p {
+      font-size: 12px;
+    }
   }
-
-  .attivita-giorno {
-    padding: 10px;
-  }
-
-  .attivita-giorno strong {
-    font-size: 14px;
-  }
-
-  .attivita-giorno p {
-    font-size: 12px;
-  }
-
   .buttons-container {
     flex-direction: column;
     gap: 5px;
   }
-
   .attivita-giorno button {
     width: 100%;
   }
-
   .modal-content {
     width: 90%;
     padding: 15px;
   }
-
   .modal-buttons {
     flex-direction: column;
     gap: 10px;
-  }
-
-  .modal-buttons button {
-    width: 100%;
+    button {
+      width: 100%;
+    }
   }
 }

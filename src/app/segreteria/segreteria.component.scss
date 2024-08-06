@@ -1,20 +1,26 @@
+@import '_variableSegreteria.scss';
+@import '_mixinsSegreteria.scss';
+
+// Host
 :host {
   display: block;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: $color-bg;
 }
 
+// Header
 .header-section {
   text-align: center;
   margin-bottom: 20px;
 }
 
 .header-title {
-  font-size: 24px;
-  color: #333;
+  @include font-size(24px);
+  color: $color-dark;
   margin: 0;
 }
 
+// User List
 .users-list {
   margin: 0;
   padding: 0;
@@ -27,10 +33,10 @@
   justify-content: space-between;
   padding: 10px 20px;
   margin-bottom: 10px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: $color-white;
+  border: 1px solid $color-border;
+  @include border-radius(5px);
+  @include box-shadow(0 2px 4px $color-shadow);
 }
 
 .user-info {
@@ -39,17 +45,18 @@
 }
 
 .user-icon {
-  font-size: 24px;
-  color: #007bff; /* Colore blu per l'icona dell'utente */
+  @include font-size(24px);
+  color: $color-blue;
   margin-right: 10px;
 }
 
 .user-item p {
   margin: 0;
-  font-size: 16px;
-  color: #333;
+  @include font-size(16px);
+  color: $color-dark;
 }
 
+// File Selection
 .file-selection-container {
   display: flex;
   align-items: center;
@@ -63,8 +70,8 @@
 }
 
 .file-input-label i {
-  font-size: 24px;
-  color: #007bff; /* Colore blu per l'icona di selezione file */
+  @include font-size(24px);
+  color: $color-blue;
 }
 
 .file-list {
@@ -81,57 +88,59 @@
 }
 
 .file-icon {
-  font-size: 20px;
-  color: #333;
+  @include font-size(20px);
+  color: $color-dark;
   margin-right: 10px;
 }
 
 .remove-btn {
-  background: none; /* Nessun sfondo per il pulsante di rimozione */
-  color: #dc3545; /* Colore rosso per l'icona di rimozione */
+  background: none;
+  color: $color-red;
   border: none;
   cursor: pointer;
-  font-size: 20px;
+  @include font-size(20px);
+  @include transition(opacity, 0.3s, ease);
 }
 
 .remove-btn:hover {
-  opacity: 0.7; /* Leggera trasparenza al passaggio del mouse */
+  opacity: 0.7;
 }
 
+// Action Button
 .action-container {
   display: flex;
   align-items: center;
 }
 
 .action-btn {
-  position: relative; /* Aggiunto per posizionare lo spinner accanto al pulsante */
+  position: relative;
   padding: 8px 12px;
-  font-size: 14px;
-  color: #fff;
-  background-color: #ff5733; /* Colore rosso-arancio per il pulsante */
+  @include font-size(14px);
+  color: $color-white;
+  background-color: $color-orange;
   border: none;
-  border-radius: 3px;
+  @include border-radius(3px);
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  overflow: hidden; /* Nasconde lo spinner se esce dai confini del pulsante */
-}
+  @include transition(background-color, 0.3s, ease);
+  overflow: hidden;
+  
+  &.is-loading {
+    background-color: $color-dark-red;
+  }
 
-.action-btn.is-loading {
-  background-color: #c70039; /* Colore rosso scuro per stato di caricamento */
-}
-
-.action-btn:hover {
-  background-color: #c70039; /* Colore rosso scuro per hover */
+  &:hover {
+    background-color: $color-dark-red;
+  }
 }
 
 .loading-spinner-container {
-  margin-left: 10px; /* Spazio tra il pulsante e lo spinner */
+  margin-left: 10px;
 }
 
 .spinner-icon {
-  font-size: 24px; /* Dimensione dello spinner */
-  color: #c70039; /* Colore rosso per lo spinner */
-  animation: spin 1s linear infinite; /* Aggiungi un'animazione di rotazione */
+  @include font-size(24px);
+  color: $color-dark-red;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
@@ -139,102 +148,121 @@
   100% { transform: rotate(360deg); }
 }
 
+// Notification
 .notification {
   position: fixed;
   bottom: 16px;
   right: 16px;
   padding: 16px;
-  border-radius: 4px;
-  color: white;
+  @include border-radius(4px);
+  color: $color-white;
   font-weight: bold;
   z-index: 1000;
   display: flex;
   align-items: center;
+
+  &.success {
+    background-color: $color-success;
+  }
+
+  &.error {
+    background-color: $color-error;
+  }
 }
 
-.notification.success {
-  background-color: #4caf50; /* Verde per successo */
-}
-
-.notification.error {
-  background-color: #f44336; /* Rosso per errore */
-}
-
+// Modal
 .custom-modal-content {
-  background-color: #f8f9fa; /* Colore di sfondo simile alla navbar */
-  border-radius: 0.5rem; /* Angoli arrotondati */
-  border: 1px solid #ddd; /* Bordo sottile per abbinare il design */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per dare profondità */
+  background-color: #f8f9fa;
+  @include border-radius(0.5rem);
+  border: 1px solid $color-border;
+  @include box-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 .custom-modal-header {
-  background-color: #343a40; /* Colore di sfondo simile alla navbar */
-  color: #ffffff; /* Colore del testo simile alla navbar */
-  padding: 15px; /* Padding per un migliore spazio interno */
-  border-bottom: 1px solid #ddd; /* Bordo inferiore per separare l'intestazione dal corpo */
-}
+  background-color: #343a40;
+  color: $color-white;
+  padding: 15px;
+  border-bottom: 1px solid $color-border;
 
-.custom-modal-header .close {
-  background: none; /* Rimuove lo sfondo della X di chiusura */
-  border: none; /* Rimuove il bordo della X di chiusura */
-  color: #ffffff; /* Colore della X di chiusura */
-  font-size: 1.5rem; /* Dimensione del font per la X di chiusura */
-  opacity: 0.7; /* Leggera trasparenza per effetto visivo */
-}
+  .close {
+    background: none;
+    border: none;
+    color: $color-white;
+    @include font-size(1.5rem);
+    opacity: 0.7;
+    @include transition(opacity, 0.3s, ease);
+  }
 
-.custom-modal-header .close:hover {
-  opacity: 1; /* Opacità piena al passaggio del mouse */
+  .close:hover {
+    opacity: 1;
+  }
 }
 
 .custom-modal-body {
-  background-color: #ffffff; /* Colore di sfondo del corpo della modale */
-  color: #343a40; /* Colore del testo simile alla navbar */
-  padding: 20px; /* Padding per uno spazio interno confortevole */
+  background-color: $color-white;
+  color: #343a40;
+  padding: 20px;
 }
 
 .custom-confirm-btn, .custom-cancel-btn {
-  background-color: #dc3545; /* Colore del pulsante di annullamento */
-  color: #ffffff; /* Colore del testo del pulsante */
-  border: none; /* Rimuove il bordo per un aspetto più pulito */
-  border-radius: 0.3rem; /* Angoli arrotondati per il pulsante */
-  padding: 10px 20px; /* Padding per un clic confortevole */
-  font-size: 16px; /* Dimensione del testo per leggibilità */
+  background-color: $color-red;
+  color: $color-white;
+  border: none;
+  @include border-radius(0.3rem);
+  padding: 10px 20px;
+  @include font-size(16px);
 }
 
 .custom-confirm-btn {
-  background-color: #28a745; /* Colore del pulsante di conferma */
+  background-color: $color-green;
+
+  &:hover {
+    background-color: $color-green-dark;
+  }
 }
 
-.custom-confirm-btn:hover {
-  background-color: #218838; /* Colore del pulsante di conferma al passaggio del mouse */
-}
-
-.custom-cancel-btn:hover {
-  background-color: #c82333; /* Colore del pulsante di annullamento al passaggio del mouse */
+.custom-cancel-btn {
+  &:hover {
+    background-color: $color-red-dark;
+  }
 }
 
 .modal.fade:not(.show) {
-  display: none; /* Nasconde la modale quando non è visibile */
+  display: none;
 }
 
 .modal.show {
   display: block;
-  background: rgba(0, 0, 0, 0.5); /* Sfondo semi-trasparente */
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .modal-dialog {
   position: fixed;
-  top: 35%; /* Centrato verticalmente */
-  left: 35%; /* Centrato orizzontalmente */
-  transform: translate(-50%, -50%); /* Centrato perfettamente */
-  max-width: 500px; /* Larghezza massima della modale */
-  width: 90%; /* Larghezza responsiva */
+  top: 35%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+  max-width: 500px;
+  width: 90%;
+
+  @media (max-width: 768px) {
+    width: 85% !important;
+    max-width: 450px !important;
+    top: 20% !important;
+    transform: translate(-30%, -40%) !important;
+  }
+
+  @media (max-width: 480px) {
+    width: 95% !important;
+    max-width: 350px !important;
+    top: 20% !important;
+    transform: translate(-30%, -40%) !important;
+  }
 }
 
-/* Media queries per tablet */
+// Media queries
 @media (max-width: 768px) {
   .header-title {
-    font-size: 20px;
+    @include font-size(20px);
   }
 
   .user-item {
@@ -271,10 +299,9 @@
   }
 }
 
-/* Media queries per cellulare */
 @media (max-width: 480px) {
   .header-title {
-    font-size: 18px;
+    @include font-size(18px);
   }
 
   .user-item {
@@ -283,48 +310,23 @@
   }
 
   .file-input-label i {
-    font-size: 20px;
+    @include font-size(20px);
   }
 
   .file-icon {
-    font-size: 18px;
+    @include font-size(18px);
   }
 
   .remove-btn {
-    font-size: 18px;
+    @include font-size(18px);
   }
 
   .action-btn {
-    font-size: 12px;
+    @include font-size(12px);
     padding: 6px 10px;
   }
 
   .spinner-icon {
-    font-size: 20px;
-  }
-}
-
-/* Media queries per tablet */
-@media (max-width: 768px) {
-  .modal-dialog {
-    width: 85% !important; /* Utilizzo di !important per forzare la larghezza */
-    max-width: 450px !important;
-    top: 20% !important;
-    transform: translate(-30%, -40%) !important;
-  }
-}
-
-/* Media queries per cellulare */
-@media (max-width: 480px) {
-  .modal-dialog {
-    width: 95% !important;
-    max-width: 350px !important;
-    top: 20% !important;
-    transform: translate(-30%, -40%) !important;
-  }
-
-  .custom-confirm-btn, .custom-cancel-btn {
-    font-size: 14px !important;
-    padding: 8px 16px !important;
+    @include font-size(20px);
   }
 }

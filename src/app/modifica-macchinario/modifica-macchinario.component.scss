@@ -1,69 +1,72 @@
-/* Stili generali per i moduli */
+@import '_variablesModifica.scss';
+@import '_mixinsModifica.scss';
+
+// Stili generali per i moduli
 form {
   max-width: 400px;
   margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  padding: $padding-large;
+  @include border;
+  @include border-radius;
+  background-color: $background-color-light;
 }
 
-/* Margine tra i vari elementi del modulo */
+// Margine tra i vari elementi del modulo
 form > div {
-  margin-bottom: 15px;
+  margin-bottom: $padding-medium;
 }
 
-/* Stili per le etichette */
+// Stili per le etichette
 label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-/* Stili per gli input e select */
+// Stili per gli input e select
 input[type="text"],
 input[type="number"],
 select,
 input[type="checkbox"] {
-  width: calc(100% - 20px); /* Larghezza meno il padding */
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  width: calc(100% - 20px); // Larghezza meno il padding
+  padding: $padding-small;
+  font-size: $font-size-large;
+  @include border;
+  @include border-radius;
 }
 
-/* Stili per i checkbox */
+// Stili per i checkbox
 input[type="checkbox"] {
   width: auto;
-  margin-right: 10px; /* Spazio tra checkbox e testo */
+  margin-right: 10px; // Spazio tra checkbox e testo
   margin-top: 5px;
 }
 
-/* Stili per i pulsanti */
+// Stili per i pulsanti
 button[type="submit"] {
   display: block;
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  color: #fff;
-  background-color: rgba(255, 0, 0, 0.8);
+  padding: $padding-small;
+  font-size: $font-size-large;
+  color: $color-text-light;
+  background-color: $color-primary;
   border: none;
-  border-radius: 4px;
+  @include border-radius;
   cursor: pointer;
+  @include transition(background-color);
+  &:hover {
+    background-color: $color-primary-hover;
+  }
 }
 
-button[type="submit"]:hover {
-  background-color: rgba(255, 0, 0, 0.8);
-}
-
-/* Stili per i messaggi di errore */
+// Stili per i messaggi di errore
 .error-message {
   color: red;
-  font-size: 14px;
+  font-size: $font-size-medium;
   margin-top: 5px;
 }
 
-/* Stili per il container principale */
+// Stili per il container principale
 .container {
   display: flex;
   justify-content: center;
@@ -72,76 +75,35 @@ button[type="submit"]:hover {
   background-color: #f0f0f0;
 }
 
-/* Stili per la modale */
+// Stili per la modale
 .modal.fade:not(.show) {
-  display: none; /* Nasconde la modale quando non è visibile */
+  display: none; // Nasconde la modale quando non è visibile
 }
 
 .modal.show {
   display: block;
-  background: rgba(0, 0, 0, 0.5); /* Sfondo semi-trasparente */
+  background: rgba(0, 0, 0, 0.5); // Sfondo semi-trasparente
 }
 
-.modal-dialog {
-  position: fixed;
-  top: 41%;
-  left: 39%;
-  transform: translate(-30%, -40%); /* Modifica del margine della modale */
-  max-width: 500px; /* Larghezza massima della modale */
-  width: 90%; /* Larghezza responsiva */
-}
+@include modal-styles;
 
-/* Modale personalizzata */
-.custom-modal-content {
-  background-color: #f8f9fa; /* Colore di sfondo simile alla navbar */
-  border-radius: 0.5rem;
-}
-
-.custom-modal-header {
-  background-color: #343a40; /* Colore di sfondo simile alla navbar */
-  color: #ffffff; /* Colore del testo simile alla navbar */
-}
-
-.custom-modal-body {
-  background-color: #ffffff; /* Colore di sfondo del corpo della modale */
-  color: #343a40; /* Colore del testo simile alla navbar */
-}
-
-.custom-confirm-btn {
-  background-color: #28a745; /* Colore del pulsante di conferma */
-  color: #ffffff; /* Colore del testo del pulsante */
-}
-
-.custom-confirm-btn:hover {
-  background-color: #218838; /* Colore del pulsante di conferma al passaggio del mouse */
-}
-
-.custom-cancel-btn {
-  background-color: #dc3545; /* Colore del pulsante di annullamento */
-  color: #ffffff; /* Colore del testo del pulsante */
-}
-
-.custom-cancel-btn:hover {
-  background-color: #c82333; /* Colore del pulsante di annullamento al passaggio del mouse */
-}
-
-/* Media queries per tablet */
+// Media queries per tablet
 @media (max-width: 768px) {
   form {
-    padding: 15px;
-    border: 1px solid #ddd;
+    padding: $padding-medium;
+    @include border($border-color);
   }
 
   input[type="text"],
   input[type="number"],
   select,
   input[type="checkbox"] {
-    font-size: 14px;
+    font-size: $font-size-medium;
   }
 
   button[type="submit"] {
     padding: 8px;
-    font-size: 14px;
+    font-size: $font-size-medium;
   }
 
   .modal-dialog {
@@ -152,7 +114,7 @@ button[type="submit"]:hover {
   }
 
   .custom-modal-content {
-    border-radius: 0.3rem;
+    @include border-radius($border-radius-small);
   }
 
   .custom-modal-header {
@@ -164,26 +126,26 @@ button[type="submit"]:hover {
   }
 
   .error-message {
-    font-size: 12px;
+    font-size: $font-size-small;
   }
 }
 
-/* Media queries per cellulare */
+// Media queries per cellulare
 @media (max-width: 480px) {
   form {
-    padding: 10px;
+    padding: $padding-small;
   }
 
   input[type="text"],
   input[type="number"],
   select,
   input[type="checkbox"] {
-    font-size: 12px;
+    font-size: $font-size-small;
   }
 
   button[type="submit"] {
     padding: 6px;
-    font-size: 12px;
+    font-size: $font-size-small;
   }
 
   .modal-dialog {
@@ -194,7 +156,7 @@ button[type="submit"]:hover {
   }
 
   .custom-modal-content {
-    border-radius: 0.3rem;
+    @include border-radius($border-radius-small);
   }
 
   .custom-modal-header {
@@ -206,6 +168,6 @@ button[type="submit"]:hover {
   }
 
   .error-message {
-    font-size: 10px;
+    font-size: $font-size-small;
   }
 }
