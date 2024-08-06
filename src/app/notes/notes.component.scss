@@ -141,3 +141,82 @@
   max-width: 500px; /* Larghezza massima della modale */
   width: 90%; /* Larghezza responsiva */
 }
+/* Media queries per tablet */
+@media (max-width: 768px) {
+  .modal-dialog {
+    width: 85% !important; /* Larghezza più piccola per tablet */
+    max-width: 450px !important;
+    top: 50% !important;
+    transform: translate(-30%, -40%) !important;
+  }
+
+  .container {
+    padding: 15px; /* Aggiunge un po' di padding al contenitore su tablet */
+  }
+
+  .carattere {
+    font-size: 1.1em; /* Riduce leggermente la dimensione del testo su tablet */
+  }
+
+  #notesText {
+    font-size: 14px; /* Riduce la dimensione del testo nel textarea su tablet */
+  }
+
+  .list-group-item {
+    font-size: 14px; /* Riduce la dimensione del testo nella lista su tablet */
+  }
+
+  .btn-danger {
+    padding: 8px 16px; /* Riduce il padding del pulsante su tablet */
+    font-size: 14px; /* Riduce la dimensione del testo del pulsante su tablet */
+  }
+
+  .spinner-icon {
+    font-size: 20px; /* Riduce la dimensione dello spinner su tablet */
+  }
+
+  .notification {
+    font-size: 14px; /* Riduce la dimensione del testo della notifica su tablet */
+    padding: 12px; /* Riduce il padding della notifica su tablet */
+  }
+}
+
+/* Media queries per cellulare */
+@media (max-width: 480px) {
+  .modal-dialog {
+    width: 95% !important; /* Larghezza più piccola per cellulari */
+    max-width: 350px !important;
+    top: 50% !important;
+    transform: translate(-30%, -40%) !important;
+  }
+
+  .container {
+    padding: 10px; /* Aggiunge un po' di padding al contenitore su cellulare */
+  }
+
+  .carattere {
+    font-size: 1em; /* Riduce ulteriormente la dimensione del testo su cellulare */
+  }
+
+  #notesText {
+    font-size: 12px; /* Riduce la dimensione del testo nel textarea su cellulare */
+  }
+
+  .list-group-item {
+    font-size: 12px; /* Riduce la dimensione del testo nella lista su cellulare */
+  }
+
+  .btn-danger {
+    padding: 6px 12px; /* Riduce il padding del pulsante su cellulare */
+    font-size: 12px; /* Riduce la dimensione del testo del pulsante su cellulare */
+  }
+
+  .spinner-icon {
+    font-size: 18px; /* Riduce la dimensione dello spinner su cellulare */
+  }
+
+  .notification {
+    font-size: 12px; /* Riduce la dimensione del testo della notifica su cellulare */
+    padding: 10px; /* Riduce il padding della notifica su cellulare */
+  }
+}

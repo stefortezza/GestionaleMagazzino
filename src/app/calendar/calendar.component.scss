@@ -314,3 +314,116 @@ button[type="submit"]:hover {
 .modal-buttons button:hover {
   background-color: rgba(255, 0, 0, 1);
 }
+
+/* Tablet */
+@media (max-width: 768px) {
+  .calendar-container {
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%; /* Larghezza massima al 100% */
+    padding: 20px;
+  }
+
+  .legend {
+    width: 100%; /* Larghezza al 100% */
+    margin-bottom: 20px; /* Spazio sotto la legenda */
+  }
+
+  .calendar-header {
+    width: 100%; /* Larghezza al 100% */
+    margin-bottom: 10px; /* Spazio sotto l'intestazione */
+  }
+
+  .calendar-main {
+    width: 100%; /* Larghezza al 100% */
+  }
+
+  .calendar-days {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .calendar-grid {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .event-form, .attivita-giorno {
+    width: 100%; /* Larghezza al 100% */
+    margin-bottom: 20px; /* Spazio sotto ogni sezione */
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .calendar-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .calendar-header button {
+    width: 100%;
+    margin-top: 10px; /* Spazio sopra il pulsante */
+  }
+
+  .calendar-days {
+    gap: 5px;
+  }
+
+  .calendar-grid {
+    gap: 5px;
+  }
+
+  .giorno-calendario {
+    padding: 5px;
+  }
+
+  .legend {
+    padding: 10px;
+  }
+
+  .legend h3 {
+    font-size: 18px;
+  }
+
+  .legend-item span {
+    font-size: 12px;
+  }
+
+  .event-form {
+    padding: 10px;
+  }
+
+  .attivita-giorno {
+    padding: 10px;
+  }
+
+  .attivita-giorno strong {
+    font-size: 14px;
+  }
+
+  .attivita-giorno p {
+    font-size: 12px;
+  }
+
+  .buttons-container {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .attivita-giorno button {
+    width: 100%;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal-buttons button {
+    width: 100%;
+  }
+}
