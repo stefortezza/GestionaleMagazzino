@@ -57,7 +57,8 @@
 }
 
 // File Selection
-.file-selection-container {
+.file-selection-container,
+.file-item {
   display: flex;
   align-items: center;
 }
@@ -80,14 +81,8 @@
   margin: 5px 0;
 }
 
-.file-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 5px;
-}
-
-.file-icon {
+.file-icon,
+.remove-btn {
   @include font-size(20px);
   color: $color-dark;
   margin-right: 10px;
@@ -98,16 +93,16 @@
   color: $color-red;
   border: none;
   cursor: pointer;
-  @include font-size(20px);
   @include transition(opacity, 0.3s, ease);
-}
 
-.remove-btn:hover {
-  opacity: 0.7;
+  &:hover {
+    opacity: 0.7;
+  }
 }
 
 // Action Button
-.action-container {
+.action-container,
+.action-btn {
   display: flex;
   align-items: center;
 }
@@ -123,11 +118,8 @@
   cursor: pointer;
   @include transition(background-color, 0.3s, ease);
   overflow: hidden;
-  
-  &.is-loading {
-    background-color: $color-dark-red;
-  }
 
+  &.is-loading,
   &:hover {
     background-color: $color-dark-red;
   }
@@ -191,10 +183,10 @@
     @include font-size(1.5rem);
     opacity: 0.7;
     @include transition(opacity, 0.3s, ease);
-  }
 
-  .close:hover {
-    opacity: 1;
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 
@@ -204,13 +196,18 @@
   padding: 20px;
 }
 
-.custom-confirm-btn, .custom-cancel-btn {
+.custom-confirm-btn,
+.custom-cancel-btn {
   background-color: $color-red;
   color: $color-white;
   border: none;
   @include border-radius(0.3rem);
   padding: 10px 20px;
   @include font-size(16px);
+
+  &:hover {
+    background-color: $color-red-dark;
+  }
 }
 
 .custom-confirm-btn {
@@ -218,12 +215,6 @@
 
   &:hover {
     background-color: $color-green-dark;
-  }
-}
-
-.custom-cancel-btn {
-  &:hover {
-    background-color: $color-red-dark;
   }
 }
 
@@ -265,37 +256,25 @@
     @include font-size(20px);
   }
 
-  .user-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .user-info {
-    margin-bottom: 10px;
-  }
-
-  .file-selection-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .file-input-label {
-    margin-left: 0;
-    margin-bottom: 10px;
-  }
-
+  .user-item,
+  .file-selection-container,
   .action-container {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .action-btn {
-    width: 100%;
+  .user-info,
+  .file-input-label,
+  .loading-spinner-container {
+    margin-bottom: 10px;
   }
 
-  .loading-spinner-container {
+  .file-input-label {
     margin-left: 0;
-    margin-top: 10px;
+  }
+
+  .action-btn {
+    width: 100%;
   }
 }
 
@@ -306,27 +285,17 @@
 
   .user-item {
     padding: 10px;
-    flex-direction: column;
   }
 
-  .file-input-label i {
+  .file-input-label i,
+  .file-icon,
+  .remove-btn,
+  .spinner-icon {
     @include font-size(20px);
-  }
-
-  .file-icon {
-    @include font-size(18px);
-  }
-
-  .remove-btn {
-    @include font-size(18px);
   }
 
   .action-btn {
     @include font-size(12px);
     padding: 6px 10px;
-  }
-
-  .spinner-icon {
-    @include font-size(20px);
   }
 }

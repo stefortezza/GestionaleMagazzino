@@ -1,72 +1,64 @@
 @import '_variablesModifica.scss';
 @import '_mixinsModifica.scss';
 
-// Stili generali per i moduli
 form {
   max-width: 400px;
   margin: 0 auto;
   padding: $padding-large;
-  @include border;
-  @include border-radius;
+  @include border();
+  @include border-radius();
   background-color: $background-color-light;
-}
 
-// Margine tra i vari elementi del modulo
-form > div {
-  margin-bottom: $padding-medium;
-}
+  & > div {
+    margin-bottom: $padding-medium;
+  }
 
-// Stili per le etichette
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
 
-// Stili per gli input e select
-input[type="text"],
-input[type="number"],
-select,
-input[type="checkbox"] {
-  width: calc(100% - 20px); // Larghezza meno il padding
-  padding: $padding-small;
-  font-size: $font-size-large;
-  @include border;
-  @include border-radius;
-}
+  input[type="text"],
+  input[type="number"],
+  select,
+  input[type="checkbox"] {
+    width: calc(100% - 20px);
+    padding: $padding-small;
+    font-size: $font-size-large;
+    @include border();
+    @include border-radius();
 
-// Stili per i checkbox
-input[type="checkbox"] {
-  width: auto;
-  margin-right: 10px; // Spazio tra checkbox e testo
-  margin-top: 5px;
-}
+    &[type="checkbox"] {
+      width: auto;
+      margin-right: 10px;
+      margin-top: 5px;
+    }
+  }
 
-// Stili per i pulsanti
-button[type="submit"] {
-  display: block;
-  width: 100%;
-  padding: $padding-small;
-  font-size: $font-size-large;
-  color: $color-text-light;
-  background-color: $color-primary;
-  border: none;
-  @include border-radius;
-  cursor: pointer;
-  @include transition(background-color);
-  &:hover {
-    background-color: $color-primary-hover;
+  button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: $padding-small;
+    font-size: $font-size-large;
+    color: $color-text-light;
+    background-color: $color-primary;
+    border: none;
+    @include border();
+    @include border-radius();
+
+    &:hover {
+      background-color: $color-primary-hover;
+    }
+  }
+
+  .error-message {
+    color: red;
+    font-size: $font-size-medium;
+    margin-top: 5px;
   }
 }
 
-// Stili per i messaggi di errore
-.error-message {
-  color: red;
-  font-size: $font-size-medium;
-  margin-top: 5px;
-}
-
-// Stili per il container principale
 .container {
   display: flex;
   justify-content: center;
@@ -75,42 +67,39 @@ button[type="submit"] {
   background-color: #f0f0f0;
 }
 
-// Stili per la modale
 .modal.fade:not(.show) {
-  display: none; // Nasconde la modale quando non è visibile
+  display: none;
 }
 
 .modal.show {
   display: block;
-  background: rgba(0, 0, 0, 0.5); // Sfondo semi-trasparente
+  background: rgba(0, 0, 0, 0.5);
 }
 
 @include modal-styles;
 
-// Media queries per tablet
 @media (max-width: 768px) {
   form {
     padding: $padding-medium;
-    @include border($border-color);
-  }
 
-  input[type="text"],
-  input[type="number"],
-  select,
-  input[type="checkbox"] {
-    font-size: $font-size-medium;
-  }
+    input[type="text"],
+    input[type="number"],
+    select,
+    input[type="checkbox"] {
+      font-size: $font-size-medium;
+    }
 
-  button[type="submit"] {
-    padding: 8px;
-    font-size: $font-size-medium;
+    button[type="submit"] {
+      padding: 8px;
+      font-size: $font-size-medium;
+    }
   }
 
   .modal-dialog {
-    width: 85% !important;
-    max-width: 450px !important;
-    top: 50% !important;
-    transform: translate(-30%, -40%) !important;
+    width: 85%;
+    max-width: 450px;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .custom-modal-content {
@@ -130,29 +119,28 @@ button[type="submit"] {
   }
 }
 
-// Media queries per cellulare
 @media (max-width: 480px) {
   form {
     padding: $padding-small;
-  }
 
-  input[type="text"],
-  input[type="number"],
-  select,
-  input[type="checkbox"] {
-    font-size: $font-size-small;
-  }
+    input[type="text"],
+    input[type="number"],
+    select,
+    input[type="checkbox"] {
+      font-size: $font-size-small;
+    }
 
-  button[type="submit"] {
-    padding: 6px;
-    font-size: $font-size-small;
+    button[type="submit"] {
+      padding: 6px;
+      font-size: $font-size-small;
+    }
   }
 
   .modal-dialog {
-    width: 95% !important;
-    max-width: 350px !important;
-    top: 50% !important;
-    transform: translate(-30%, -40%) !important;
+    width: 95%;
+    max-width: 350px;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .custom-modal-content {
