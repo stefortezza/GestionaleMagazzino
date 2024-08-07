@@ -1,0 +1,8 @@
+// Mixins
+@mixin border-radius($radius) {
+    border-radius: $radius;
+  }
+  
+  @mixin box-shadow($shadow) {
+    box-shadow: $shadow;
+  }

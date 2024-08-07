@@ -45,3 +45,58 @@
 .category-details button:hover {
   background-color: #0056b3;
 }
+
+/* Media queries per tablet */
+@media (max-width: 768px) {
+  .category-details {
+    padding: 15px;
+  }
+
+  .category-details h1 {
+    font-size: 20px;
+  }
+
+  .category-details table {
+    font-size: 14px;
+  }
+
+  .category-details th,
+  .category-details td {
+    padding: 8px;
+  }
+
+  .category-details button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Media queries per cellulare */
+@media (max-width: 480px) {
+  .category-details {
+    padding: 10px;
+  }
+
+  .category-details h1 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+
+  .category-details table {
+    font-size: 12px;
+  }
+
+  .category-details th,
+  .category-details td {
+    padding: 6px;
+  }
+
+  .category-details button {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .category-details input[type="number"] {
+    width: 50px;
+  }
+}

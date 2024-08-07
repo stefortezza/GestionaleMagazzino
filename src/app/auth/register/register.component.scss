@@ -1,3 +1,4 @@
+/* Stili generali per il contenitore */
 .container {
     max-width: 400px;
     margin: auto;
@@ -6,30 +7,35 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-}
-
-.container h1 {
+  }
+  
+  /* Stili per il titolo */
+  .container h1 {
     font-size: 24px;
     margin-bottom: 20px;
-}
-
-.form-group {
+  }
+  
+  /* Stili per i gruppi di campi */
+  .form-group {
     margin-bottom: 20px;
-}
-
-.form-label {
+  }
+  
+  /* Stili per le etichette dei campi */
+  .form-label {
     font-weight: bold;
-}
-
-.form-control {
+  }
+  
+  /* Stili per i controlli dei moduli */
+  .form-control {
     width: 100%;
     padding: 8px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-.btn-primary {
+  }
+  
+  /* Stili per il pulsante di invio */
+  .btn-primary {
     display: block;
     width: 100%;
     padding: 10px;
@@ -39,8 +45,55 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-}
-
-.btn-primary:hover {
+  }
+  
+  .btn-primary:hover {
     background-color: #0056b3;
-}
+  }
+  
+  /* Media queries per tablet */
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+      border: 1px solid #ddd;
+    }
+  
+    .container h1 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+  
+    .form-control {
+      font-size: 14px;
+      padding: 10px;
+    }
+  
+    .btn-primary {
+      padding: 8px;
+      font-size: 14px;
+    }
+  }
+  
+  /* Media queries per cellulare */
+  @media (max-width: 480px) {
+    .container {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+  
+    .container h1 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+  
+    .form-control {
+      font-size: 12px;
+      padding: 8px;
+    }
+  
+    .btn-primary {
+      padding: 6px;
+      font-size: 12px;
+    }
+  }
+  

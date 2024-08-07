@@ -1,316 +1,358 @@
 /* Contenitore principale del calendario */
 .calendar-container {
-  font-family: "Outfit", sans-serif;
-  color: #333;
-  max-width: 1300px; /* Larghezza massima per contenere il calendario e il modulo */
-  margin: 0 auto; /* Centra orizzontalmente */
-  padding: 10px;
-  display: flex;
-  gap: 20px; /* Spazio tra il calendario e il contenitore delle attività */
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-  overflow: hidden; /* Nasconde eventuali barre di scorrimento */
-}
-
-/* Sezione Legenda */
-.legend {
-  width: 200px; /* Larghezza fissa per la legenda */
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
-  box-sizing: border-box; /* Include padding e bordo nella larghezza */
-}
-
-.legend h3 {
-  margin: 0 0 10px;
-  font-size: 20px;
-  color: #333;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.legend-item .pallino {
-  width: 15px; /* Larghezza del pallino nella legenda */
-  height: 15px; /* Altezza del pallino nella legenda */
-  border-radius: 50%;
-  margin-right: 15px; /* Spazio tra il pallino e la descrizione */
-}
-
-.legend-item span {
-  font-size: 14px;
-  color: #333;
-}
-
-/* Sezione Calendario e Attività */
-.calendar-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column; /* Disporre il calendario e il modulo per aggiungere eventi verticalmente */
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-/* Intestazione del calendario */
-.calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background: linear-gradient(to bottom right, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0.4));
-  color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-.calendar-header button {
-  background-color: rgba(255, 0, 0, 0.8); 
-  color: white; 
-  border: none; 
-  border-radius: 8px; 
-  cursor: pointer; 
-  font-size: 16px;
-  transition: background-color 0.3s, transform 0.3s; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-.calendar-header button:hover {
-  background-color: rgba(255, 0, 0, 1); 
-  transform: scale(1.05); 
-}
-
-.calendar-header button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed; 
-}
-
-/* Giorni della settimana */
-.calendar-days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-  margin-bottom: 10px;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-.giorno-settimana {
-  color: white;
-  font-weight: bold;
-  text-align: center;
-}
-
-/* Griglia del calendario */
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-.giorno-calendario {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-.giorno-calendario:hover {
-  background-color: #f9f9f9;
-  transform: scale(1.05);
-}
-
-.pallini-container {
-  display: flex;
-  gap: 4px; /* Spazio tra i pallini */
-  margin-top: 5px; /* Spazio sopra i pallini */
-}
-
-/* Pallini colorati */
-.pallino {
-  width: 8px; 
-  height: 8px;
-  border-radius: 50%;
-  background-color: #000; /* Colore di default per i pallini */
-}
-
-/* Form di eventi */
-.event-form {
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-/* Stili per gli input e textarea */
-input, textarea, select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-/* Pulsanti del modulo */
-button[type="submit"] {
-  background-color: rgba(255, 0, 0, 0.8);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-  background-color: rgba(255, 0, 0, 1);
-}
-
-/* Attività del giorno */
-.attivita-giorno {
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-/* Stili per le attività */
-.attivita-giorno ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.attivita-giorno li {
-  margin-bottom: 20px;
-}
-
-.activity-content {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.activity-content .bullet {
-  display: inline-block;
-  background-color: black;
-  border-radius: 50%;
-  margin-top: 6px;
-  width: 10px; /* Larghezza del pallino accanto al titolo */
-  height: 10px; /* Altezza del pallino accanto al titolo */
-}
-
-.content-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.attivita-giorno strong {
-  font-size: 16px;
-  color: rgba(255, 0, 0, 0.8);
-  display: inline-flex;
-  align-items: center;
-}
-
-.attivita-giorno p {
-  margin: 5px 0;
-  color: #666;
-}
-
-/* Pulsanti delle attività */
-.buttons-container {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.attivita-giorno button {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s, transform 0.3s;
-}
-
-.attivita-giorno button:hover {
-  background-color: #e60000;
-  transform: scale(1.05);
-}
-
-.attivita-giorno button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-/* Modale di conferma */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  overflow: hidden; /* Nasconde eventuali barre di scorrimento */
-}
-
-.modal.show {
-  display: flex;
-}
-
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  text-align: center;
-  box-sizing: border-box; /* Include il padding e il bordo nella larghezza e altezza totale */
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-}
-
-.modal-buttons button {
-  background-color: rgba(255, 0, 0, 0.8);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
-
-.modal-buttons button:hover {
-  background-color: rgba(255, 0, 0, 1);
-}
+    font-family: "Outfit", sans-serif;
+    color: #333;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  /* Sezione Legenda */
+  .legend {
+    width: 100%;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+  }
+  
+  .legend h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .legend-item .pallino {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .legend-item span {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* Sezione Calendario e Attività */
+  .calendar-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Intestazione del calendario */
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: linear-gradient(to bottom right, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0.4));
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .calendar-header button {
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .calendar-header button:hover {
+    background-color: rgba(255, 0, 0, 1);
+    transform: scale(1.05);
+  }
+  
+  .calendar-header button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Giorni della settimana */
+  .calendar-days,
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .giorno-settimana {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Griglia del calendario */
+  .giorno-calendario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .giorno-calendario:hover {
+    background-color: #f9f9f9;
+    transform: scale(1.05);
+  }
+  
+  .pallini-container {
+    display: flex;
+    gap: 4px;
+    margin-top: 5px;
+  }
+  
+  /* Pallini colorati */
+  .pallino {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #000;
+  }
+  
+  /* Form di eventi */
+  .event-form {
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+  }
+  
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  
+  button[type="submit"] {
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: rgba(255, 0, 0, 1);
+  }
+  
+  /* Attività del giorno */
+  .attivita-giorno {
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+  }
+  
+  .attivita-giorno ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .attivita-giorno li {
+    margin-bottom: 20px;
+  }
+  
+  .activity-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .activity-content .bullet {
+    display: inline-block;
+    background-color: black;
+    border-radius: 50%;
+    margin-top: 6px;
+    width: 10px;
+    height: 10px;
+  }
+  
+  .content-text {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .attivita-giorno strong {
+    font-size: 16px;
+    color: rgba(255, 0, 0, 0.8);
+  }
+  
+  .attivita-giorno p {
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  .buttons-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .attivita-giorno button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .attivita-giorno button:hover {
+    background-color: #e60000;
+    transform: scale(1.05);
+  }
+  
+  .attivita-giorno button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Modale di conferma */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal.show {
+    display: flex;
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .modal-buttons button {
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .modal-buttons button:hover {
+    background-color: rgba(255, 0, 0, 1);
+  }
+  
+  /* Media Queries */
+  @media (min-width: 768px) {
+    .calendar-container {
+      flex-direction: row;
+    }
+    
+    .legend {
+      width: 200px;
+    }
+  }
+  
+  @media (min-width: 480px) and (max-width: 767px) {
+    .calendar-header button {
+      font-size: 14px;
+    }
+  
+    .calendar-days,
+    .calendar-grid {
+      gap: 5px;
+    }
+  
+    .giorno-calendario {
+      padding: 5px;
+    }
+  
+    .legend-item span,
+    .calendar-header button,
+    input,
+    textarea,
+    select,
+    button[type="submit"],
+    .attivita-giorno button {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 479px) {
+    .calendar-header button {
+      font-size: 12px;
+    }
+  
+    .calendar-days,
+    .calendar-grid {
+      gap: 2px;
+    }
+  
+    .giorno-calendario {
+      padding: 2px;
+    }
+  
+    .legend-item span,
+    .calendar-header button,
+    input,
+    textarea,
+    select,
+    button[type="submit"],
+    .attivita-giorno button {
+      font-size: 12px;
+    }
+  }
+  

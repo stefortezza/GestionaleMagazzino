@@ -1,63 +1,76 @@
+/* Stili generali */
 form {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  form div {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  input[type="text"],
-  input[type="number"] {
-    width: calc(100% - 20px); /* Larghezza al 100% meno il padding */
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    transition: border-color 0.3s ease;
-  }
-  
-  input[type="text"]:focus,
-  input[type="number"]:focus {
-    outline: none;
-    border-color: rgba(0, 0, 0, 0.8);
-  }
-  
-  button[type="submit"] {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    color: #fff;
-    background-color:rgba(255, 0, 0, 0.8);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
 
-  
-  button[type="submit"]:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
+form div {
+  margin-bottom: 15px;
+}
 
-  .carattere{
-    font-size: 1.2em;
-  }
+/* Stili per le etichette */
+label {
+  display: block;
+  margin-bottom: 5px;
+}
 
-  /* Modale CSS */
-/* CSS specifico per AddMacchinarioComponent */
-/* ... */
+/* Spaziatura per checkbox e label */
+.checkbox-group label {
+  padding-left: 30px; /* Spazio tra checkbox e testo */
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: 10px; /* Spazio tra checkbox e testo */
+}
+
+/* Stili per input e select */
+input[type="text"],
+input[type="number"],
+select {
+  width: calc(100% - 20px); /* Larghezza al 100% meno il padding */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+/* Focus sugli input */
+input[type="text"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Pulsante di invio */
+button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: rgba(255, 0, 0, 0.8);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Stili per il testo con classe carattere */
+.carattere {
+  font-size: 1.2em;
+}
+
+/* Modale CSS */
 .modal.fade:not(.show) {
   display: none; /* Nasconde la modale quando non è visibile */
 }
@@ -105,4 +118,60 @@ form {
 
 .custom-cancel-btn:hover {
   background-color: #c82333; /* Colore del pulsante di annullamento al passaggio del mouse */
+}
+
+/* Media Query per Tablet (max-width: 768px) */
+@media (max-width: 768px) {
+  form {
+    padding: 15px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  button[type="submit"] {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .carattere {
+    font-size: 1em;
+  }
+
+  .modal-dialog {
+    top: 45% !important;
+    transform: translate(-30%, -40%) !important;
+  }
+}
+
+/* Media Query per Telefono (max-width: 480px) */
+@media (max-width: 480px) {
+  form {
+    padding: 10px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  button[type="submit"] {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .carattere {
+    font-size: 0.9em;
+  }
+
+  .modal-dialog {
+    top: 45% !important;
+    transform: translate(-30%, -40%) !important;
+  }
 }

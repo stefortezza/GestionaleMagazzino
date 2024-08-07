@@ -1,62 +1,66 @@
+/* Layout delle card */
 .container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);  // Due colonne di larghezza uguale
-    grid-template-rows: repeat(auto-fill, minmax(300px, auto));  // Altezza minima delle righe
-    gap: 10px;  // Spazio tra le card
-    padding: 20px;
-    align-items: start;
-    height: auto;  // Altezza della viewport
-    box-sizing: border-box;  // Include padding e border nelle dimensioni
-  }
-  
-  .card {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 300px;  // Altezza fissa per le card
-    
-    &:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-    
-    .card-image {
-      width: 100%;
-      height: 80%;  // Aumenta l'altezza dell'immagine per darle più risalto
-      object-fit: cover;  // Mantiene le proporzioni dell'immagine
-    }
-    
-    .card-content {
-      padding: 10px;  // Riduce il padding per il contenuto del testo
-      height: 30%;  // Imposta l'altezza della sezione del testo
-      display: flex;
-      align-items: center;  // Centra verticalmente il testo
-      justify-content: center;  // Centra orizzontalmente il testo
-      background-color: #ffffff;  // Colore di sfondo bianco per il contenuto del testo
-    }
-    
-    h3 {
-      margin: 0;
-      font-size: 1.2em;  // Riduce leggermente la dimensione del testo
-      color: #343a40;
-    }
-  }
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  /* Due colonne di larghezza uguale */
+  grid-template-rows: repeat(auto-fill, minmax(300px, auto));  /* Altezza minima delle righe */
+  gap: 10px;  /* Spazio tra le card */
+  padding: 20px;
+  align-items: start;
+  height: auto;  /* Altezza della viewport */
+  box-sizing: border-box;  /* Include padding e border nelle dimensioni */
+}
 
-/* section-home.component.scss */
+/* Stili per le card */
+.card {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 300px;  /* Altezza fissa per le card */
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Immagine della card */
+.card-image {
+  width: 100%;
+  height: 80%;  /* Aumenta l'altezza dell'immagine per darle più risalto */
+  object-fit: cover;  /* Mantiene le proporzioni dell'immagine */
+}
+
+/* Contenuto della card */
+.card-content {
+  padding: 10px;  /* Riduce il padding per il contenuto del testo */
+  height: 20%;  /* Imposta l'altezza della sezione del testo */
+  display: flex;
+  align-items: center;  /* Centra verticalmente il testo */
+  justify-content: center;  /* Centra orizzontalmente il testo */
+  background-color: #ffffff;  /* Colore di sfondo bianco per il contenuto del testo */
+}
+
+.card-content h3 {
+  margin: 0;
+  font-size: 1.2em;  /* Riduce leggermente la dimensione del testo */
+  color: #343a40;
+}
+
+/* Modale CSS */
 .modal.fade:not(.show) {
-  display: none; /* Nasconde la modale quando non è visibile */
+  display: none;  /* Nasconde la modale quando non è visibile */
 }
 
 .modal.show {
   display: block;
-  background: rgba(0, 0, 0, 0.5); /* Sfondo semi-trasparente */
+  background: rgba(0, 0, 0, 0.5);  /* Sfondo semi-trasparente */
 }
 
 .modal-dialog {
@@ -67,44 +71,82 @@
 }
 
 .custom-modal-content {
-  background-color: #f8f9fa; /* Colore di sfondo simile alla navbar */
+  background-color: #f8f9fa;  /* Colore di sfondo simile alla navbar */
   border-radius: 0.5rem;
 }
 
 .custom-modal-header {
-  background-color: #343a40; /* Colore di sfondo simile alla navbar */
-  color: #ffffff; /* Colore del testo simile alla navbar */
+  background-color: #343a40;  /* Colore di sfondo simile alla navbar */
+  color: #ffffff;  /* Colore del testo simile alla navbar */
 }
 
 .custom-modal-body {
-  background-color: #ffffff; /* Colore di sfondo del corpo della modale */
-  color: #343a40; /* Colore del testo simile alla navbar */
+  background-color: #ffffff;  /* Colore di sfondo del corpo della modale */
+  color: #343a40;  /* Colore del testo simile alla navbar */
 }
 
 .custom-modal-header .close {
-  background: none; /* Rimuove lo sfondo della X di chiusura */
-  border: none; /* Rimuove il bordo della X di chiusura */
-  color: #ffffff; /* Colore della X di chiusura */
-  font-size: 1.5rem; /* Dimensione del font per la X di chiusura */
-  opacity: 0.7; /* Leggera trasparenza per effetto visivo */
+  background: none;  /* Rimuove lo sfondo della X di chiusura */
+  border: none;  /* Rimuove il bordo della X di chiusura */
+  color: #ffffff;  /* Colore della X di chiusura */
+  font-size: 1.5rem;  /* Dimensione del font per la X di chiusura */
+  opacity: 0.7;  /* Leggera trasparenza per effetto visivo */
 }
 
 .custom-modal-header .close:hover {
-  opacity: 1; /* Opacità piena al passaggio del mouse */
+  opacity: 1;  /* Opacità piena al passaggio del mouse */
 }
 
 .custom-confirm-btn, .custom-cancel-btn {
-  background-color: #dc3545; /* Colore del pulsante di annullamento */
-  color: #ffffff; /* Colore del testo del pulsante */
-  border: none; /* Rimuove il bordo */
+  background-color: #dc3545;  /* Colore del pulsante di annullamento */
+  color: #ffffff;  /* Colore del testo del pulsante */
+  border: none;  /* Rimuove il bordo */
 }
 
 .custom-confirm-btn:hover, .custom-cancel-btn:hover {
-  background-color: #c82333; /* Colore del pulsante di annullamento al passaggio del mouse */
+  background-color: #c82333;  /* Colore del pulsante di annullamento al passaggio del mouse */
 }
 
+/* Media Query per Tablet (max-width: 768px) */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;  /* Una colonna su tablet */
+    padding: 10px;
+  }
 
+  .card {
+    height: auto;  /* Altezza automatica per adattarsi al contenuto */
+  }
 
+  .card-content h3 {
+    font-size: 1em;  /* Riduce la dimensione del testo per tablet */
+  }
 
+  .modal-dialog {
+    top: 50%;  /* Modifica la posizione della modale per tablet */
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
 
-  
+/* Media Query per Telefono (max-width: 480px) */
+@media (max-width: 480px) {
+  .container {
+    grid-template-columns: 1fr;  /* Una colonna su telefoni */
+    padding: 5px;
+  }
+
+  .card {
+    height: auto;  /* Altezza automatica per adattarsi al contenuto */
+  }
+
+  .card-content h3 {
+    font-size: 0.9em;  /* Riduce ulteriormente la dimensione del testo per telefoni */
+  }
+
+  .modal-dialog {
+    top: 50%;  /* Modifica la posizione della modale per telefoni */
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

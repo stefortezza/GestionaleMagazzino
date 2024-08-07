@@ -1,3 +1,4 @@
+/* Stili generali per tutti i dispositivi */
 form {
   max-width: 400px;
   margin: 0 auto;
@@ -11,14 +12,12 @@ form > div {
   margin-bottom: 10px;
 }
 
-/* Stili per le etichette */
 label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-/* Stili per gli input e select */
 input[type="text"],
 input[type="number"],
 select {
@@ -29,27 +28,28 @@ select {
   border-radius: 4px;
 }
 
-/* Stili per il pulsante */
 button[type="submit"] {
   display: block;
   width: 100%;
   padding: 10px;
   font-size: 16px;
   color: #fff;
-  background-color:  rgba(255, 0, 0, 0.8);
+  background-color: rgba(255, 0, 0, 0.8);
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-/* Stili per i messaggi di errore */
+button[type="submit"]:hover {
+  background-color: rgba(255, 0, 0, 0.8);
+}
+
 .error-message {
   color: red;
   font-size: 14px;
   margin-top: 5px;
 }
 
-/* Stili per il container principale */
 .container {
   display: flex;
   justify-content: center;
@@ -58,10 +58,11 @@ button[type="submit"] {
   background-color: #f0f0f0;
 }
 
-.carattere{
+.carattere {
   font-size: 1.2em;
 }
 
+/* Modale CSS */
 .modal.fade:not(.show) {
   display: none; /* Nasconde la modale quando non è visibile */
 }
@@ -111,3 +112,62 @@ button[type="submit"] {
   background-color: #c82333; /* Colore del pulsante di annullamento al passaggio del mouse */
 }
 
+/* Media Query per Tablet (max-width: 768px) */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  form {
+    padding: 15px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  button[type="submit"] {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .carattere {
+    font-size: 1em;
+  }
+}
+
+/* Media Query per Telefono (max-width: 480px) */
+@media (max-width: 480px) {
+  .container {
+    padding: 5px;
+    box-shadow: none; /* Rimuove l'ombra per schermi più piccoli */
+  }
+
+  form {
+    padding: 10px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  button[type="submit"] {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .carattere {
+    font-size: 0.9em;
+  }
+
+  .modal-dialog {
+    top: 60% !important;
+    transform: translate(-30%, -40%) !important;
+  }
+}
