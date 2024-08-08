@@ -1,0 +1,17 @@
+// Mixins
+@mixin border-radius($radius) {
+    border-radius: $radius;
+  }
+  
+  @mixin box-shadow($shadow) {
+    box-shadow: $shadow;
+  }
+  
+  @mixin font-size($size) {
+    font-size: $size;
+  }
+  
+  @mixin transition($property, $duration, $timing-function) {
+    transition: $property $duration $timing-function;
+  }
+  

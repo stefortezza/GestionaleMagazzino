@@ -1,0 +1,48 @@
+// Mixins
+@mixin border($color: $border-color) {
+    border: 1px solid $color;
+  }
+  @mixin border-radius($radius: $border-radius) {
+    border-radius: $radius;
+  }
+  @mixin transition($properties: all, $duration: 0.3s) {
+    transition: $properties $duration;
+  }
+  @mixin modal-styles {
+    .modal-dialog {
+      position: fixed;
+      top: $modal-dialog-top;
+      left: $modal-dialog-left;
+      transform: $modal-dialog-transform;
+      max-width: $modal-max-width;
+      width: $modal-width;
+    }
+    .custom-modal-content {
+      background-color: $background-color-light;
+      @include border-radius($border-radius-medium);
+    }
+    .custom-modal-header {
+      background-color: $color-text-dark;
+      color: $color-text-light;
+    }
+    .custom-modal-body {
+      background-color: $color-text-light;
+      color: $color-text-dark;
+    }
+    .custom-confirm-btn {
+      background-color: $color-confirm;
+      color: $color-text-light;
+      @include transition(background-color);
+      &:hover {
+        background-color: $color-confirm-hover;
+      }
+    }
+    .custom-cancel-btn {
+      background-color: $color-cancel;
+      color: $color-text-light;
+      @include transition(background-color);
+      &:hover {
+        background-color: $color-cancel-hover;
+      }
+    }
+  }

@@ -73,3 +73,37 @@
 .btn-primary:hover {
   background-color: #0056b3;
 }
+
+/* Media queries per tablet */
+@media (max-width: 768px) {
+  .login-container {
+    width: 90%;
+  }
+
+  .home-container {
+    margin-top: 10px;
+  }
+
+  .select-macchinario {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Media queries per cellulare */
+@media (max-width: 480px) {
+  .login-container {
+    width: 95%;
+  }
+
+  .home-container h1 {
+    font-size: 20px;
+  }
+
+  .select-macchinario {
+    width: 100%;
+    padding: 8px;
+    font-size: 12px;
+  }
+}
