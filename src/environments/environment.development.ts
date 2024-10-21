@@ -1,5 +1,5 @@
 export const environment = {
     production : false,
-    apiURL : 'https://judicial-lynnell-stefanofortezza-2dfe23ab.koyeb.app/'
+    apiURL : 'http://45.14.185.251:8080/'
 
 };
