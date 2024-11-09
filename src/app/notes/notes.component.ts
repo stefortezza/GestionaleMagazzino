@@ -69,7 +69,7 @@ export class NotesComponent implements OnInit, OnDestroy {
 
   inviaDati(): void {
     const emailData = {
-      to: 'stefano.fortezza98@hotmail.it',
+      to: 'gestionalemgk@gmail.com',
       subject: 'Dati dal tuo sistema',
       body: this.formatLogEntriesAsHtml(this.logEntries.filter(entry => entry.message.toLowerCase().includes('ricambio utilizzato'))) +
             `<p>Note dell'utente: ${this.userNotes}</p>`

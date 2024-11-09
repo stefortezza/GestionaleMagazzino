@@ -8,7 +8,7 @@ import { AuthData } from 'src/interfaces/auth-data.interface';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiURL = 'http://45.14.185.251:8080/auth';
+  private apiURL = 'https://cdn.gestionalemagazzino.eu/auth';
   private token: string | null = null;
   private authSub = new BehaviorSubject<string | null>(this.getStoredUser());
   private userSubject = new BehaviorSubject<boolean>(false);

@@ -12,7 +12,7 @@ import { UserDetail } from 'src/interfaces/user-detail';
   providedIn: 'root'
 })
 export class RichiesteService {
-  private apiUrl = 'http://45.14.185.251:8080/api';
+  private apiUrl = 'https://cdn.gestionalemagazzino.eu/api';
   
   constructor(private http: HttpClient) { }
 

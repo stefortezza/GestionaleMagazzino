@@ -1,17 +1,13 @@
-<div>
-  <!-- Intestazione e descrizione -->
+<!-- <div>
   <header class="header-section">
     <h2 class="header-title">Lista Utenti</h2>
   </header>
-
   <ul class="users-list">
     <li *ngFor="let user of users" class="user-item">
       <div class="user-info">
         <i class="material-icons user-icon">person</i>
         <p>{{ user.name }} {{ user.surname }} ({{ user.email }})</p>
       </div>
-
-      <!-- Input per selezionare i file -->
       <div class="file-selection-container">
         <input
           type="file"
@@ -23,7 +19,6 @@
         <label for="fileInput-{{ user.userId }}" class="file-input-label">
           <i class="material-icons">attach_file</i>
         </label>
-        <!-- Mostra i file selezionati per l'utente corrente -->
         <ul
           *ngIf="selectedFiles[user.userId] && selectedFiles[user.userId].length > 0"
           class="file-list"
@@ -40,8 +35,6 @@
           </li>
         </ul>
       </div>
-
-      <!-- Bottone per inviare i dati -->
       <div class="action-container">
         <button
           (click)="showConfirmationModal(user.userId)"
@@ -50,15 +43,12 @@
         >
           Invia dati
         </button>
-        <!-- Spinner di caricamento per ogni utente -->
         <div *ngIf="isLoadingForUser(user.userId)" class="loading-spinner-container">
           <i class="material-icons spinner-icon">autorenew</i>
         </div>
       </div>
     </li>
   </ul>
-
-  <!-- Sezione Notifica -->
   <div
     *ngIf="notificationMessage"
     class="notification"
@@ -69,8 +59,6 @@
   >
     {{ notificationMessage }}
   </div>
-
-  <!-- Modale di conferma -->
   <div
     class="modal fade"
     tabindex="-1"
@@ -112,4 +100,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
